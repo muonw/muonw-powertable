@@ -1,0 +1,79 @@
+{
+  ".svelte-kit/runtime/client/start.js": {
+    "file": "start-16f9453f.js",
+    "src": ".svelte-kit/runtime/client/start.js",
+    "isEntry": true,
+    "imports": [
+      "_index-5b930bfb.js"
+    ],
+    "dynamicImports": [
+      ".svelte-kit/runtime/components/layout.svelte",
+      ".svelte-kit/runtime/components/error.svelte",
+      "src/routes/example1.svelte",
+      "src/routes/example2.svelte",
+      "src/routes/index.svelte"
+    ]
+  },
+  ".svelte-kit/runtime/components/layout.svelte": {
+    "file": "layout.svelte-abb695b0.js",
+    "src": ".svelte-kit/runtime/components/layout.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-5b930bfb.js"
+    ]
+  },
+  ".svelte-kit/runtime/components/error.svelte": {
+    "file": "error.svelte-3165d83d.js",
+    "src": ".svelte-kit/runtime/components/error.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-5b930bfb.js"
+    ]
+  },
+  "src/routes/example1.svelte": {
+    "file": "pages/example1.svelte-2bbe428d.js",
+    "src": "src/routes/example1.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-5b930bfb.js",
+      "_PowerTable-d2573c89.js"
+    ],
+    "css": [
+      "assets/pages/example2.svelte-26b95e73.css"
+    ]
+  },
+  "src/routes/example2.svelte": {
+    "file": "pages/example2.svelte-88740419.js",
+    "src": "src/routes/example2.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-5b930bfb.js",
+      "_PowerTable-d2573c89.js"
+    ],
+    "css": [
+      "assets/pages/example2.svelte-26b95e73.css"
+    ]
+  },
+  "src/routes/index.svelte": {
+    "file": "pages/index.svelte-5e4eece4.js",
+    "src": "src/routes/index.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-5b930bfb.js"
+    ]
+  },
+  "_index-5b930bfb.js": {
+    "file": "chunks/index-5b930bfb.js"
+  },
+  "_PowerTable-d2573c89.js": {
+    "file": "chunks/PowerTable-d2573c89.js",
+    "imports": [
+      "_index-5b930bfb.js"
+    ]
+  }
+}

@@ -5,9 +5,15 @@ import preprocess from 'svelte-preprocess';
 const config = {
 	preprocess: preprocess({}),
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({
+			pages: 'docs',
+			assets: 'docs',
+		}),
 		prerender: {
 			default: true
+		},
+		paths: {
+			base: process.env.NODE_ENV === 'dev' ? '' : '/powertable',
 		}
 	}
 };

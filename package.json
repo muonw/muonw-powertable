@@ -2,7 +2,7 @@
 	"name": "@muonw/powertable",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev --port 3110",
+		"dev": "NODE_ENV='dev' svelte-kit dev --port 3110",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",
@@ -15,7 +15,6 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.22.2",
-		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-static": "^1.0.0-next.34",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
