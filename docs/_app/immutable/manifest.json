@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-16f9453f.js",
+    "file": "start-01894a9e.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -42,7 +42,7 @@
       "_PowerTable-d2573c89.js"
     ],
     "css": [
-      "assets/pages/example2.svelte-26b95e73.css"
+      "assets/pages/example1.svelte-b2af1d84.css"
     ]
   },
   "src/routes/example2.svelte": {
@@ -55,7 +55,7 @@
       "_PowerTable-d2573c89.js"
     ],
     "css": [
-      "assets/pages/example2.svelte-26b95e73.css"
+      "assets/pages/example1.svelte-b2af1d84.css"
     ]
   },
   "src/routes/index.svelte": {
