@@ -1,10 +1,24 @@
 {
 	"name": "@muonw/powertable",
+	"description": "▦ A JavaScript tool to create interactive HTML tables. Inspired by DataTables. Powered by Svelte.",
+	"homepage": "https://muonw.github.io/powertable/",
+	"bugs": {
+		"url": "https://github.com/muonw/powertable/issues"
+	},
 	"version": "0.0.1",
+	"type": "module",
+	"svelte": "index.js",
+	"module": "dist/powertable.js",
+	"style": "dist/powertable.css",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/muonw/powertable.git"
+	},
+	"license": "MIT",
 	"scripts": {
-		"dev": "NODE_ENV='dev' svelte-kit dev --port 3110",
+		"dev": "svelte-kit dev --port 3110",
 		"build": "svelte-kit build",
-		"package": "svelte-kit package",
+		"package": "svelte-kit sync && svelte-kit package && rollup --config rollup.config.js",
 		"preview": "svelte-kit preview",
 		"prepare": "svelte-kit sync",
 		"test": "playwright test",
@@ -14,7 +28,15 @@
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
+		"@babel/core": "^7.18.5",
+		"@babel/preset-env": "^7.18.2",
+		"@muonw/mascara": "github:muonw/mascara",
 		"@playwright/test": "^1.22.2",
+		"@rollup/plugin-babel": "^5.3.1",
+		"@rollup/plugin-commonjs": "^22.0.0",
+		"@rollup/plugin-json": "^4.1.0",
+		"@rollup/plugin-node-resolve": "^13.3.0",
+		"@rollup/plugin-typescript": "^8.3.3",
 		"@sveltejs/adapter-static": "^1.0.0-next.34",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
@@ -24,6 +46,9 @@
 		"eslint-plugin-svelte3": "^4.0.0",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
+		"rollup-plugin-scss": "^3.0.0",
+		"rollup-plugin-svelte": "^7.1.0",
+		"rollup-plugin-terser": "^7.0.2",
 		"sass": "^1.53.0",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
@@ -31,6 +56,5 @@
 		"svelte2tsx": "^0.5.10",
 		"tslib": "^2.3.1",
 		"typescript": "^4.7.2"
-	},
-	"type": "module"
+	}
 }

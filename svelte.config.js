@@ -13,7 +13,7 @@ const config = {
 			default: true
 		},
 		paths: {
-			base: process.env.NODE_ENV === 'dev' ? '' : '/powertable',
+			base: process.env.NODE_ENV === 'development' ? '' : '/powertable',
 		}
 	}
 };

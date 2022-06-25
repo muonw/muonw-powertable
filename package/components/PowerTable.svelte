@@ -28,7 +28,7 @@ const dispatch = createEventDispatcher();
 let options = {
     uniquePrefix: 'pt',
     rowsPerPageOptions: [5, 10, 20, 50, 100],
-    rowsPerPage: 5,
+    rowsPerPage: 10,
     totalRows: null,
     currentPage: 1,
     paginationBlock: 3,
