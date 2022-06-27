@@ -2,12 +2,12 @@
 export interface Instructs {
     key: string,
     title?: string,
-    isRegex?: boolean,
     sortable?: boolean,
     filterable?: boolean,
     filterPhrase?: string,
-    render?(e:any): any,
+    isRegex?: boolean,
     parse?: 'text' | 'unsafe-html',
+    render?(e:any): any,
 }
 
 type SortString = ''|'asc'|'desc';
@@ -16,10 +16,7 @@ export interface Options {
     uniquePrefix?: string,
     rowsPerPageOptions?: number[],
     rowsPerPage?: number,
-    totalRows?: number|null,
-    currentPage?: number,
     paginationBlock?: 3|5|7|9|11|13|15|17|19,
-    filteredRows?: number|null,
     headerText?: boolean,
     footerText?: boolean,
     headerFilters?: boolean,
@@ -27,15 +24,18 @@ export interface Options {
     headerLoadingBar?: boolean,
     footerLoadingBar?: boolean,
     defaultRegexFlags?: string,
-    segments?: Record<string,Array<'settings'|'search'|'pagination'|'table'|'dropdown'|'stats'>>,
     nestedSorting?: boolean,
-    sortOrder?: {[k in SortString]?: SortString},
     isDataRemote?: boolean,
+    totalRows?: number|null,
+    filteredRows?: number|null,
+    currentPage?: number,
     dataFeedFunction?(e: Record<string,any>): Promise<DataFeed>,
-    searchIsRegex?: boolean,
     searchPhrase?: string,
+    searchIsRegex?: boolean,
     checkboxColumn?: boolean,
-}
+    segments?: Record<string,Array<'settings'|'search'|'pagination'|'table'|'dropdown'|'stats'>>,
+    sortOrder?: {[k in SortString]?: SortString},
+    }
 
 export interface Data {
     [_: string]: any,
@@ -90,10 +90,7 @@ let options: Options = {
     uniquePrefix: 'pt',
     rowsPerPageOptions: [5, 10, 20, 50, 100],
     rowsPerPage: 10,
-    totalRows: null,
-    currentPage: 1,
     paginationBlock: 3,
-    filteredRows: null,
     headerText: true,
     footerText: true,
     headerFilters: true,
@@ -101,22 +98,25 @@ let options: Options = {
     headerLoadingBar: true,
     footerLoadingBar: true,
     defaultRegexFlags: 'gimsu',
+    nestedSorting: false,
+    isDataRemote: false,
+    totalRows: null,
+    filteredRows: null,
+    currentPage: 1,
+    dataFeedFunction: async () => ({}),
+    searchPhrase: '',
+    searchIsRegex: false,
+    checkboxColumn: false,
     segments: {
         'topBar': ['search', 'pagination'],
         'pTable': ['table'],
         'bottomBar': ['dropdown', 'stats', 'pagination'],
     },
-    nestedSorting: false,
     sortOrder: {
         '': 'asc',
         'asc': 'desc',
         'desc': '',
     },
-    isDataRemote: false,
-    dataFeedFunction: async () => ({}),
-    searchIsRegex: false,
-    searchPhrase: '',
-    checkboxColumn: false,
 }
 
 // Associated with instructs prop (ptInstructs) for internal use
