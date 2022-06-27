@@ -2,22 +2,19 @@ import { SvelteComponentTyped } from "svelte";
 export interface Instructs {
     key: string;
     title?: string;
-    isRegex?: boolean;
     sortable?: boolean;
     filterable?: boolean;
     filterPhrase?: string;
-    render?(e: any): any;
+    isRegex?: boolean;
     parse?: 'text' | 'unsafe-html';
+    render?(e: any): any;
 }
 declare type SortString = '' | 'asc' | 'desc';
 export interface Options {
     uniquePrefix?: string;
     rowsPerPageOptions?: number[];
     rowsPerPage?: number;
-    totalRows?: number | null;
-    currentPage?: number;
     paginationBlock?: 3 | 5 | 7 | 9 | 11 | 13 | 15 | 17 | 19;
-    filteredRows?: number | null;
     headerText?: boolean;
     footerText?: boolean;
     headerFilters?: boolean;
@@ -25,16 +22,19 @@ export interface Options {
     headerLoadingBar?: boolean;
     footerLoadingBar?: boolean;
     defaultRegexFlags?: string;
-    segments?: Record<string, Array<'settings' | 'search' | 'pagination' | 'table' | 'dropdown' | 'stats'>>;
     nestedSorting?: boolean;
+    isDataRemote?: boolean;
+    totalRows?: number | null;
+    filteredRows?: number | null;
+    currentPage?: number;
+    dataFeedFunction?(e: Record<string, any>): Promise<DataFeed>;
+    searchPhrase?: string;
+    searchIsRegex?: boolean;
+    checkboxColumn?: boolean;
+    segments?: Record<string, Array<'settings' | 'search' | 'pagination' | 'table' | 'dropdown' | 'stats'>>;
     sortOrder?: {
         [k in SortString]?: SortString;
     };
-    isDataRemote?: boolean;
-    dataFeedFunction?(e: Record<string, any>): Promise<DataFeed>;
-    searchIsRegex?: boolean;
-    searchPhrase?: string;
-    checkboxColumn?: boolean;
 }
 export interface Data {
     [_: string]: any;

@@ -84,16 +84,16 @@ let ptInstructs = [
 ];
 ```
 
-| Property | Type | Default | Example | Description |
-| -------- | ---- | ------- | ------- | ----------- |
-|  `key`  | string | | "id" | A unique string representing the column |
-| `title` | string | [value of `key`] | "ID" | The displayed string on the header of the column |
-| `sortable` | boolean | true | true | Specifies if the column is sortable |
-| `filterable` | boolean | true | true | Specifies if the column can be filtered |
-| `filterPhrase` | string | "" | "Alex" | The default filter phrase for the column |
-| `isRegex` | boolean | false | false | Specifies if the default filterPhrase of the column is Regex |
-| `parse` | 'text'\| 'unsafe-html' | 'text' | 'unsafe-html' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
-| `render` | function | | (e)=>e+'\<br\>' | A user defined function to intercept and modify the contents of the column |
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|  `key`  | string | | A unique string representing the column |
+| `title` | string | [value of `key`] | Text displayed on column's header |
+| `sortable` | boolean | true | Whether the column is sortable |
+| `filterable` | boolean | true | Whether the column can be filtered |
+| `filterPhrase` | string | "" | The column's default filter phrase |
+| `isRegex` | boolean | false | Whether the default filterPhrase is Regex |
+| `parse` | 'text'\| 'unsafe-html' | 'text' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
+| `render` | function | | A user defined function to intercept and modify the contents of the column |
 
 The prop `ptOptions` is an object that allows adjusting various features of the table. All properties are optional.
 
@@ -108,47 +108,101 @@ let ptOptions = {
 }
 ```
 
-| Property | Type | Default | Example | Description |
-| -------- | ---- | ------- | ------- | ----------- |
-| `uniquePrefix` | string | "" | "pt1" | A unique string assigned to each instance of the table, when including multiple instances in the same page |
-| `rowsPerPageOptions` | number[] | [5, 10, 20, 50, 100] | [10, 100] | An array of integers to specify the possible number of displayed rows per page |
-| `rowsPerPage` | number | 10 | 10 | The default number of displayed rows per page |
-| `paginationBlock` | 3\|5\|7\|9\|11\|13\|15\|17\|19 | 3 | 3 | The middle numbers in the pagination that fall between the right and left ellipsis ('...') |
-| `headerText` | boolean | true | true | Specifies whether header titles should be displayed |
-| `footerText` | boolean | true | true | Specifies whether footer titles should be displayed |
-| `headerFilters` | boolean | true | true | Specifies whether header filter text fields should be displayed |
-| `footerFilters` | boolean | true | true | Specifies whether footer filter text fields should be displayed |
-| `headerLoadingBar` | boolean | true | true | Specifies whether header loading bar should be displayed while loading remote data |
-| `footerLoadingBar` | boolean | true | true | Specifies whether footer loading bar should be displayed while loading remote data |
-| `defaultRegexFlags` | string | 'gimsu' | 'gi' | The default RegEx flags. Cannot be empty |
-| `nestedSorting` | boolean | false | true | Specifies whether nested/multi-column sorting is enabled |
-| `isDataRemote` | boolean | false | true | Specifies whether data is fetched from a URL |
-| `totalRows` | number \| null | null | 150 | An integer to specify the total number of rows in the table when displaying remote data |
-| `filteredRows` | number \| null | null | | |
-| `currentPage` | number | 1 | 1 | The number of the displayed page |
-| `dataFeedFunction` | function | async () => ({}) | myApiCall | When `isDataRemote` is `true`, the output of this function will be used as `ptData` prop |
-| `searchPhrase` | string | "" | "apple" | The default search phrase |
-| `searchIsRegex` | boolean | false | false | Specifies whether the default search phrase is RegEx |
-| `checkboxColumn` | boolean | false | true | Specifies whether the checkbox selection column should be displayed |
-| `segments` | [see below] | [see below] | [see below] | [see below] |
-| `sortOrder` | [see below] | [see below] | [see below] | [see below] |
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `uniquePrefix` | string | "" | "pt1" | A unique string for each table instance |
+| `rowsPerPageOptions` | number[] | [5, 10, 20, 50, 100] | Possible number of displayed rows per page |
+| `rowsPerPage` | number | 10 | The default number of displayed rows per page |
+| `paginationBlock` | 3\|5\|7\|9\|11\|13\|15\|17\|19 | 3 | Pagination length excluding the first and last page |
+| `headerText` | boolean | true | Whether the header titles should be displayed |
+| `footerText` | boolean | true | Whether the footer titles should be displayed |
+| `headerFilters` | boolean | true | Whether the header filter text fields should be displayed |
+| `footerFilters` | boolean | true | Whether the footer filter text fields should be displayed |
+| `headerLoadingBar` | boolean | true | Whether to show header loading bar for remote data |
+| `footerLoadingBar` | boolean | true | Whether to show footer loading bar for remote data |
+| `defaultRegexFlags` | string | 'gimsu' | The default RegEx flags. Cannot be empty |
+| `nestedSorting` | boolean | false | Whether the nested/multi-column sorting is enabled |
+| `isDataRemote` | boolean | false | Whether the data is fetched from a URL |
+| `totalRows` | number \| null | null | Total number of rows (when displaying remote data) |
+| `filteredRows` | number \| null | | Number of filtered rows (when displaying remote data) |
+| `currentPage` | number | 1 | The number of the displayed page |
+| `dataFeedFunction` | function | async () => ({}) | When `isDataRemote` is `true`, the output of this function will be used as `ptData` prop |
+| `searchPhrase` | string | "" | The default search phrase |
+| `searchIsRegex` | boolean | false | Whether the default search phrase is RegEx |
+| `checkboxColumn` | boolean | false | Whether the checkbox selection column should be displayed |
+| `segments` | object | | [\[visit `segments` document\]](https://muonw.github.io/powertable/manual/segments.md) |
+| `sortOrder` | object | | [\[visit `sortOrder` document\]](https://muonw.github.io/powertable/manual/sortorder.md) |
 
-```
-segments: {
-    'topBar': ['search', 'pagination'],
-    'pTable': ['table'],
-    'bottomBar': ['dropdown', 'stats', 'pagination'],
-},
-nestedSorting: false,
-sortOrder: {
-    '': 'asc',
-    'asc': 'desc',
-    'desc': '',
-},
+The prop `ptData` is an array of objects containing the data to be displayed in the table. The property names must match the value of the `key` properties in `ptInstructs`.All property values including boolean, number, object, and array values will be converted to string.
+
+Example:
+
+```javascript
+let ptData = [
+    {"id": 1, "name": "Fay"},
+    {"id": 2, "name": "Luca"}
+];
 ```
 
-[More information will be provided here]
+### Events
 
+The events `rowClicked` or `rowDblClicked` will be dispatched when a row is clicked or double clicked, respectively. Both return an object with a property named `event` containing the mouse event, and `data` containing the row data from `ptData`.
+
+```html
+<PowerTable
+    {ptData}
+    on:rowClicked="{(d) => console.log('click', d)}"
+    on:rowDblClicked="{(d) => console.log('dblclick', d)}"
+/>
+```
+
+### Slots
+
+Named slots can be used to override some default HTML elements.
+
+Example:
+
+```html
+<PowerTable {ptData}>
+    <div slot="noResults">There is no records to show!</div>
+    <div slot="rendering">Please wait while table is being rendered...</div>
+    <div slot="settings">
+        <div data-name="item">Toggle control column</div>
+    </div>
+</PowerTable>
+```
+
+| Slot name | Description |
+| --------- | ----------- |
+| noResults | Content to be shown when there are no rows in the table |
+| rendering | Content to be shown when table is loading remote data |
+| settings | Content to be shown in the setting menu |
+
+### Styles
+
+The default styling can be applied by importing `src/lib/styles/power-table.scss` and optionally [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/__layout.svelte`).
+
+```html
+<style lang="scss" global>
+@import '../../node_modules/@muonw/mascara/src/lib/styles/main.scss';
+@import '../lib/styles/power-table.scss';
+
+.MuonW.PowerTable {
+    tr[data-name=filters-tr] {
+        input{
+            @extend .compact;
+        }
+    }
+    div[data-name=search-container]{
+        input[data-name=search-input]{
+            @extend .medium;
+        }
+    }
+}
+</style>
+```
+
+For more detailed implementations, see the examples at https://muonw.github.io/powertable/examples
 
 ## 🎯 Objectives
 This repository exists to develop and maintain a tool that fulfills the following requirements:

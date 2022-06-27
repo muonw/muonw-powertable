@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-31acc04f.js",
+    "file": "start-ac050f06.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -17,7 +17,7 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-1835c3d2.js",
+    "file": "pages/__layout.svelte-998c01e0.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -25,7 +25,7 @@
       "_index-dd130b5a.js"
     ],
     "css": [
-      "assets/pages/__layout.svelte-53a31d4c.css"
+      "assets/pages/__layout.svelte-99107469.css"
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
@@ -50,23 +50,26 @@
     ]
   },
   "src/routes/examples/example1.svelte": {
-    "file": "pages/examples/example1.svelte-8bb1abf6.js",
+    "file": "pages/examples/example1.svelte-b5be35c8.js",
     "src": "src/routes/examples/example1.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-dd130b5a.js",
-      "_PowerTable-0ee937b0.js"
+      "_PowerTable-15cc3770.js"
+    ],
+    "css": [
+      "assets/pages/examples/example1.svelte-aaefab71.css"
     ]
   },
   "src/routes/examples/example2.svelte": {
-    "file": "pages/examples/example2.svelte-f732d116.js",
+    "file": "pages/examples/example2.svelte-4d2519da.js",
     "src": "src/routes/examples/example2.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-dd130b5a.js",
-      "_PowerTable-0ee937b0.js"
+      "_PowerTable-15cc3770.js"
     ]
   },
   "src/routes/examples/index.svelte": {
@@ -79,20 +82,20 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-421bc7d7.js",
+    "file": "pages/index.svelte-6dd1061c.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-dd130b5a.js",
-      "_PowerTable-0ee937b0.js"
+      "_PowerTable-15cc3770.js"
     ]
   },
   "_index-dd130b5a.js": {
     "file": "chunks/index-dd130b5a.js"
   },
-  "_PowerTable-0ee937b0.js": {
-    "file": "chunks/PowerTable-0ee937b0.js",
+  "_PowerTable-15cc3770.js": {
+    "file": "chunks/PowerTable-15cc3770.js",
     "imports": [
       "_index-dd130b5a.js"
     ]
