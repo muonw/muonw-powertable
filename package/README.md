@@ -56,7 +56,7 @@ const myTable = new PowerTable({
 });
 </script>
 ```
-Integration with JavaScript frameworks (e.g. React, Vue, etc.) may require steps that are not covered in this repository. Please see [this example that demonstrates a basic usage with React](https://muonw.github.io/powertable/manual/react.md).
+Integration with JavaScript frameworks (e.g. React, Vue, etc.) may require steps that are not covered in this repository. Please see [this example that demonstrates a basic usage with React](https://github.com/muonw/powertable/blob/main/docs/manual/react.md).
 
 ## 👀 Examples
 
@@ -112,12 +112,12 @@ let ptOptions = {
 | -------- | ---- | ------- | ----------- |
 | `uniquePrefix` | string | "" | "pt1" | A unique string for each table instance |
 | `rowsPerPageOptions` | number[] | [5, 10, 20, 50, 100] | Possible number of displayed rows per page |
-| `rowsPerPage` | number | 10 | The default number of displayed rows per page |
-| `paginationBlock` | 3\|5\|7\|9\|11\|13\|15\|17\|19 | 3 | Pagination length excluding the first and last page |
-| `headerText` | boolean | true | Whether the header titles should be displayed |
-| `footerText` | boolean | true | Whether the footer titles should be displayed |
-| `headerFilters` | boolean | true | Whether the header filter text fields should be displayed |
-| `footerFilters` | boolean | true | Whether the footer filter text fields should be displayed |
+| `rowsPerPage` | number | 10 | Default number of displayed rows per page |
+| `paginationBlock` | 3\|5\|7\|9\|11\| 13\|15\|17\|19 | 3 | Pagination length excluding the first and last page |
+| `headerText` | boolean | true | Whether to show header titles |
+| `footerText` | boolean | true | Whether to show footer titles |
+| `headerFilters` | boolean | true | Whether to show header filter text fields |
+| `footerFilters` | boolean | true | Whether to show footer filter text fields |
 | `headerLoadingBar` | boolean | true | Whether to show header loading bar for remote data |
 | `footerLoadingBar` | boolean | true | Whether to show footer loading bar for remote data |
 | `defaultRegexFlags` | string | 'gimsu' | The default RegEx flags. Cannot be empty |
@@ -129,9 +129,9 @@ let ptOptions = {
 | `dataFeedFunction` | function | async () => ({}) | When `isDataRemote` is `true`, the output of this function will be used as `ptData` prop |
 | `searchPhrase` | string | "" | The default search phrase |
 | `searchIsRegex` | boolean | false | Whether the default search phrase is RegEx |
-| `checkboxColumn` | boolean | false | Whether the checkbox selection column should be displayed |
-| `segments` | object | | [\[visit `segments` document\]](https://muonw.github.io/powertable/manual/segments.md) |
-| `sortOrder` | object | | [\[visit `sortOrder` document\]](https://muonw.github.io/powertable/manual/sortorder.md) |
+| `checkboxColumn` | boolean | false | Whether to show checkbox selection column |
+| `segments` | object | | [\[visit `segments` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/segments.md) |
+| `sortOrder` | object | | [\[visit `sortOrder` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/sortorder.md) |
 
 The prop `ptData` is an array of objects containing the data to be displayed in the table. The property names must match the value of the `key` properties in `ptInstructs`.All property values including boolean, number, object, and array values will be converted to string.
 

@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-ac050f06.js",
+    "file": "start-b077da65.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -50,26 +50,26 @@
     ]
   },
   "src/routes/examples/example1.svelte": {
-    "file": "pages/examples/example1.svelte-b5be35c8.js",
+    "file": "pages/examples/example1.svelte-cd8a7aa7.js",
     "src": "src/routes/examples/example1.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-dd130b5a.js",
-      "_PowerTable-15cc3770.js"
+      "_PowerTable-06cda93b.js"
     ],
     "css": [
       "assets/pages/examples/example1.svelte-aaefab71.css"
     ]
   },
   "src/routes/examples/example2.svelte": {
-    "file": "pages/examples/example2.svelte-4d2519da.js",
+    "file": "pages/examples/example2.svelte-68def5a5.js",
     "src": "src/routes/examples/example2.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-dd130b5a.js",
-      "_PowerTable-15cc3770.js"
+      "_PowerTable-06cda93b.js"
     ]
   },
   "src/routes/examples/index.svelte": {
@@ -82,20 +82,20 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-6dd1061c.js",
+    "file": "pages/index.svelte-3e2c8bf0.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-dd130b5a.js",
-      "_PowerTable-15cc3770.js"
+      "_PowerTable-06cda93b.js"
     ]
   },
   "_index-dd130b5a.js": {
     "file": "chunks/index-dd130b5a.js"
   },
-  "_PowerTable-15cc3770.js": {
-    "file": "chunks/PowerTable-15cc3770.js",
+  "_PowerTable-06cda93b.js": {
+    "file": "chunks/PowerTable-06cda93b.js",
     "imports": [
       "_index-dd130b5a.js"
     ]

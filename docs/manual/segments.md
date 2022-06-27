@@ -1,4 +1,4 @@
-The `segments` property in `ptOptions` prop is an object that defines the top to bottom order of various HTML parts of PowerTable to facilitate theming and styling. Each property in this object will render a container DIV element with a `data-name` attribute equal to the property's arbitrary name and `data-type` equal to "segment". The value of each property is an array of HTML parts to be included in the container DIV element. Consider the following example:
+The `segments` property in `ptOptions` is an object that defines the top to bottom order of various HTML parts of PowerTable to facilitate theming and styling. Each property in this object will render a container DIV element with a `data-name` attribute equal to the property's arbitrary name and `data-type` equal to "segment". The value of each property is an array of HTML parts to be included in the container DIV element. Consider the following example:
 
 ```javascript
 segments: {
