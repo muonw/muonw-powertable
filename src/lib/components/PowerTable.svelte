@@ -396,16 +396,28 @@ function applyFilters() {
         } else {
             searchObj.isRegex = false;
         }
-        
-        matchedData = matchedData.filter(d => {
-            return Object.keys(d).some(key => {
-                if (searchObj.isRegex) { 
-                    return regexp.test(d?.[key]);
-                } else {
-                    return d?.[key]?.toString()?.toLowerCase()?.indexOf(searchObj.value.toLowerCase()) > -1;
-                } 
+
+        if (searchObj.isRegex) { 
+            matchedData = matchedData.filter(d => {
+                return Object.keys(d).some(key => {
+                    if (!specialInstructs.hasOwnProperty(key)) {
+                        return regexp.test(d?.[key]);
+                    } else {
+                        return false;
+                    }
+                });
             });
-        });
+        } else {
+            matchedData = matchedData.filter(d => {
+                return Object.keys(d).some(key => {
+                    if (!specialInstructs.hasOwnProperty(key)) {
+                        return d?.[key]?.toString()?.toLowerCase()?.indexOf(searchObj.value.toLowerCase()) > -1;
+                    } else {
+                        return false;
+                    }
+                });
+            });
+        } 
     }
 
     // Filter out any row that doesn't match the filter phrases
