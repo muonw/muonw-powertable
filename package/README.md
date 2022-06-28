@@ -1,4 +1,4 @@
-[![MuonW PowerTable](https://github.com/muonw/powertable/raw/main/src/data/powertable_basic.png)](https://muonw.github.io/powertable/examples/example1)
+[![MuonW PowerTable](https://github.com/muonw/powertable/raw/main/src/data/muonw_powertable_830x447.png)](https://muonw.github.io/powertable/examples/example1)
 
 # [▦](https://muonw.github.io/powertable/) PowerTable
 
