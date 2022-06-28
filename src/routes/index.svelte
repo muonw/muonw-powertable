@@ -4,16 +4,16 @@ import ptData from '../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
 </script>
 
-<h2>Basic Demo (<a href="{subDir}/examples">see more</a>)</h2>
+<br>
+
+<h2><a href="{subDir}/examples/example1">Click here to see all examples</a></h2>
+
+<br>
+
+<h3>Basic Demo</h3>
 <hr>
-   
     
 <div class="MuonW PowerTable">
     <PowerTable {ptData} />
 </div>
 
-<br>
-<h2>Examples</h2>
-<hr>
-
-Please visit the <a href="{subDir}/examples">Examples</a> page.

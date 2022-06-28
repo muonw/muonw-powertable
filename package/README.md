@@ -35,13 +35,19 @@ let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
 <div class="MuonW PowerTable">
     <PowerTable {ptData} />
 </div>
+
+<style global>
+@import '../../node_modules/@muonw/powertable/package/dist/power-table.css';
+</style>
 ```
 
 ### For non-Svelte projects
 
-Import the bundled ES Module from [JsDelivr CDN](https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/power-table.js) in your HTML file (e.g. index.html).
+Paste the code below in your HTML file (e.g. index.html).
 
 ```javascript
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/power-table.css">
+
 <div class="MuonW PowerTable">
     <div id="table1"></div>
 </div>
@@ -91,7 +97,7 @@ let ptInstructs = [
 | `sortable` | boolean | true | Whether the column is sortable |
 | `filterable` | boolean | true | Whether the column can be filtered |
 | `filterPhrase` | string | "" | The column's default filter phrase |
-| `isRegex` | boolean | false | Whether the default filterPhrase is Regex |
+| `isRegex` | boolean | false | Whether the default filterPhrase is Regex (for remote data) |
 | `parse` | 'text'\| 'unsafe-html' | 'text' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
 | `render` | function | | A user defined function to intercept and modify the contents of the column |
 
@@ -180,7 +186,7 @@ Example:
 
 ### Styles
 
-You can add styling with CSS or SCSS.
+You can add styling with CSS or SCSS. In order for the following solutions to work, wrap the table in an element with the class `MuonW PowerTable`. 
 
 **With CSS:**
 
@@ -190,7 +196,7 @@ You can add styling with CSS or SCSS.
 </style>
 ```
 
-**With SCSS:** The default styling can be applied by importing `src/lib/styles/power-table.scss` and [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/__layout.svelte`).
+**With SCSS:** The default styling can be applied by importing `package/styles/power-table.scss` and [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/__layout.svelte`).
 
 ```html
 <style lang="scss" global>

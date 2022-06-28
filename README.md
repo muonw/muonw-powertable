@@ -97,7 +97,7 @@ let ptInstructs = [
 | `sortable` | boolean | true | Whether the column is sortable |
 | `filterable` | boolean | true | Whether the column can be filtered |
 | `filterPhrase` | string | "" | The column's default filter phrase |
-| `isRegex` | boolean | false | Whether the default filterPhrase is Regex |
+| `isRegex` | boolean | false | Whether the default filterPhrase is Regex (for remote data) |
 | `parse` | 'text'\| 'unsafe-html' | 'text' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
 | `render` | function | | A user defined function to intercept and modify the contents of the column |
 
@@ -186,7 +186,7 @@ Example:
 
 ### Styles
 
-You can add styling with CSS or SCSS.
+You can add styling with CSS or SCSS. In order for the following solutions to work, wrap the table in an element with the class `MuonW PowerTable`. 
 
 **With CSS:**
 
