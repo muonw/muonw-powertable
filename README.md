@@ -28,26 +28,32 @@ Then, import in your svelte file (e.g. src/routes/index.svelte):
 
 ```javascript
 <script>
-import { PowerTable } from '@muonw/powertable/src/lib';
+import { PowerTable } from '@muonw/powertable';
 let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
 </script>
 
 <div class="MuonW PowerTable">
     <PowerTable {ptData} />
 </div>
+
+<style global>
+@import '../../node_modules/@muonw/powertable/package/dist/power-table.css';
+</style>
 ```
 
 ### For non-Svelte projects
 
-Import the bundled ES Module from [JsDelivr CDN](https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/powertable.js) in your HTML file (e.g. index.html).
+Paste the code below in your HTML file (e.g. index.html).
 
 ```javascript
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/power-table.css">
+
 <div class="MuonW PowerTable">
     <div id="table1"></div>
 </div>
 
 <script type="module">
-import { PowerTable } from 'https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/powertable.js'
+import { PowerTable } from 'https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/power-table.js'
 let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
 
 const myTable = new PowerTable({
@@ -180,13 +186,24 @@ Example:
 
 ### Styles
 
-The default styling can be applied by importing `src/lib/styles/power-table.scss` and optionally [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/__layout.svelte`).
+You can add styling with CSS or SCSS.
+
+**With CSS:**
+
+```html
+<style global>
+@import '../../node_modules/@muonw/powertable/package/dist/power-table.css';
+</style>
+```
+
+**With SCSS:** The default styling can be applied by importing `package/styles/power-table.scss` and [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/__layout.svelte`).
 
 ```html
 <style lang="scss" global>
-@import '../../node_modules/@muonw/mascara/src/lib/styles/main.scss';
-@import '../lib/styles/power-table.scss';
+@import '../../node_modules/@muonw/mascara/package/styles/main.scss';
+@import '../../node_modules/@muonw/powertable/package/styles/power-table.scss';
 
+/* To make search and filter text boxes smaller */
 .MuonW.PowerTable {
     tr[data-name=filters-tr] {
         input{

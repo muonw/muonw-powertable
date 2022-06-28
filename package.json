@@ -8,8 +8,8 @@
 	"version": "0.0.2",
 	"type": "module",
 	"svelte": "index.js",
-	"module": "dist/powertable.js",
-	"style": "dist/powertable.css",
+	"module": "dist/power-table.js",
+	"style": "dist/power-table.css",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/muonw/powertable.git"

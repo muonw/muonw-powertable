@@ -8,8 +8,8 @@
   "version": "0.0.2",
   "type": "module",
   "svelte": "index.js",
-  "module": "dist/powertable.js",
-  "style": "dist/powertable.css",
+  "module": "dist/power-table.js",
+  "style": "dist/power-table.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/muonw/powertable.git"
@@ -49,9 +49,10 @@
     "./package.json": "./package.json",
     "./components/PowerTable.svelte": "./components/PowerTable.svelte",
     ".": "./index.js",
+    "./scss": "./scss.js",
     "./styles/power-table.scss": "./styles/power-table.scss",
-    "./dist/powertable.js": "./dist/powertable.js",
-    "./dist/powertable.js.map": "./dist/powertable.js.map",
-    "./dist/powertable.d.ts": "./dist/powertable.d.ts"
+    "./dist/power-table.js": "./dist/power-table.js",
+    "./dist/power-table.js.map": "./dist/power-table.js.map",
+    "./dist/power-table.d.ts": "./dist/power-table.d.ts"
   }
 }

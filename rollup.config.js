@@ -20,7 +20,13 @@ const defFile = file.replace(/\.js$/, '.d.ts');
 fs.mkdirSync(path.dirname(file));
 exportsAndDefs();
 
-export default {
+export default [{
+    input: 'src/lib/scss.ts',
+    plugins: [
+        scss({ output: path.join(pkgDir, pkg.style) }),
+    ]
+},
+{
     input: 'src/lib/index.ts',
     output: [
         {
@@ -28,7 +34,7 @@ export default {
             format: 'es',
             sourcemap: false,
             inlineDynamicImports: true
-        }
+        },
     ],
     plugins: [
         svelte({
@@ -42,10 +48,10 @@ export default {
         json(),
         typescript(),
         getBabelOutputPlugin({ presets: ['@babel/preset-env'] }),
-        scss({ output: path.join(pkgDir, pkg.style) }),
+        
         production && terser()
     ]
-}
+}];
 
 function exportsAndDefs() {
     const pkgPath = path.join(pkgDir, 'package.json');
