@@ -25,6 +25,9 @@ let subDir = process.env.NODE_ENV === 'development' ? '' : '/powertable'
     }
 }
 
+nav {
+    margin-bottom: 20px;
+}
 .ref {
     background-color: rgb(255, 247, 232);
     border: 1px solid rgb(255, 183, 115);

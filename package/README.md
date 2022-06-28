@@ -1,4 +1,4 @@
-[![MuonW PowerTable](https://github.com/muonw/powertable/raw/main/src/data/powertable_basic.png)](https://muonw.github.io/powertable/examples)
+[![MuonW PowerTable](https://github.com/muonw/powertable/raw/main/src/data/powertable_basic.png)](https://muonw.github.io/powertable/examples/example1)
 
 # [▦](https://muonw.github.io/powertable/) PowerTable
 
@@ -66,7 +66,7 @@ Integration with JavaScript frameworks (e.g. React, Vue, etc.) may require steps
 
 ## 👀 Examples
 
-To see the live demos, visit https://muonw.github.io/powertable/examples
+To see the live demos, visit https://muonw.github.io/powertable/examples/example1
 
 ## 📖 Manual
 
@@ -219,7 +219,7 @@ You can add styling with CSS or SCSS. In order for the following solutions to wo
 </style>
 ```
 
-For more detailed implementations, see the examples at https://muonw.github.io/powertable/examples
+For more detailed implementations, see the examples at https://muonw.github.io/powertable/examples/example1
 
 ## 🎯 Objectives
 This repository exists to develop and maintain a tool that fulfills the following requirements:
@@ -237,7 +237,7 @@ This repository exists to develop and maintain a tool that fulfills the followin
 
 ## 📝 To-do 
 
-- [ ] Fetch remote data
+- [x] Fetch remote data
 - [ ] In place editing
 
 ## 💻 Contribution

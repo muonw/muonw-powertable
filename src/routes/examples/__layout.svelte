@@ -9,6 +9,7 @@ let pages = {
     3: 'Custom Options',
     4: 'Custom Slots',
     5: 'Styling',
+    6: 'Remote Data',
 };
 </script>
 
@@ -46,12 +47,14 @@ let pages = {
             <br>
             The second table does not have any customizations other than a unique prefix.
         {:else if $page.routeIdMatches[1] === '4'}
-            Following customizations with named slots:<br>
+            Customizations with named slots:<br>
             <b>1.</b> A custom text is used for <b>noResults</b> slot.<br>
         {:else if $page.routeIdMatches[1] === '5'}
-            Following customizations of styles:<br>
+            Customizations of styles:<br>
             <b>1.</b> A <b>maximum height</b> is set for the table, creating a vertical scroll bar.<br>
             <b>2.</b> The height and color of the rows, and the direction of the id values have changed.<br>
+        {:else if $page.routeIdMatches[1] === '6'}
+            This table demonstrates loading of data from an external source (e.g. an API). Data will be processed using client side JavaScript with 500 milliseconds intentional delay to simulate fetching from a server. However, in real life scenarios, data is processed on a server (e.g. with PHP, Node, etc.). To simplify the example, some features such as search, filters, and sorting have been disabled. 
         {/if}
     </p>
 
@@ -68,7 +71,7 @@ let pages = {
 <style>
 nav {
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 nav a {
     display: inline-block;
@@ -77,6 +80,7 @@ nav a {
     border-radius: 5px;
     text-decoration: none;
     margin-right: 5px;
+    margin-bottom: 10px;
 }
 nav a:hover {
     background-color: #dfdfdf;
