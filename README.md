@@ -238,7 +238,7 @@ This repository exists to develop and maintain a tool that fulfills the followin
 ## 📝 To-do 
 
 - [x] Fetch remote data
-- [ ] In place editing
+- [x] Inline editing
 
 ## 💻 Contribution
 

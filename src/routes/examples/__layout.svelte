@@ -10,6 +10,7 @@ let pages = {
     4: 'Custom Slots',
     5: 'Styling',
     6: 'Remote Data',
+    7: 'Controls',
 };
 </script>
 
@@ -54,7 +55,13 @@ let pages = {
             <b>1.</b> A <b>maximum height</b> is set for the table, creating a vertical scroll bar.<br>
             <b>2.</b> The height and color of the rows, and the direction of the id values have changed.<br>
         {:else if $page.routeIdMatches[1] === '6'}
-            This table demonstrates loading of data from an external source (e.g. an API). Data will be processed using client side JavaScript with 500 milliseconds intentional delay to simulate fetching from a server. However, in real life scenarios, data is processed on a server (e.g. with PHP, Node, etc.). To simplify the example, some features such as search, filters, and sorting have been disabled. 
+            This table demonstrates loading of data from an external source (e.g. an API). Data will be processed using client side JavaScript with 500 milliseconds intentional delay to simulate fetching from a server. However, in real life scenarios, data is processed on a server (e.g. with PHP, Node, etc.). To simplify the example, some features such as search, filters, and sorting have been disabled.
+        {:else if $page.routeIdMatches[1] === '7'}
+            Controls can be used to access and manipulate the data with custom functions. To explore this feature, follow these steps:<br>
+            <b>1.</b> Click on the toolbox icon next to the search box and select "Import sample data" to populate the table.<br>
+            <b>2.</b> Click on the checkbox at the beginning of a row to make the content of that row editable. Any modification to the contents is instantaneously stored without affecting the original dataset.<br>
+            <b>3.</b> Click on the gear icon located on the header of the first column to explore the default options for adding, deleting, and selecting data.<br>
+            <b>4.</b> Click on the toolbox icon again and this time select "Export current data". The generated file should reflect any changes you have made.<br>
         {/if}
     </p>
 
@@ -92,5 +99,6 @@ a.selected {
     background-color: #d9ebff;
     padding: 10px;
     border-radius: 5px;
+    line-height: 1.2rem;
 }
 </style>

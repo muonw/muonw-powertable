@@ -573,7 +573,7 @@ function rowDblClicked(e: Event, index: number) {
     dispatch('rowDblClicked', {event: e, data: displayedData[index]});
 }
 
-function closePopUps({ target }: MouseEvent) {
+export function closePopUps({ target }: MouseEvent) {
     const poppedEls = Array.from(document.querySelectorAll('[data-popped=true]') as NodeListOf<HTMLElement>);
     const closestPoppedEl = <HTMLElement>(<HTMLElement>target)?.closest('[data-popped=true]');
 
@@ -585,7 +585,7 @@ function closePopUps({ target }: MouseEvent) {
     });
 }
 
-function closeMenu(e: MouseEvent) {
+export function closeMenu(e: MouseEvent) {
     if (e) {
         let menuEl = (<HTMLInputElement>e?.target)?.closest<HTMLElement>('div[data-name=menu]');
         if (menuEl) {
@@ -595,7 +595,7 @@ function closeMenu(e: MouseEvent) {
     }
 }
 
-function toggleMenu(e: MouseEvent) {
+export function toggleMenu(e: MouseEvent) {
     let menuEl = (<HTMLInputElement>e?.target)?.parentElement?.querySelector<HTMLElement>('div[data-name=menu]');
         
     if (menuEl){
@@ -608,7 +608,7 @@ function toggleMenu(e: MouseEvent) {
     }   
 }
 
-function toggleCheckboxColumn(e: MouseEvent) {
+export function toggleCheckboxColumn(e: MouseEvent) {
     closeMenu(e);
     
     options.checkboxColumn = !options.checkboxColumn;
@@ -616,7 +616,7 @@ function toggleCheckboxColumn(e: MouseEvent) {
     ptOptions = options;
 }
 
-function selectAllAction(e: MouseEvent) {
+export function selectAllAction(e: MouseEvent) {
     closeMenu(e);
 
     data = data.map(row => {
@@ -627,7 +627,7 @@ function selectAllAction(e: MouseEvent) {
     ptData = data;
 }
 
-function selectNoneAction(e: MouseEvent) {
+export function selectNoneAction(e: MouseEvent) {
     closeMenu(e);
 
     data = data.map(row => {
@@ -638,7 +638,18 @@ function selectNoneAction(e: MouseEvent) {
     ptData = data;
 }
 
-function addAction(e: MouseEvent) {
+export function invertSelectionAction(e: MouseEvent) {
+    closeMenu(e);
+
+    data = data.map(row => {
+        row[checkboxKey] = !row[checkboxKey];
+        return row;
+    });
+    // Trigger the initialization
+    ptData = data;
+}
+
+export function addAction(e: MouseEvent) {
     closeMenu(e);
 
     let emptyRow: Data = {}
@@ -660,7 +671,7 @@ function addAction(e: MouseEvent) {
     ptData = data;
 }
 
-function deleteAction(e: MouseEvent) {
+export function deleteAction(e: MouseEvent) {
     closeMenu(e);
 
     data = data.filter(row => {
@@ -740,6 +751,7 @@ onMount(async () => {
                                                             <div data-name="menu">
                                                                 <div data-name="item" on:click={selectAllAction}>Select All</div>
                                                                 <div data-name="item" on:click={selectNoneAction}>Select None</div>
+                                                                <div data-name="item" on:click={invertSelectionAction}>Invert Selection</div>
                                                                 <div data-name="item" on:click={addAction}>Add</div>
                                                                 <div data-name="item" on:click={deleteAction}>Delete</div>
                                                             </div>
