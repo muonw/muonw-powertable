@@ -49,6 +49,15 @@ declare const __propDef: {
         ptInstructs?: Instructs[] | undefined;
         ptOptions?: Options | undefined;
         ptData?: Data[] | undefined;
+        closePopUps?: (({ target }: MouseEvent) => void) | undefined;
+        closeMenu?: ((e: MouseEvent) => void) | undefined;
+        toggleMenu?: ((e: MouseEvent) => void) | undefined;
+        toggleCheckboxColumn?: ((e: MouseEvent) => void) | undefined;
+        selectAllAction?: ((e: MouseEvent) => void) | undefined;
+        selectNoneAction?: ((e: MouseEvent) => void) | undefined;
+        invertSelectionAction?: ((e: MouseEvent) => void) | undefined;
+        addAction?: ((e: MouseEvent) => void) | undefined;
+        deleteAction?: ((e: MouseEvent) => void) | undefined;
         getData?: ((removeMetadata?: boolean) => {
             options: Options;
             instructs: Instructs[];
@@ -71,6 +80,15 @@ export declare type PowerTableProps = typeof __propDef.props;
 export declare type PowerTableEvents = typeof __propDef.events;
 export declare type PowerTableSlots = typeof __propDef.slots;
 export default class PowerTable extends SvelteComponentTyped<PowerTableProps, PowerTableEvents, PowerTableSlots> {
+    get closePopUps(): ({ target }: MouseEvent) => void;
+    get closeMenu(): (e: MouseEvent) => void;
+    get toggleMenu(): (e: MouseEvent) => void;
+    get toggleCheckboxColumn(): (e: MouseEvent) => void;
+    get selectAllAction(): (e: MouseEvent) => void;
+    get selectNoneAction(): (e: MouseEvent) => void;
+    get invertSelectionAction(): (e: MouseEvent) => void;
+    get addAction(): (e: MouseEvent) => void;
+    get deleteAction(): (e: MouseEvent) => void;
     get getData(): (removeMetadata?: boolean) => {
         options: Options;
         instructs: Instructs[];

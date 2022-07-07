@@ -476,7 +476,7 @@ function rowClicked(e, index) {
 function rowDblClicked(e, index) {
     dispatch('rowDblClicked', { event: e, data: displayedData[index] });
 }
-function closePopUps({ target }) {
+export function closePopUps({ target }) {
     const poppedEls = Array.from(document.querySelectorAll('[data-popped=true]'));
     const closestPoppedEl = target?.closest('[data-popped=true]');
     poppedEls.forEach(p => {
@@ -486,7 +486,7 @@ function closePopUps({ target }) {
         }
     });
 }
-function closeMenu(e) {
+export function closeMenu(e) {
     if (e) {
         let menuEl = e?.target?.closest('div[data-name=menu]');
         if (menuEl) {
@@ -495,7 +495,7 @@ function closeMenu(e) {
         }
     }
 }
-function toggleMenu(e) {
+export function toggleMenu(e) {
     let menuEl = e?.target?.parentElement?.querySelector('div[data-name=menu]');
     if (menuEl) {
         if (menuEl.style.visibility !== 'visible') {
@@ -506,13 +506,13 @@ function toggleMenu(e) {
         }
     }
 }
-function toggleCheckboxColumn(e) {
+export function toggleCheckboxColumn(e) {
     closeMenu(e);
     options.checkboxColumn = !options.checkboxColumn;
     // Trigger the initialization
     ptOptions = options;
 }
-function selectAllAction(e) {
+export function selectAllAction(e) {
     closeMenu(e);
     data = data.map(row => {
         row[checkboxKey] = true;
@@ -521,7 +521,7 @@ function selectAllAction(e) {
     // Trigger the initialization
     ptData = data;
 }
-function selectNoneAction(e) {
+export function selectNoneAction(e) {
     closeMenu(e);
     data = data.map(row => {
         delete row[checkboxKey];
@@ -530,7 +530,16 @@ function selectNoneAction(e) {
     // Trigger the initialization
     ptData = data;
 }
-function addAction(e) {
+export function invertSelectionAction(e) {
+    closeMenu(e);
+    data = data.map(row => {
+        row[checkboxKey] = !row[checkboxKey];
+        return row;
+    });
+    // Trigger the initialization
+    ptData = data;
+}
+export function addAction(e) {
     closeMenu(e);
     let emptyRow = {};
     Object.keys(data[0]).forEach(key => {
@@ -549,7 +558,7 @@ function addAction(e) {
     // Trigger the initialization
     ptData = data;
 }
-function deleteAction(e) {
+export function deleteAction(e) {
     closeMenu(e);
     data = data.filter(row => {
         return !row[checkboxKey];
@@ -622,6 +631,7 @@ onMount(async () => {
                                                             <div data-name="menu">
                                                                 <div data-name="item" on:click={selectAllAction}>Select All</div>
                                                                 <div data-name="item" on:click={selectNoneAction}>Select None</div>
+                                                                <div data-name="item" on:click={invertSelectionAction}>Invert Selection</div>
                                                                 <div data-name="item" on:click={addAction}>Add</div>
                                                                 <div data-name="item" on:click={deleteAction}>Delete</div>
                                                             </div>

@@ -116,7 +116,7 @@ let ptOptions = {
 
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
-| `uniquePrefix` | string | "" | "pt1" | A unique string for each table instance |
+| `uniquePrefix` | string | "" | A unique string representing a table instance |
 | `rowsPerPageOptions` | number[] | [5, 10, 20, 50, 100] | Possible number of displayed rows per page |
 | `rowsPerPage` | number | 10 | Default number of displayed rows per page |
 | `paginationBlock` | 3\|5\|7\|9\|11\| 13\|15\|17\|19 | 3 | Pagination length excluding the first and last page |
@@ -238,7 +238,7 @@ This repository exists to develop and maintain a tool that fulfills the followin
 ## 📝 To-do 
 
 - [x] Fetch remote data
-- [ ] In place editing
+- [x] Inline editing
 
 ## 💻 Contribution
 

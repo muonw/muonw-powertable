@@ -9,6 +9,7 @@
   border-spacing: 0;
 }
 .MuonW.PowerTable div[data-name=table-container] table thead {
+  z-index: 10;
   top: 0;
   box-shadow: 0px 3px 3px -2px #ccc;
 }
@@ -16,6 +17,7 @@
   padding: 0 0.2rem 0.4rem 0.2rem;
 }
 .MuonW.PowerTable div[data-name=table-container] table tfoot {
+  z-index: 9;
   bottom: 0;
   box-shadow: 0px -3px 3px -2px #ccc;
 }
@@ -24,7 +26,6 @@
 }
 .MuonW.PowerTable div[data-name=table-container] table thead, .MuonW.PowerTable div[data-name=table-container] table tfoot {
   position: sticky;
-  z-index: 10;
   text-align: left;
   background-color: white;
 }
@@ -82,6 +83,7 @@
 }
 .MuonW.PowerTable div[data-name=table-container] table tbody td {
   padding: 0.2rem 0.4rem;
+  white-space: break-spaces;
 }
 .MuonW.PowerTable div[data-name=table-container] table tbody td[data-name=noResults-td], .MuonW.PowerTable div[data-name=table-container] table tbody td[data-name=rendering-td] {
   background-color: #eee;
@@ -89,8 +91,9 @@
   padding: 20px;
 }
 .MuonW.PowerTable div[data-name=table-container] table tbody textarea {
-  height: 1rem;
+  height: 1.5rem;
   width: 8rem;
+  padding: 0.1rem 0.2rem;
 }
 .MuonW.PowerTable div[data-name=table-container] table tbody td[data-key=id] textarea {
   width: 2rem;
