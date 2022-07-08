@@ -62,15 +62,15 @@
   color: inherit;
   margin: 0;
 }
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=filters-tr] input, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=filters-tr] input {
+  width: calc(100% - 10px);
+}
 .MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=filters-tr] input:not(:placeholder-shown), .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=filters-tr] input:not(:placeholder-shown) {
-  background-color: #d0e3fc;
+  background-color: #d9ebff;
 }
 .MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=filters-tr] input[data-is_regex=true], .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=filters-tr] input[data-is_regex=true] {
   color: #8f0194;
   font-weight: bold;
-}
-.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=filters-tr] input[data-key=id], .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=filters-tr] input[data-key=id] {
-  width: 25px;
 }
 .MuonW.PowerTable div[data-name=table-container] table tbody tr {
   box-shadow: 0 0 1px 0px #888;
@@ -84,6 +84,7 @@
 .MuonW.PowerTable div[data-name=table-container] table tbody td {
   padding: 0.2rem 0.4rem;
   white-space: break-spaces;
+  height: 2rem;
 }
 .MuonW.PowerTable div[data-name=table-container] table tbody td[data-name=noResults-td], .MuonW.PowerTable div[data-name=table-container] table tbody td[data-name=rendering-td] {
   background-color: #eee;
@@ -102,7 +103,7 @@
   margin-right: auto;
 }
 .MuonW.PowerTable div[data-name=search-container] input[data-name=search-input]:not(:placeholder-shown) {
-  background-color: rgb(208, 227, 252);
+  background-color: #d9ebff;
 }
 .MuonW.PowerTable div[data-name=search-container] input[data-name=search-input][data-is_regex=true] {
   color: #8f0194;

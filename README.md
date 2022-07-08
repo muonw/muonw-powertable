@@ -4,11 +4,14 @@
 
 PowerTable is a JavaScript component that turns JSON data into an interactive HTML table. This facilitates manual inspection, sorting, filtering, searching, and editing of the data. 
 
+> 🚨&nbsp; PowerTable is still in Beta!
+
 ## ✨ Features
 
 - No runtime dependencies
 - Sorting (single- and multi-column)
 - Filtering (per column and global. RegEx)
+- Inline editing
 - Re-arrangeable layout segments
 - Optional styling
 - Custom parsing per column
@@ -78,7 +81,7 @@ The `PowerTable` component accepts three optional props: `ptInstructs`, `ptOptio
 <PowerTable {ptInstructs} {ptOptions} {ptData} />
 ```
 
-The prop `ptInstructs` is an array of objects that sets the column attributes. All properties except for `key` are optional.
+❶ The prop `ptInstructs` is an array of objects that sets the column attributes. All properties except for `key` are optional.
 
 Example:
 
@@ -101,7 +104,7 @@ let ptInstructs = [
 | `parse` | 'text'\| 'unsafe-html' | 'text' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
 | `render` | function | | A user defined function to intercept and modify the contents of the column |
 
-The prop `ptOptions` is an object that allows adjusting various features of the table. All properties are optional.
+❷ The prop `ptOptions` is an object that allows adjusting various features of the table. All properties are optional.
 
 Example:
 
@@ -139,7 +142,7 @@ let ptOptions = {
 | `segments` | object | | [\[visit `segments` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/segments.md) |
 | `sortOrder` | object | | [\[visit `sortOrder` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/sortorder.md) |
 
-The prop `ptData` is an array of objects containing the data to be displayed in the table. The property names must match the value of the `key` properties in `ptInstructs`.All property values including boolean, number, object, and array values will be converted to string.
+❸ The prop `ptData` is an array of objects containing the data to be displayed in the table. The property names must match the value of the `key` properties in `ptInstructs`. All property values including boolean, number, object, and array values will be converted to string.
 
 Example:
 
@@ -223,22 +226,23 @@ For more detailed implementations, see the examples at https://muonw.github.io/p
 
 ## 🎯 Objectives
 This repository exists to develop and maintain a tool that fulfills the following requirements:
-- Is based on Svelte.
-- Is easy to learn and use.
-- Runs in latest versions of Chrome, Firefox, and Safari.
-- Does not include a web server.
-- Does not apply CSS styles by default.
-- Does not include third party runtime dependencies.
 - Displays structured JSON data in an HTML table that...
     - is easy to navigate with mouse and/or keyboard.
     - is easy to interact with on a desktop monitor.
     - renders 1000+ rows without noticeable delay.
     - can display and modify remote data.
+- Is based on Svelte.
+- Is easy to learn and use.
+- Runs in latest versions of Firefox ESR, Chromium, and Safari.
+- Does not include a web server.
+- Does not apply CSS styles by default.
+- Does not include third party runtime dependencies.
 
 ## 📝 To-do 
 
 - [x] Fetch remote data
 - [x] Inline editing
+- [ ] Improve search
 
 ## 💻 Contribution
 

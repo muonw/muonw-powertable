@@ -8,7 +8,6 @@ let myPowerTable: SvelteComponent;
 let ptData: Data[] = [];
 
 let ptOptions: Options = {
-    rowsPerPage: 20,
     checkboxColumn: true,
     segments: {
         'topBar': ['settings', 'search', 'pagination'],

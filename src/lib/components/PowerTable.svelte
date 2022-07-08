@@ -769,10 +769,10 @@ onMount(async () => {
                                         {#each instructs as instruct}
                                             {#if specialInstructs.hasOwnProperty(instruct?.key)}
                                                 {#if instruct?.key === checkboxKey && options.checkboxColumn}
-                                                    <th></th>
+                                                    <th data-key={instruct.key}></th>
                                                 {/if}
                                             {:else}
-                                                <th>
+                                                <th data-key={instruct.key}>
                                                     {#if instruct?.filterable !== false}
                                                         <input data-key={instruct.key} data-is_regex={filterObj[instruct.key].isRegex} placeholder="Filter by {instruct.title}" bind:value={filterObj[instruct.key].value} on:input={renderTable} >
                                                     {/if}
@@ -835,10 +835,10 @@ onMount(async () => {
                                         {#each instructs as instruct}
                                             {#if specialInstructs.hasOwnProperty(instruct?.key)}
                                                 {#if instruct?.key === checkboxKey && options.checkboxColumn}
-                                                    <th></th>
+                                                    <th data-key={instruct.key}></th>
                                                 {/if}
                                             {:else}
-                                                <th>
+                                                <th data-key={instruct.key}>
                                                     {#if instruct?.filterable !== false}
                                                         <input data-key={instruct.key} data-is_regex={filterObj[instruct.key].isRegex} placeholder="Filter by {instruct.title}" bind:value={filterObj[instruct.key].value} on:input={renderTable} >
                                                     {/if}

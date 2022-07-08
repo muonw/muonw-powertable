@@ -67,15 +67,13 @@
                 }
                 tr[data-name=filters-tr] {
                     input{
+                        width: calc(100% - 10px);
                         &:not(:placeholder-shown) {
-                            background-color: #d0e3fc;
+                            background-color: #d9ebff;
                         }
                         &[data-is_regex=true]{
                             color: #8f0194;
                             font-weight: bold;
-                        }
-                        &[data-key=id]{
-                            width: 25px;
                         }
                     }
                 }
@@ -93,6 +91,7 @@
                 td{
                     padding: .2rem .4rem;
                     white-space: break-spaces;
+                    height: 2rem;
                 }
                 td[data-name=noResults-td], td[data-name=rendering-td]{
                     background-color: #eee;
@@ -114,7 +113,7 @@
         margin-right: auto;
         input[data-name=search-input]{
             &:not(:placeholder-shown) {
-                background-color: rgb(208, 227, 252);
+                background-color: #d9ebff;
             }
             &[data-is_regex=true]{
                 color: #8f0194;
