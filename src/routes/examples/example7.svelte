@@ -5,7 +5,10 @@ import type {Data, Options} from '$lib/components/PowerTable.svelte';
 
 let myPowerTable: SvelteComponent;
 
-let ptData: Data[] = [];
+let ptData: Data[] = [
+    {"id": 1, "name": "Fay"},
+    {"id": 2, "name": "Luca"}
+];
 
 let ptOptions: Options = {
     checkboxColumn: true,

@@ -39,7 +39,7 @@
                         padding: .4rem .2rem .4rem .2rem;
                         cursor: pointer;
                     }
-                    th:not([data-sortable=false]){
+                    th:not([data-sortable=false]) {
                         &::after{
                             content: '↕';
                             color: #888;
@@ -64,6 +64,9 @@
                             }
                         }
                     } 
+                    th[data-key=__PT_CB__] {
+                        width: 1.5rem;;
+                    }
                 }
                 tr[data-name=filters-tr] {
                     input{

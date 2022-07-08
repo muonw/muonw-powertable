@@ -58,10 +58,10 @@ let pages = {
             This table demonstrates loading of data from an external source (e.g. an API). Data will be processed using client side JavaScript with 500 milliseconds intentional delay to simulate fetching from a server. However, in real life scenarios, data is processed on a server (e.g. with PHP, Node, etc.). To simplify the example, some features such as search, filters, and sorting have been disabled.
         {:else if $page.routeIdMatches[1] === '7'}
             Controls can be used to access and manipulate the data with custom functions. To explore this feature, follow these steps:<br>
-            <b>1.</b> Click on the toolbox icon next to the search box and select "Import sample data" to populate the table.<br>
-            <b>2.</b> Click on the checkbox at the beginning of a row to make the content of that row editable. Any modification to the contents is instantaneously stored without affecting the original dataset.<br>
-            <b>3.</b> Click on the gear icon located on the header of the first column to explore the default options for adding, deleting, and selecting data.<br>
-            <b>4.</b> Click on the toolbox icon again and this time select "Export current data". The generated file should reflect any changes you have made.<br>
+            <b>1.</b> Click on the <b>toolbox icon</b> next to the search box and select "<b>Import sample data</b>" to populate the table.<br>
+            <b>2.</b> Click on the <b>checkbox</b> at the beginning of a row to make the content of that row editable. Any modification to the contents is <b>instantaneously</b> stored without affecting the original dataset.<br>
+            <b>3.</b> Click on the <b>gear icon</b> located on the header of the first column to explore the default options for <b>adding</b>, <b>deleting</b>, and <b>selecting</b> data.<br>
+            <b>4.</b> Click on the toolbox icon again and this time select "<b>Export current data</b>". The generated file should reflect any changes you have made.<br>
         {/if}
     </p>
 

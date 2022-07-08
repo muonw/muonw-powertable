@@ -54,6 +54,12 @@ export interface DataFeed {
     options?: Options,
     data?: Data[]
 }
+
+type RegexParts = {
+    delimiter: string,
+    pattern: string,
+    flags: string
+}
 </script>
 
 <script lang="ts">
@@ -97,7 +103,7 @@ let options: Options = {
     footerFilters: true,
     headerLoadingBar: true,
     footerLoadingBar: true,
-    defaultRegexFlags: 'gimsu',
+    defaultRegexFlags: 'misu',
     nestedSorting: false,
     isDataRemote: false,
     totalRows: null,
@@ -349,52 +355,48 @@ function applySort() {
     }
 }
 
-function getRegexGroups(phrase: string) {
-    // If regex initiator symbol is present
-    if (phrase.indexOf('/') === 0 && phrase.length > 1){
-        // If the regex initiator symbol is escaped, remove the scape symbol and don't mark as regex
-        if (phrase.indexOf('//') === 0){
-            phrase = phrase.slice(1);
-        } else {
-            let rgx = new RegExp('^\/(.+)\/(.*)$', 'g').exec(phrase);
-            if (rgx) {
-                return rgx;
+// If phrase is a valid regex, return the regex parts
+function getRegexParts(phrase: string) {
+    if (phrase.length > 1){
+        try {
+            const groups = phrase.match(/^([/~#;%@'])(.+)\1([gimsuy]*)$/);
+            if(groups && !!new RegExp(groups[2],groups[3])) {
+                return <RegexParts>{
+                    delimiter: groups[1],
+                    pattern: groups[2],
+                    flags: groups[3]
+                }
             }
-        }
+        } catch (e) {}
     }
-    return null;
+    return false;
 }
 
 // Applies filters and search, when data is not remote
 function applyFilters() {
     // make a copy of original data
     matchedData = JSON.parse(JSON.stringify(data));
+    let previousSearchObj = JSON.parse(JSON.stringify(searchObj));
+    searchObj.isRegex = false;
 
-    // Remove any row that doesn't match the searched phrase
+    // Filter out any row that doesn't match the searched phrase
     if (searchObj.value) {
-        let rgx: RegExpExecArray|null = getRegexGroups(searchObj.value);
+        let regexParts: RegexParts | boolean = getRegexParts(searchObj.value);
         let regexp: RegExp;
-        if (rgx) {
+
+        if (regexParts) {
             try {
-                regexp = new RegExp(rgx[1].replace(/\\\\/g, '\\'), rgx?.[2] || options.defaultRegexFlags);
-                
-                if (rgx?.[2]) {    
-                    searchObj.isRegex = true;
-                } else {
-                    // If user is deleting the flags, instead of re-adding the flags, scape the regex character
-                    if (searchObj.isRegex) {
-                        searchObj.value = '/' + searchObj.value;
-                        searchObj.isRegex = false;
-                    } else {
-                        searchObj.value += options.defaultRegexFlags;
-                        searchObj.isRegex = true;
-                    }
-                } 
-            } catch(e) {
-                searchObj.isRegex = false;
-            }
-        } else {
-            searchObj.isRegex = false;
+                let flags: string | undefined = regexParts.flags;
+                searchObj.isRegex = true;
+
+                // Unless all flags are just being deleted from a regex, add the default flags
+                if ( ! regexParts?.flags && ! previousSearchObj.isRegex) {
+                    flags = options.defaultRegexFlags;
+                    searchObj.value += flags;
+                }
+
+                regexp = new RegExp(regexParts.pattern, flags);
+            } catch(e) {}
         }
 
         if (searchObj.isRegex) { 
@@ -408,54 +410,72 @@ function applyFilters() {
                 });
             });
         } else {
+            let words = searchObj.value.toLowerCase().match(/\S+/g);
+
+            // Iterate over the rows
             matchedData = matchedData.filter(d => {
-                return Object.keys(d).some(key => {
+                let unmatchedWords = Object.assign([], words);
+                // Iterate over the fields and remove the matching words from unmatchedWords
+                for (let key of Object.keys(d)) {
+                    // If not a special column (e.g. checkboxes)
                     if (!specialInstructs.hasOwnProperty(key)) {
-                        return d?.[key]?.toString()?.toLowerCase()?.indexOf(searchObj.value.toLowerCase()) > -1;
-                    } else {
-                        return false;
-                    }
-                });
+                        let searchableString = d?.[key]?.toString()?.toLowerCase();
+                        unmatchedWords = unmatchedWords.filter((word: string) => {
+                            if (searchableString?.indexOf(word) > -1) {
+                                return false;
+                            }
+                            return true;
+                        });
+                    }                    
+                }
+
+                return !unmatchedWords.length;
             });
         } 
     }
 
     // Filter out any row that doesn't match the filter phrases
     Object.entries(filterObj).forEach(([key, filter]) => {
-        let rgx: RegExpExecArray|null = null;
+        let previousFilter = JSON.parse(JSON.stringify(filter));
+        filter.isRegex = false;
 
-        if (filter.value.length){
-            rgx = getRegexGroups(filter.value);
+        if (filter.value.length) {
+            let regexParts: RegexParts | boolean = getRegexParts(filter.value);
 
-            if (rgx) {
+            if (regexParts) {
                 // If the regex format is invalid (e.g. wrong flags), revert to literal search
                 try {
-                    matchedData = matchedData.filter(d => new RegExp(rgx!?.[1], rgx?.[2] || options.defaultRegexFlags).test(d[key]));
+                    let flags: string | undefined = regexParts.flags;
+                    filter.isRegex = true;
 
-                    if (rgx?.[2]) {
-                        filter.isRegex = true;
-                    } else {
-                        // If user is deleting the flags, instead of re-adding the flags, scape the regex character
-                        if (filter.isRegex) {
-                            filter.value = '/' + filter.value;
-                            filter.isRegex = false;
-                        } else {
-                            filter.value += options.defaultRegexFlags;
-                            filter.isRegex = true;
-                        }
+                    // Unless all flags are just being deleted from a regex, add the default flags
+                    if ( ! regexParts?.flags && ! previousFilter.isRegex) {
+                        flags = options.defaultRegexFlags;
+                        filter.value += flags;
                     }
-                } catch(e) {
-                    filter.isRegex = false;
-                }
-            } else {
-                filter.isRegex = false;
+
+                    // @ts-ignore Shhhh!
+                    matchedData = matchedData.filter(d => new RegExp(regexParts.pattern, flags).test(d[key]));
+                } catch(e) {}
             }
 
-            if (!filter.isRegex) {
-                matchedData = matchedData.filter(d => d[key]?.toString()?.toLowerCase()?.indexOf(filter.value.toLowerCase()) > -1);
+            if ( ! filter.isRegex) {
+                let words = filter.value.toLowerCase().match(/\S+/g);
+
+                // Iterate over the rows and remove the matching words from unmatchedWords
+                matchedData = matchedData.filter(d => {
+                    let unmatchedWords = Object.assign([], words);
+                    let searchableString = d?.[key]?.toString()?.toLowerCase();
+                    unmatchedWords = unmatchedWords.filter((word: string) => {
+                        if (searchableString?.indexOf(word) > -1) {
+                            return false;
+                        }
+                        return true;
+                    });                
+
+                    return !unmatchedWords.length;
+                });
             } 
-        } else {
-            filter.isRegex = false;
         }
     });
 

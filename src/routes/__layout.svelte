@@ -21,7 +21,7 @@ let subDir = process.env.NODE_ENV === 'development' ? '' : '/powertable'
 .MuonW.PowerTable {
     tr[data-name=titles-tr], tr[data-name=filters-tr] {
         th[data-key=id]{
-            width: 40px;
+            width: 50px;
         }
     }
     tr[data-name=filters-tr] {

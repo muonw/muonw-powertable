@@ -62,6 +62,9 @@
   color: inherit;
   margin: 0;
 }
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th[data-key=__PT_CB__], .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th[data-key=__PT_CB__] {
+  width: 1.5rem;
+}
 .MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=filters-tr] input, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=filters-tr] input {
   width: calc(100% - 10px);
 }
