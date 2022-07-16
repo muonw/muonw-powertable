@@ -189,15 +189,7 @@ Example:
 
 ### Styles
 
-You can add styling with CSS or SCSS. In order for the following solutions to work, wrap the table in an element with the class `MuonW PowerTable`. 
-
-**With CSS:**
-
-```html
-<style global>
-@import '../../node_modules/@muonw/powertable/package/dist/power-table.css';
-</style>
-```
+You can add styling with SCSS or CSS. In order for the following solutions to work, wrap the table in an element with the class `MuonW PowerTable`. 
 
 **With SCSS:** The default styling can be applied by importing `package/styles/power-table.scss` and [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/__layout.svelte`).
 
@@ -222,6 +214,14 @@ You can add styling with CSS or SCSS. In order for the following solutions to wo
 </style>
 ```
 
+**With CSS:**
+
+```html
+<style global>
+@import '../../node_modules/@muonw/powertable/package/dist/power-table.css';
+</style>
+```
+
 For more detailed implementations, see the examples at https://muonw.github.io/powertable/examples/example1
 
 ## 🎯 Objectives
@@ -243,12 +243,10 @@ This repository exists to develop and maintain a tool that fulfills the followin
 - [x] Fetch remote data
 - [x] Inline editing
 - [x] Improve search
-- [ ] Improve visual elements 
 
 ## 💻 Contribution
 
 Areas of high priority:
-- To-do items
-- Code quality
 - Accessibility
+- Code quality
 - Tests

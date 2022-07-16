@@ -1,11 +1,11 @@
 {
 	"name": "@muonw/powertable",
-	"description": "▦ A JavaScript tool to create interactive HTML tables. Inspired by DataTables. Powered by Svelte.",
+	"description": "▦ PowerTable is a JavaScript component that turns JSON data into an interactive HTML table. Inspired by DataTables. Powered by Svelte.",
 	"homepage": "https://muonw.github.io/powertable/",
 	"bugs": {
 		"url": "https://github.com/muonw/powertable/issues"
 	},
-	"version": "0.1.0",
+	"version": "0.1.6",
 	"type": "module",
 	"svelte": "index.js",
 	"module": "dist/power-table.js",

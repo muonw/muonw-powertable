@@ -19,10 +19,13 @@ let subDir = process.env.NODE_ENV === 'development' ? '' : '/powertable'
 @import '../lib/styles/power-table.scss';
 
 .MuonW.PowerTable {
-    tr[data-name=titles-tr], tr[data-name=filters-tr] {
-        th[data-key=id]{
+    table tbody tr[data-name=titles-tr], tr[data-name=filters-tr] {
+        th[data-key=id] {
             width: 50px;
         }
+    }
+    table tbody td[data-key=id] textarea {
+        width: 40px ;
     }
     tr[data-name=filters-tr] {
         input{
