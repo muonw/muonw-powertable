@@ -5,9 +5,12 @@ export interface Instructs {
     sortable?: boolean,
     filterable?: boolean,
     filterPhrase?: string,
-    isRegex?: boolean,
-    parse?: 'text' | 'unsafe-html',
-    render?(e:any): any,
+    filterIsRegex?: boolean,
+    parseAs?: 'text' | 'unsafe-html',
+}
+
+export interface Data {
+    [_: string]: any,
 }
 
 type SortString = ''|'asc'|'desc';
@@ -29,16 +32,17 @@ export interface Options {
     totalRows?: number|null,
     filteredRows?: number|null,
     currentPage?: number,
-    dataFeedFunction?(e: Record<string,any>): Promise<DataFeed>,
     searchPhrase?: string,
     searchIsRegex?: boolean,
     checkboxColumn?: boolean,
+    userFunctions?: {
+        dataFeed?(data: Record<string,any>): Promise<DataFeed>,
+        pageMod?(data: Data[]): Data[],
+        // sort?(e: Record<string,any>): Promise<any>,
+        // filter?(e: Record<string,any>): Promise<any>,
+    },
     segments?: Record<string,Array<'settings'|'search'|'pagination'|'table'|'dropdown'|'stats'>>,
     sortOrder?: {[k in SortString]?: SortString},
-    }
-
-export interface Data {
-    [_: string]: any,
 }
 
 interface Pagination {
@@ -55,10 +59,31 @@ export interface DataFeed {
     data?: Data[]
 }
 
-type RegexParts = {
+export type RegexParts = {
     delimiter: string,
     pattern: string,
     flags: string
+}
+
+// PowerTable check box key name
+export let dataIdKey = '__PT_ID__';
+export let checkboxKey = '__PT_CB__';
+
+// If phrase is a valid regex, return the regex parts
+export function getRegexParts(phrase: string) {
+    if (phrase.length > 1){
+        try {
+            const groups = phrase.match(/^([/~#;%@'])(.+)\1([gimsuy]*)$/);
+            if(groups && !!new RegExp(groups[2],groups[3])) {
+                return <RegexParts>{
+                    delimiter: groups[1],
+                    pattern: groups[2],
+                    flags: groups[3]
+                }
+            }
+        } catch (e) {}
+    }
+    return false;
 }
 </script>
 
@@ -69,10 +94,6 @@ import { onMount, createEventDispatcher } from 'svelte';
 export var ptInstructs: Instructs[] = [];
 export let ptOptions: Options = {};
 export let ptData: Data[] = [];
-
-// PowerTable check box key name
-let dataIdKey = '__PT_ID__';
-let checkboxKey = '__PT_CB__';
 
 let specialInstructs = {
     [dataIdKey]: {
@@ -109,7 +130,10 @@ let options: Options = {
     totalRows: null,
     filteredRows: null,
     currentPage: 1,
-    dataFeedFunction: async () => ({}),
+    userFunctions: {
+        dataFeed: async () => ({}),
+        pageMod: (d) => d,
+    },
     searchPhrase: '',
     searchIsRegex: false,
     checkboxColumn: false,
@@ -135,11 +159,13 @@ let data: Data[];
 $: initialize(ptInstructs, ptOptions, ptData);
 
 // Filtered and searched data
-let matchedData: Record<string,any>[];
+let matchedData: Data[];
 // Sorted data
-let sortedData: Record<string,any>[] = [];
+let sortedData: Data[] = [];
 // Data of the current page 
-let displayedData: Record<string,any>[] = [];
+let pageData: Data[] = [];
+// pageData after applying a user defined format function
+let formattedPageData: Data[] = [];
 
 let pagination: Pagination = {
     totalRows: 0,
@@ -151,11 +177,14 @@ let pagination: Pagination = {
 
 let sorting: Record<string,SortString> = {};
 let renderStatus: string|null = null;
-let searchObj: Record<string,any> = {
-    'isRegex': options.searchIsRegex,
-    'value': options.searchPhrase,
-};
-let filterObj: Record<string,Record<string,any>> = {};
+let searchObj: {
+    isRegex?: boolean,
+    value?: string
+} = {};
+let filterObj: Record<string,{
+    isRegex?: boolean,
+    value?: string
+}> = {};
 
 
 function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record<string,any>[], action: {render?:boolean, preserveFilters?: boolean} = {render: true, preserveFilters: true}) {   
@@ -164,8 +193,13 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
     }
     options = options;
 
+    searchObj = {
+        'isRegex': options.searchIsRegex,
+        'value': options.searchPhrase,
+    }
+    
     data = JSON.parse(JSON.stringify(ptData));
-
+    
     // Make data type conformable to Record<string,string>
     data = data.map(row => {
         Object.keys(row).forEach(key => {
@@ -184,17 +218,17 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
     });
     
     let tempInstructs: Instructs[] = [];
-
+    
     // If ptInstructs prop is empty
     if (!ptInstructs?.length) {     
-        let keys = Object?.keys(data?.[0] ?? []);
-        keys.forEach(key => {
+        let firstRecordKeys = Object.keys(data?.[0] ?? []);
+        firstRecordKeys.forEach(key => {
             // If not a special instruct (they will be added later)
             if (!specialInstructs.hasOwnProperty(key)) {
                 tempInstructs.push({
                     key: key,
                     title: key,
-                    parse: 'text'
+                    parseAs: 'text'
                 });
 
                 filterObj[key] = {
@@ -208,12 +242,16 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
         ptInstructs?.forEach(instruct => {
             // If not a special instruct (they will be added later)
             if (!specialInstructs.hasOwnProperty(instruct.key)) {
+                if (!instruct.hasOwnProperty('title')) {
+                    instruct['title'] = instruct['key'];
+                }
+
                 tempInstructs.push(instruct);
 
                 // If filters aren't set or should not be preserved, reset them
                 if (!filterObj[instruct.key] || !action?.preserveFilters){
                     filterObj[instruct.key] = {
-                        'isRegex': instruct?.isRegex ?? false,
+                        'isRegex': instruct?.filterIsRegex ?? false,
                         'value': instruct?.filterPhrase ?? ''
                     }
                 }
@@ -267,7 +305,7 @@ async function renderTable() {
         remoteParams['search'] = searchObj;
         remoteParams['filters'] = filterObj;
 
-        let newData = await options.dataFeedFunction!(remoteParams);
+        let newData = await options.userFunctions?.dataFeed!(remoteParams);
         if (newData?.data) {
             initialize(newData.instructs ?? [], newData.options ?? {}, newData.data, {render: false});
             // Already filtered on the server
@@ -297,7 +335,7 @@ function trackSorting(key: string) {
 function applySort() {
     //*****************************************//
     /* https://github.com/Teun/thenBy.js/blob/master/thenBy.js
-     Copyright 2013 Teun Duynstee
+        Copyright 2013 Teun Duynstee
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
@@ -353,23 +391,6 @@ function applySort() {
 
         sortedData = sortedData.sort(compFunc);
     }
-}
-
-// If phrase is a valid regex, return the regex parts
-function getRegexParts(phrase: string) {
-    if (phrase.length > 1){
-        try {
-            const groups = phrase.match(/^([/~#;%@'])(.+)\1([gimsuy]*)$/);
-            if(groups && !!new RegExp(groups[2],groups[3])) {
-                return <RegexParts>{
-                    delimiter: groups[1],
-                    pattern: groups[2],
-                    flags: groups[3]
-                }
-            }
-        } catch (e) {}
-    }
-    return false;
 }
 
 // Applies filters and search, when data is not remote
@@ -439,7 +460,7 @@ function applyFilters() {
         let previousFilter = JSON.parse(JSON.stringify(filter));
         filter.isRegex = false;
 
-        if (filter.value.length) {
+        if (filter.value?.length) {
             let regexParts: RegexParts | boolean = getRegexParts(filter.value);
 
             if (regexParts) {
@@ -557,16 +578,18 @@ function applyPagination() {
     }
 
     if (!options.isDataRemote) {
-        // Filter the rows for each page
-        displayedData = sortedData.filter((_, i) => {
-            if (i+1 >= p.firstShownRow! && i+1 <= p.lastShownRow!) {
-                return true;
-            }
-        });
+        // Slice the rows of the current page
+        pageData = sortedData.slice(p.firstShownRow! - 1, p.lastShownRow!);
     } else {
-        displayedData = sortedData;
+        pageData = sortedData;
     }
     
+    if (typeof (options.userFunctions?.pageMod ?? null) === 'function' && options.userFunctions?.pageMod !== undefined) {
+        formattedPageData = options.userFunctions.pageMod(JSON.parse(JSON.stringify(pageData)));
+    } else {
+        formattedPageData = JSON.parse(JSON.stringify(pageData));
+    }
+
     pagination = p;
 }
 
@@ -586,11 +609,11 @@ function updatePageSize() {
 }
 
 function rowClicked(e: Event, index: number) {
-    dispatch('rowClicked', {event: e, data: displayedData[index]});
+    dispatch('rowClicked', {event: e, data: pageData[index]});
 }
 
 function rowDblClicked(e: Event, index: number) {
-    dispatch('rowDblClicked', {event: e, data: displayedData[index]});
+    dispatch('rowDblClicked', {event: e, data: pageData[index]});
 }
 
 export function closePopUps({ target }: MouseEvent) {
@@ -682,7 +705,7 @@ export function addAction(e: MouseEvent) {
         } else {
             emptyRow[key] = '';
         }
-    })
+    });
     
     data = [...data, emptyRow];
     options.currentPage = Math.ceil(data.length / options?.rowsPerPage!);
@@ -720,6 +743,8 @@ export function getData(removeMetadata = true) {
         options: options,
         instructs: exportInstructs,
         data: exportData,
+        search: searchObj,
+        filters: filterObj
     }
 }
 
@@ -803,8 +828,8 @@ onMount(async () => {
                                 {/if}
                             </thead>
                             <tbody>
-                                {#if displayedData.length}
-                                    {#each displayedData as record, index}
+                                {#if formattedPageData.length}
+                                    {#each formattedPageData as record, index}
                                         <tr data-index={index} on:click={(e)=>rowClicked(e, index)} on:dblclick={(e)=>rowDblClicked(e, index)}>
                                             {#each instructs as instruct}
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
@@ -817,10 +842,10 @@ onMount(async () => {
                                                     <td data-key={instruct.key}>
                                                         {#if data[record[dataIdKey]]?.[checkboxKey]}
                                                             <textarea bind:value={data[record[dataIdKey]][instruct.key]}></textarea>
-                                                        {:else if instruct?.parse === 'unsafe-html'}
-                                                            {@html (typeof (instruct?.render ?? null) === 'function') && instruct.render !== undefined ? instruct.render(data[record[dataIdKey]][instruct.key] ?? '') : (data[record[dataIdKey]][instruct.key] ?? '')}
+                                                        {:else if instruct?.parseAs === 'unsafe-html'}
+                                                            {@html (record[instruct.key] ?? '')}
                                                         {:else}
-                                                            {(typeof (instruct?.render ?? null) === 'function') && instruct.render !== undefined ? instruct.render(data[record[dataIdKey]][instruct.key] ?? '') : (data[record[dataIdKey]][instruct.key] ?? '')}
+                                                            {(record[instruct.key] ?? '')}
                                                         {/if}
                                                     </td>
                                                 {/if}

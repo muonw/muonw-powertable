@@ -14,7 +14,9 @@ let ptInstructs: Instructs[] = [
 
 let ptOptions: Options = {
     isDataRemote: true,
-    dataFeedFunction: dummyApiCall,
+    userFunctions: {
+        dataFeed: dummyApiCall,
+    },
     segments: {
         'topBar': ['stats', 'pagination'],
         'pTable': ['table']

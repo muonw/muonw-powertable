@@ -4,5 +4,5 @@ import PowerTable from '$lib/components/PowerTable.svelte';
 </script>
 
 <div class="MuonW PowerTable">
-    <PowerTable {ptData} />
+    <PowerTable {ptData}  />
 </div>

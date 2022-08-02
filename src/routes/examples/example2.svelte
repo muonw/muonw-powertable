@@ -11,26 +11,34 @@ let ptInstructs: Instructs[] = [
     {key: 'last_name', title: 'Surname'},
     {key: 'company', title: 'Company', filterPhrase: '/p.*i/gi'},
     {key: 'department', title: 'Department 🏢', filterable: false},
-    {key: 'job', title: 'Job Title', parse: 'unsafe-html', render: addEmoji}
+    {key: 'job', title: 'Job Title', parseAs: 'unsafe-html'}
 ];
 
-let ptOptions: Options = {}
-
-
-function addEmoji(d: string) {
-    let emoji = '';
-
-    if (d.indexOf('Engineer') !== -1 || d.indexOf('Manage') !== -1) {
-        emoji = '💼';
+let ptOptions: Options = {
+    userFunctions: {
+        pageMod: addEmoji
     }
-    else if (d.indexOf('Health') !== -1 || d.indexOf('Nurse') !== -1) {
-        emoji = '‍💊';
-    }
-    else if (d.indexOf('Data') !== -1) {
-        emoji = '💻';
-    }
+}
 
-    return emoji ? `<b>${emoji} ${d}</b>` : d;
+
+function addEmoji(pageData: Data[]) {
+    pageData.forEach(row => {
+        let emoji = '';
+
+        if (row['job'].indexOf('Engineer') !== -1 || row['job'].indexOf('Manage') !== -1) {
+            emoji = '💼';
+        }
+        else if (row['job'].indexOf('Health') !== -1 || row['job'].indexOf('Nurse') !== -1) {
+            emoji = '‍💊';
+        }
+        else if (row['job'].indexOf('Data') !== -1) {
+            emoji = '💻';
+        }
+
+        row['job'] = emoji ? `<b>${emoji} ${row['job']}</b>` : row['job'];
+    });
+
+    return pageData;
 }
 </script>
 

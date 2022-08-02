@@ -10,7 +10,8 @@ let pages = {
     4: 'Custom Slots',
     5: 'Styling',
     6: 'Remote Data',
-    7: 'Controls',
+    7: 'Editing & Controls',
+    8: 'Highlighting',
 };
 </script>
 
@@ -61,6 +62,8 @@ let pages = {
             <b>1.</b> Click on the <b>checkbox</b> at the beginning of a row to make the content of that row editable. Any modification to the contents is <b>instantaneously</b> stored without affecting the original dataset.<br>
             <b>2.</b> Click on the <b>gear icon</b> (⚙️) located on the header of the first column to explore the default options for <b>adding</b>, <b>deleting</b>, and <b>selecting</b> data.<br>
             <b>3.</b> Click on the toolbox icon (🛠️) next to the search box and select "<b>Export current data</b>". The generated file should reflect any changes you have made.<br>
+        {:else if $page.routeIdMatches[1] === '8'}
+            This table utilizes a user-defined function to highlight search/filter matches. The search matches are depicted with a yellow highlight. Filter matches are blue, and the overlap of search and filter matches are green.
         {/if}
     </p>
 
