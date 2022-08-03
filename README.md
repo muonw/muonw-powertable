@@ -128,7 +128,7 @@ let ptOptions = {
 | `footerFilters` | boolean | true | Whether to show footer filter text fields |
 | `headerLoadingBar` | boolean | true | Whether to show header loading bar for remote data |
 | `footerLoadingBar` | boolean | true | Whether to show footer loading bar for remote data |
-| `defaultRegexFlags` | string | 'misu' | The default RegEx flags |
+| `defaultRegexFlags` | string | 'gimsu' | The default RegEx flags |
 | `nestedSorting` | boolean | false | Whether the nested/multi-column sorting is enabled |
 | `isDataRemote` | boolean | false | Whether the data is fetched from a URL |
 | `totalRows` | number \| null | null | Total number of rows (when displaying remote data) |

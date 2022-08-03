@@ -5,9 +5,11 @@ export interface Instructs {
     sortable?: boolean;
     filterable?: boolean;
     filterPhrase?: string;
-    isRegex?: boolean;
-    parse?: 'text' | 'unsafe-html';
-    render?(e: any): any;
+    filterIsRegex?: boolean;
+    parseAs?: 'text' | 'unsafe-html';
+}
+export interface Data {
+    [_: string]: any;
 }
 declare type SortString = '' | 'asc' | 'desc';
 export interface Options {
@@ -27,23 +29,35 @@ export interface Options {
     totalRows?: number | null;
     filteredRows?: number | null;
     currentPage?: number;
-    dataFeedFunction?(e: Record<string, any>): Promise<DataFeed>;
     searchPhrase?: string;
     searchIsRegex?: boolean;
     checkboxColumn?: boolean;
+    userFunctions?: {
+        dataFeed?(data: Record<string, any>): Promise<DataFeed>;
+        pageMod?(data: Data[]): Data[];
+    };
     segments?: Record<string, Array<'settings' | 'search' | 'pagination' | 'table' | 'dropdown' | 'stats'>>;
     sortOrder?: {
         [k in SortString]?: SortString;
     };
-}
-export interface Data {
-    [_: string]: any;
 }
 export interface DataFeed {
     instructs?: Instructs[];
     options?: Options;
     data?: Data[];
 }
+export declare type RegexParts = {
+    delimiter: string;
+    pattern: string;
+    flags: string;
+};
+declare type Lookup = {
+    isRegex?: boolean;
+    value?: string;
+};
+export declare let dataIdKey: string;
+export declare let checkboxKey: string;
+export declare function getRegexParts(phrase: string): false | RegexParts;
 declare const __propDef: {
     props: {
         ptInstructs?: Instructs[] | undefined;
@@ -62,6 +76,8 @@ declare const __propDef: {
             options: Options;
             instructs: Instructs[];
             data: Data[];
+            search: Lookup;
+            filters: Record<string, Lookup>;
         }) | undefined;
     };
     events: {
@@ -93,6 +109,8 @@ export default class PowerTable extends SvelteComponentTyped<PowerTableProps, Po
         options: Options;
         instructs: Instructs[];
         data: Data[];
+        search: Lookup;
+        filters: Record<string, Lookup>;
     };
 }
 export {};

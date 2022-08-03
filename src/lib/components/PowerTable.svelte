@@ -38,8 +38,6 @@ export interface Options {
     userFunctions?: {
         dataFeed?(data: Record<string,any>): Promise<DataFeed>,
         pageMod?(data: Data[]): Data[],
-        // sort?(e: Record<string,any>): Promise<any>,
-        // filter?(e: Record<string,any>): Promise<any>,
     },
     segments?: Record<string,Array<'settings'|'search'|'pagination'|'table'|'dropdown'|'stats'>>,
     sortOrder?: {[k in SortString]?: SortString},
@@ -63,6 +61,11 @@ export type RegexParts = {
     delimiter: string,
     pattern: string,
     flags: string
+}
+
+type Lookup = {
+    isRegex?: boolean,
+    value?: string
 }
 
 // PowerTable check box key name
@@ -124,7 +127,7 @@ let options: Options = {
     footerFilters: true,
     headerLoadingBar: true,
     footerLoadingBar: true,
-    defaultRegexFlags: 'misu',
+    defaultRegexFlags: 'gimsu',
     nestedSorting: false,
     isDataRemote: false,
     totalRows: null,
@@ -177,14 +180,8 @@ let pagination: Pagination = {
 
 let sorting: Record<string,SortString> = {};
 let renderStatus: string|null = null;
-let searchObj: {
-    isRegex?: boolean,
-    value?: string
-} = {};
-let filterObj: Record<string,{
-    isRegex?: boolean,
-    value?: string
-}> = {};
+let searchObj: Lookup = {};
+let filterObj: Record<string,Lookup> = {};
 
 
 function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record<string,any>[], action: {render?:boolean, preserveFilters?: boolean} = {render: true, preserveFilters: true}) {   
@@ -193,9 +190,13 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
     }
     options = options;
 
-    searchObj = {
-        'isRegex': options.searchIsRegex,
-        'value': options.searchPhrase,
+    // If search object is not set or should not be preserved, reset it
+    // The `preserveFilters` action is intended to affect both "filters" and "search"
+    if (!searchObj?.value || !action?.preserveFilters){
+        searchObj = {
+            'isRegex': options.searchIsRegex,
+            'value': options.searchPhrase,
+        }
     }
     
     data = JSON.parse(JSON.stringify(ptData));
@@ -397,7 +398,7 @@ function applySort() {
 function applyFilters() {
     // make a copy of original data
     matchedData = JSON.parse(JSON.stringify(data));
-    let previousSearchObj = JSON.parse(JSON.stringify(searchObj));
+    let previousSearchObj: Lookup = JSON.parse(JSON.stringify(searchObj));
     searchObj.isRegex = false;
 
     // Filter out any row that doesn't match the searched phrase
@@ -457,7 +458,7 @@ function applyFilters() {
 
     // Filter out any row that doesn't match the filter phrases
     Object.entries(filterObj).forEach(([key, filter]) => {
-        let previousFilter = JSON.parse(JSON.stringify(filter));
+        let previousFilter: Lookup = JSON.parse(JSON.stringify(filter));
         filter.isRegex = false;
 
         if (filter.value?.length) {
@@ -610,6 +611,17 @@ function updatePageSize() {
 
 function rowClicked(e: Event, index: number) {
     dispatch('rowClicked', {event: e, data: pageData[index]});
+
+    if ((<HTMLInputElement>e.target).dataset?.name === 'edit-submit') {
+        let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll('textarea[data-name=edit-textarea]');
+        textareaEls!.forEach(textareaEl => {
+            data[pageData[index][dataIdKey]][(<HTMLInputElement>textareaEl)?.dataset?.key ?? '']= (<HTMLInputElement>textareaEl)?.value ?? '';
+        });
+
+        data[pageData[index][dataIdKey]][checkboxKey] = false;
+
+        initialize(instructs, options, data);
+    }
 }
 
 function rowDblClicked(e: Event, index: number) {
@@ -655,8 +667,8 @@ export function toggleCheckboxColumn(e: MouseEvent) {
     closeMenu(e);
     
     options.checkboxColumn = !options.checkboxColumn;
-    // Trigger the initialization
-    ptOptions = options;
+    
+    initialize(instructs, options, data);
 }
 
 export function selectAllAction(e: MouseEvent) {
@@ -666,8 +678,8 @@ export function selectAllAction(e: MouseEvent) {
         row[checkboxKey] = true;
         return row;
     });
-    // Trigger the initialization
-    ptData = data;
+    
+    initialize(instructs, options, data);
 }
 
 export function selectNoneAction(e: MouseEvent) {
@@ -677,8 +689,8 @@ export function selectNoneAction(e: MouseEvent) {
         delete row[checkboxKey];
         return row;
     });
-    // Trigger the initialization
-    ptData = data;
+    
+    initialize(instructs, options, data);
 }
 
 export function invertSelectionAction(e: MouseEvent) {
@@ -688,8 +700,8 @@ export function invertSelectionAction(e: MouseEvent) {
         row[checkboxKey] = !row[checkboxKey];
         return row;
     });
-    // Trigger the initialization
-    ptData = data;
+    
+    initialize(instructs, options, data);;
 }
 
 export function addAction(e: MouseEvent) {
@@ -710,8 +722,7 @@ export function addAction(e: MouseEvent) {
     data = [...data, emptyRow];
     options.currentPage = Math.ceil(data.length / options?.rowsPerPage!);
     
-    // Trigger the initialization
-    ptData = data;
+    initialize(instructs, options, data);
 }
 
 export function deleteAction(e: MouseEvent) {
@@ -720,8 +731,8 @@ export function deleteAction(e: MouseEvent) {
     data = data.filter(row => {
         return !row[checkboxKey];
     });
-    // Trigger the initialization
-    ptData = data;
+
+    initialize(instructs, options, data);
 }
 
 export function getData(removeMetadata = true) {
@@ -841,7 +852,10 @@ onMount(async () => {
                                                 {:else}
                                                     <td data-key={instruct.key}>
                                                         {#if data[record[dataIdKey]]?.[checkboxKey]}
-                                                            <textarea bind:value={data[record[dataIdKey]][instruct.key]}></textarea>
+                                                            <div data-name="edit-block">
+                                                                <textarea data-name="edit-textarea" data-key={instruct.key}>{data[record[dataIdKey]][instruct.key]}</textarea>
+                                                                <button data-name="edit-submit">✔️</button>
+                                                            </div>
                                                         {:else if instruct?.parseAs === 'unsafe-html'}
                                                             {@html (record[instruct.key] ?? '')}
                                                         {:else}
@@ -956,4 +970,3 @@ onMount(async () => {
         </div>
     {/each}
 </div>
-    

@@ -2,7 +2,7 @@
 import { onMount } from "svelte"
 import type { SvelteComponent } from "svelte"
 import data from '../../data/jobs.json';
-import PowerTable, {getRegexParts} from '$lib/components/PowerTable.svelte';
+import PowerTable, {getRegexParts, type RegexParts} from '$lib/components/PowerTable.svelte';
 import type {Instructs, Options, Data} from '$lib/components/PowerTable.svelte';
 
 let myPowerTable: SvelteComponent;
@@ -16,8 +16,9 @@ onMount(() => {
         userFunctions: {
             pageMod: customHighlight
         },
-        searchPhrase: '/a.*t/misu',
+        searchPhrase: '/a.*t/gimsu',
         searchIsRegex: true,
+        checkboxColumn: true,
     }
     
     // Highlighting is performed by wrapping the matching phrases in a span tag with a colored background.
@@ -70,9 +71,11 @@ type Matches = {
     [_: string]: number[]
 }[];
 
-function customHighlight(pageContent: Data[]) {   
-    let searchMatches = locateMatches(pageContent);
-    pageContent = highlighter(pageContent, searchMatches);
+function customHighlight(pageContent: Data[]) {
+    if (myPowerTable?.getData){
+        let searchMatches = locateMatches(pageContent);
+        pageContent = highlighter(pageContent, searchMatches);
+    }
     return pageContent;
 }
 
@@ -97,6 +100,9 @@ function locateMatches(pageContent: Data[]): Matches {
         };
     });
 
+    let flags: string | undefined;
+    let regexParts: RegexParts | false;
+
     // Locating the search phrase matches
     if (searchPhrase) {
         let searchRegex = new RegExp('');
@@ -107,24 +113,23 @@ function locateMatches(pageContent: Data[]): Matches {
             searchRegex = new RegExp(pattern, 'gi');
         }
         else {
-            let regexParts = getRegexParts(searchPhrase);
+            regexParts = getRegexParts(searchPhrase);
             if (!regexParts) { throw new Error('RegEx is not valid!'); }
-            let flags: string | undefined = regexParts?.flags;
-            if ( ! regexParts?.flags) {
-                flags = currentData.options.defaultRegexFlags;
-            }
-            // Global flag is required for matchAll
-            if (flags?.indexOf('g') === -1) {
-                flags = flags + 'g';
-            }
+            flags = regexParts?.flags ?? '';
             searchRegex = new RegExp(regexParts.pattern, flags);
         }
 
         pageContent.forEach((row, rowIndex) => {
             ptInstructs.forEach((instruct, instructIndex) => {
-                let curMatches = [...row[instruct.key].matchAll(searchRegex)];
-
-                if (curMatches.length) {                       
+                let curMatches: any[] = [];
+                // Global flag is required for matchAll
+                if (searchIsRegex === false || flags?.indexOf('g') !== -1) {
+                    curMatches = [...row[instruct.key].matchAll(searchRegex)];
+                } else {
+                    curMatches = [row[instruct.key].match(searchRegex)];
+                }
+                
+                if (curMatches?.length) {                       
                     if (!matches[rowIndex]) {
                         matches[rowIndex] = {};
                     }
@@ -133,8 +138,10 @@ function locateMatches(pageContent: Data[]): Matches {
                     }
 
                     curMatches.forEach(match => {
-                        for (let i = match.index; i < match.index + match[0].length; i++) {
-                            matches[rowIndex][instruct.key][i] = SEARCH_SEGMENT_TYPE;
+                        if (match){
+                            for (let i = match.index; i < match.index + match[0].length; i++) {
+                                matches[rowIndex][instruct.key][i] = SEARCH_SEGMENT_TYPE;
+                            }
                         }
                     });
                 } 
@@ -152,21 +159,20 @@ function locateMatches(pageContent: Data[]): Matches {
                 let pattern = filters[instruct.key].value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
                 filterRegex = new RegExp(pattern, 'gi');
             } else {
-                let regexParts = getRegexParts(filters[instruct.key].value);
+                regexParts = getRegexParts(filters[instruct.key].value);
                 if (!regexParts) { throw new Error('RegEx is not valid!'); }
-                let flags: string | undefined = regexParts?.flags;
-                if ( ! regexParts?.flags) {
-                    flags = currentData.options.defaultRegexFlags;
-                }
-                // Global flag is required for matchAll
-                if (flags?.indexOf('g') === -1) {
-                    flags = flags + 'g';
-                }
+                flags = regexParts?.flags ?? '';
                 filterRegex = new RegExp(regexParts.pattern, flags);
             }
 
             pageContent.forEach((row, rowIndex) => {
-                let curMatches = [...row[instruct.key].matchAll(filterRegex)];
+                let curMatches: any[] = [];
+                // Global flag is required for matchAll
+                if (filters[instruct.key].isRegex === false || flags?.indexOf('g') !== -1) {
+                    curMatches = [...row[instruct.key].matchAll(filterRegex)];
+                } else {
+                    curMatches = [row[instruct.key].match(filterRegex)];
+                }
                 
                 if (curMatches.length) {                       
                     if (!matches[rowIndex]) {
@@ -177,11 +183,13 @@ function locateMatches(pageContent: Data[]): Matches {
                     }
 
                     curMatches.forEach(match => {
-                        for (let i = match.index; i < match.index + match[0].length; i++) {
-                            if (matches[rowIndex][instruct.key][i] ?? null) {
-                                matches[rowIndex][instruct.key][i] = OVERLAP_SEGMENT_TYPE;
-                            } else {
-                                matches[rowIndex][instruct.key][i] = FILTER_SEGMENT_TYPE;
+                        if (match){
+                            for (let i = match.index; i < match.index + match[0].length; i++) {
+                                if (matches[rowIndex][instruct.key][i] ?? null) {
+                                    matches[rowIndex][instruct.key][i] = OVERLAP_SEGMENT_TYPE;
+                                } else {
+                                    matches[rowIndex][instruct.key][i] = FILTER_SEGMENT_TYPE;
+                                }
                             }
                         }
                     });

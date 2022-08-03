@@ -1,4 +1,23 @@
-<script context="module">export {};
+<script context="module">// PowerTable check box key name
+export let dataIdKey = '__PT_ID__';
+export let checkboxKey = '__PT_CB__';
+// If phrase is a valid regex, return the regex parts
+export function getRegexParts(phrase) {
+    if (phrase.length > 1) {
+        try {
+            const groups = phrase.match(/^([/~#;%@'])(.+)\1([gimsuy]*)$/);
+            if (groups && !!new RegExp(groups[2], groups[3])) {
+                return {
+                    delimiter: groups[1],
+                    pattern: groups[2],
+                    flags: groups[3]
+                };
+            }
+        }
+        catch (e) { }
+    }
+    return false;
+}
 </script>
 
 <script>import { onMount, createEventDispatcher } from 'svelte';
@@ -6,9 +25,6 @@
 export var ptInstructs = [];
 export let ptOptions = {};
 export let ptData = [];
-// PowerTable check box key name
-let dataIdKey = '__PT_ID__';
-let checkboxKey = '__PT_CB__';
 let specialInstructs = {
     [dataIdKey]: {
         key: dataIdKey,
@@ -36,13 +52,16 @@ let options = {
     footerFilters: true,
     headerLoadingBar: true,
     footerLoadingBar: true,
-    defaultRegexFlags: 'misu',
+    defaultRegexFlags: 'gimsu',
     nestedSorting: false,
     isDataRemote: false,
     totalRows: null,
     filteredRows: null,
     currentPage: 1,
-    dataFeedFunction: async () => ({}),
+    userFunctions: {
+        dataFeed: async () => ({}),
+        pageMod: (d) => d,
+    },
     searchPhrase: '',
     searchIsRegex: false,
     checkboxColumn: false,
@@ -68,7 +87,9 @@ let matchedData;
 // Sorted data
 let sortedData = [];
 // Data of the current page 
-let displayedData = [];
+let pageData = [];
+// pageData after applying a user defined format function
+let formattedPageData = [];
 let pagination = {
     totalRows: 0,
     firstShownRow: 0,
@@ -78,16 +99,21 @@ let pagination = {
 };
 let sorting = {};
 let renderStatus = null;
-let searchObj = {
-    'isRegex': options.searchIsRegex,
-    'value': options.searchPhrase,
-};
+let searchObj = {};
 let filterObj = {};
 function initialize(ptInstructs, ptOptions, ptData, action = { render: true, preserveFilters: true }) {
     if (ptOptions) {
         Object.assign(options, ptOptions);
     }
     options = options;
+    // If search object is not set or should not be preserved, reset it
+    // The `preserveFilters` action is intended to affect both "filters" and "search"
+    if (!searchObj?.value || !action?.preserveFilters) {
+        searchObj = {
+            'isRegex': options.searchIsRegex,
+            'value': options.searchPhrase,
+        };
+    }
     data = JSON.parse(JSON.stringify(ptData));
     // Make data type conformable to Record<string,string>
     data = data.map(row => {
@@ -110,14 +136,14 @@ function initialize(ptInstructs, ptOptions, ptData, action = { render: true, pre
     let tempInstructs = [];
     // If ptInstructs prop is empty
     if (!ptInstructs?.length) {
-        let keys = Object?.keys(data?.[0] ?? []);
-        keys.forEach(key => {
+        let firstRecordKeys = Object.keys(data?.[0] ?? []);
+        firstRecordKeys.forEach(key => {
             // If not a special instruct (they will be added later)
             if (!specialInstructs.hasOwnProperty(key)) {
                 tempInstructs.push({
                     key: key,
                     title: key,
-                    parse: 'text'
+                    parseAs: 'text'
                 });
                 filterObj[key] = {
                     'isRegex': false,
@@ -131,11 +157,14 @@ function initialize(ptInstructs, ptOptions, ptData, action = { render: true, pre
         ptInstructs?.forEach(instruct => {
             // If not a special instruct (they will be added later)
             if (!specialInstructs.hasOwnProperty(instruct.key)) {
+                if (!instruct.hasOwnProperty('title')) {
+                    instruct['title'] = instruct['key'];
+                }
                 tempInstructs.push(instruct);
                 // If filters aren't set or should not be preserved, reset them
                 if (!filterObj[instruct.key] || !action?.preserveFilters) {
                     filterObj[instruct.key] = {
-                        'isRegex': instruct?.isRegex ?? false,
+                        'isRegex': instruct?.filterIsRegex ?? false,
                         'value': instruct?.filterPhrase ?? ''
                     };
                 }
@@ -174,7 +203,7 @@ async function renderTable() {
         remoteParams['options'] = options;
         remoteParams['search'] = searchObj;
         remoteParams['filters'] = filterObj;
-        let newData = await options.dataFeedFunction(remoteParams);
+        let newData = await options.userFunctions?.dataFeed(remoteParams);
         if (newData?.data) {
             initialize(newData.instructs ?? [], newData.options ?? {}, newData.data, { render: false });
             // Already filtered on the server
@@ -205,7 +234,7 @@ function trackSorting(key) {
 function applySort() {
     //*****************************************//
     /* https://github.com/Teun/thenBy.js/blob/master/thenBy.js
-     Copyright 2013 Teun Duynstee
+        Copyright 2013 Teun Duynstee
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
@@ -261,23 +290,6 @@ function applySort() {
         });
         sortedData = sortedData.sort(compFunc);
     }
-}
-// If phrase is a valid regex, return the regex parts
-function getRegexParts(phrase) {
-    if (phrase.length > 1) {
-        try {
-            const groups = phrase.match(/^([/~#;%@'])(.+)\1([gimsuy]*)$/);
-            if (groups && !!new RegExp(groups[2], groups[3])) {
-                return {
-                    delimiter: groups[1],
-                    pattern: groups[2],
-                    flags: groups[3]
-                };
-            }
-        }
-        catch (e) { }
-    }
-    return false;
 }
 // Applies filters and search, when data is not remote
 function applyFilters() {
@@ -340,7 +352,7 @@ function applyFilters() {
     Object.entries(filterObj).forEach(([key, filter]) => {
         let previousFilter = JSON.parse(JSON.stringify(filter));
         filter.isRegex = false;
-        if (filter.value.length) {
+        if (filter.value?.length) {
             let regexParts = getRegexParts(filter.value);
             if (regexParts) {
                 // If the regex format is invalid (e.g. wrong flags), revert to literal search
@@ -444,15 +456,17 @@ function applyPagination() {
         p.pages.push(p.totalPages);
     }
     if (!options.isDataRemote) {
-        // Filter the rows for each page
-        displayedData = sortedData.filter((_, i) => {
-            if (i + 1 >= p.firstShownRow && i + 1 <= p.lastShownRow) {
-                return true;
-            }
-        });
+        // Slice the rows of the current page
+        pageData = sortedData.slice(p.firstShownRow - 1, p.lastShownRow);
     }
     else {
-        displayedData = sortedData;
+        pageData = sortedData;
+    }
+    if (typeof (options.userFunctions?.pageMod ?? null) === 'function' && options.userFunctions?.pageMod !== undefined) {
+        formattedPageData = options.userFunctions.pageMod(JSON.parse(JSON.stringify(pageData)));
+    }
+    else {
+        formattedPageData = JSON.parse(JSON.stringify(pageData));
     }
     pagination = p;
 }
@@ -470,10 +484,18 @@ function updatePageSize() {
     renderTable();
 }
 function rowClicked(e, index) {
-    dispatch('rowClicked', { event: e, data: displayedData[index] });
+    dispatch('rowClicked', { event: e, data: pageData[index] });
+    if (e.target.dataset?.name === 'edit-submit') {
+        let textareaEls = e.target.closest('tr')?.querySelectorAll('textarea[data-name=edit-textarea]');
+        textareaEls.forEach(textareaEl => {
+            data[pageData[index][dataIdKey]][textareaEl?.dataset?.key ?? ''] = textareaEl?.value ?? '';
+        });
+        data[pageData[index][dataIdKey]][checkboxKey] = false;
+        initialize(instructs, options, data);
+    }
 }
 function rowDblClicked(e, index) {
-    dispatch('rowDblClicked', { event: e, data: displayedData[index] });
+    dispatch('rowDblClicked', { event: e, data: pageData[index] });
 }
 export function closePopUps({ target }) {
     const poppedEls = Array.from(document.querySelectorAll('[data-popped=true]'));
@@ -508,8 +530,7 @@ export function toggleMenu(e) {
 export function toggleCheckboxColumn(e) {
     closeMenu(e);
     options.checkboxColumn = !options.checkboxColumn;
-    // Trigger the initialization
-    ptOptions = options;
+    initialize(instructs, options, data);
 }
 export function selectAllAction(e) {
     closeMenu(e);
@@ -517,8 +538,7 @@ export function selectAllAction(e) {
         row[checkboxKey] = true;
         return row;
     });
-    // Trigger the initialization
-    ptData = data;
+    initialize(instructs, options, data);
 }
 export function selectNoneAction(e) {
     closeMenu(e);
@@ -526,8 +546,7 @@ export function selectNoneAction(e) {
         delete row[checkboxKey];
         return row;
     });
-    // Trigger the initialization
-    ptData = data;
+    initialize(instructs, options, data);
 }
 export function invertSelectionAction(e) {
     closeMenu(e);
@@ -535,8 +554,8 @@ export function invertSelectionAction(e) {
         row[checkboxKey] = !row[checkboxKey];
         return row;
     });
-    // Trigger the initialization
-    ptData = data;
+    initialize(instructs, options, data);
+    ;
 }
 export function addAction(e) {
     closeMenu(e);
@@ -554,16 +573,14 @@ export function addAction(e) {
     });
     data = [...data, emptyRow];
     options.currentPage = Math.ceil(data.length / options?.rowsPerPage);
-    // Trigger the initialization
-    ptData = data;
+    initialize(instructs, options, data);
 }
 export function deleteAction(e) {
     closeMenu(e);
     data = data.filter(row => {
         return !row[checkboxKey];
     });
-    // Trigger the initialization
-    ptData = data;
+    initialize(instructs, options, data);
 }
 export function getData(removeMetadata = true) {
     let exportData = JSON.parse(JSON.stringify(data));
@@ -581,6 +598,8 @@ export function getData(removeMetadata = true) {
         options: options,
         instructs: exportInstructs,
         data: exportData,
+        search: searchObj,
+        filters: filterObj
     };
 }
 onMount(async () => {
@@ -662,8 +681,8 @@ onMount(async () => {
                                 {/if}
                             </thead>
                             <tbody>
-                                {#if displayedData.length}
-                                    {#each displayedData as record, index}
+                                {#if formattedPageData.length}
+                                    {#each formattedPageData as record, index}
                                         <tr data-index={index} on:click={(e)=>rowClicked(e, index)} on:dblclick={(e)=>rowDblClicked(e, index)}>
                                             {#each instructs as instruct}
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
@@ -675,11 +694,14 @@ onMount(async () => {
                                                 {:else}
                                                     <td data-key={instruct.key}>
                                                         {#if data[record[dataIdKey]]?.[checkboxKey]}
-                                                            <textarea bind:value={data[record[dataIdKey]][instruct.key]}></textarea>
-                                                        {:else if instruct?.parse === 'unsafe-html'}
-                                                            {@html (typeof (instruct?.render ?? null) === 'function') && instruct.render !== undefined ? instruct.render(data[record[dataIdKey]][instruct.key] ?? '') : (data[record[dataIdKey]][instruct.key] ?? '')}
+                                                            <div data-name="edit-block">
+                                                                <textarea data-name="edit-textarea" data-key={instruct.key}>{data[record[dataIdKey]][instruct.key]}</textarea>
+                                                                <button data-name="edit-submit">✔️</button>
+                                                            </div>
+                                                        {:else if instruct?.parseAs === 'unsafe-html'}
+                                                            {@html (record[instruct.key] ?? '')}
                                                         {:else}
-                                                            {(typeof (instruct?.render ?? null) === 'function') && instruct.render !== undefined ? instruct.render(data[record[dataIdKey]][instruct.key] ?? '') : (data[record[dataIdKey]][instruct.key] ?? '')}
+                                                            {(record[instruct.key] ?? '')}
                                                         {/if}
                                                     </td>
                                                 {/if}
@@ -790,4 +812,3 @@ onMount(async () => {
         </div>
     {/each}
 </div>
-    

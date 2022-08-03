@@ -95,14 +95,13 @@ let ptInstructs = [
 
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
-|  `key`  | string | | A unique string representing the column |
+| `key`  | string | | A unique string representing the column |
 | `title` | string | [value of `key`] | Text displayed on column's header |
 | `sortable` | boolean | true | Whether the column is sortable |
 | `filterable` | boolean | true | Whether the column can be filtered |
 | `filterPhrase` | string | "" | The column's default filter phrase |
-| `isRegex` | boolean | false | Whether the default filterPhrase is Regex (for remote data) |
-| `parse` | 'text'\| 'unsafe-html' | 'text' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
-| `render` | function | | A user defined function to intercept and modify the contents of the column |
+| `filterIsRegex` | boolean | false | Whether the default filterPhrase is Regex (for remote data) |
+| `parseAs` | 'text'\| 'unsafe-html' | 'text' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
 
 ❷ The prop `ptOptions` is an object that allows adjusting various features of the table. All properties are optional.
 
@@ -129,16 +128,16 @@ let ptOptions = {
 | `footerFilters` | boolean | true | Whether to show footer filter text fields |
 | `headerLoadingBar` | boolean | true | Whether to show header loading bar for remote data |
 | `footerLoadingBar` | boolean | true | Whether to show footer loading bar for remote data |
-| `defaultRegexFlags` | string | 'misu' | The default RegEx flags |
+| `defaultRegexFlags` | string | 'gimsu' | The default RegEx flags |
 | `nestedSorting` | boolean | false | Whether the nested/multi-column sorting is enabled |
 | `isDataRemote` | boolean | false | Whether the data is fetched from a URL |
 | `totalRows` | number \| null | null | Total number of rows (when displaying remote data) |
 | `filteredRows` | number \| null | | Number of filtered rows (when displaying remote data) |
 | `currentPage` | number | 1 | The number of the displayed page |
-| `dataFeedFunction` | function | async () => ({}) | When `isDataRemote` is `true`, the output of this function will be used as `ptData` prop |
 | `searchPhrase` | string | "" | The default search phrase |
 | `searchIsRegex` | boolean | false | Whether the default search phrase is RegEx |
 | `checkboxColumn` | boolean | false | Whether to show checkbox selection column |
+| `userFunctions` | object | | [\[visit `userFunctions` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/userFunctions.md) |
 | `segments` | object | | [\[visit `segments` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/segments.md) |
 | `sortOrder` | object | | [\[visit `sortOrder` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/sortorder.md) |
 
@@ -223,6 +222,44 @@ You can add styling with SCSS or CSS. In order for the following solutions to wo
 ```
 
 For more detailed implementations, see the examples at https://muonw.github.io/powertable/examples/example1
+
+### Functions
+
+`getData`: once the component is mounted, `getData` can be called to retrieve the props as well as search and filter data. This function returns the following object:
+
+```
+{
+    options: ➤ current options (same structure as `ptOptions`),
+    instructs: ➤ the instructs (same structure as `ptInstructs`),
+    data: ➤ current contents (same structure as `ptData`),
+    search: {
+        isRegex: ➤ true or false (boolean),
+        value: ➤ the search phrase (string)
+    },
+    filters: {
+        [➤ `ptInstruct` key]: {
+            isRegex: ➤ true or false (boolean),
+            value: ➤ the filter phrase
+        },
+        ...
+    }
+}
+```
+
+`getRegexParts` receives a string RegEx and returns returns an object containing the RegEx delimiter, pattern, and flags as shown below. If the string is not a valid RegEx, `false` will be returned.
+
+```
+{
+    delimiter: ➤ string,
+    pattern: ➤ string,
+    flags: ➤ string
+}
+```
+
+## 📖 Complementary Documents
+
+Parts of the manual (includes information regarding layout customization and displaying remote/API data) have been moved to separate files located at https://github.com/muonw/powertable/tree/main/static/manual.
+
 
 ## 🎯 Objectives
 This repository exists to develop and maintain a tool that fulfills the following requirements:

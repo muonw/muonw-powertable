@@ -59,11 +59,13 @@ let pages = {
             This table demonstrates loading of data from an external source (e.g. an API). Data will be processed using client side JavaScript with 500 milliseconds intentional delay to simulate fetching from a server. However, in real life scenarios, data is processed on a server (e.g. with PHP, Node, etc.). To simplify the example, some features such as search, filters, and sorting have been disabled.
         {:else if $page.routeIdMatches[1] === '7'}
             Controls can be used to access and manipulate the data with custom functions. To explore this feature, follow these steps:<br>
-            <b>1.</b> Click on the <b>checkbox</b> at the beginning of a row to make the content of that row editable. Any modification to the contents is <b>instantaneously</b> stored without affecting the original dataset.<br>
-            <b>2.</b> Click on the <b>gear icon</b> (⚙️) located on the header of the first column to explore the default options for <b>adding</b>, <b>deleting</b>, and <b>selecting</b> data.<br>
-            <b>3.</b> Click on the toolbox icon (🛠️) next to the search box and select "<b>Export current data</b>". The generated file should reflect any changes you have made.<br>
+            <b>1.</b> Click on the <b>checkbox</b> at the beginning of a row to make the content of that row editable.<br>
+            <b>2.</b> Edit some of the fields. Once a textarea is in focus, a button with a check mark (✔️) will appear next to it. Clicking on that button will submit the changes to <b>all the fields in that row</b>.<br>
+            <b>3.</b> Once you finish editing the content of the row, click on one of the check mark buttons to save the changes. It doesn't matter which check mark button.<br>
+            <b>4.</b> Click on the <b>gear icon</b> (⚙️) located on the header of the first column to explore the default options for <b>adding</b>, <b>deleting</b>, and <b>selecting</b> data. To delete a row, you first need to select it.<br>
+            <b>5.</b> Click on the toolbox icon (🛠️) next to the search box and select "<b>Export current data</b>". The generated file reflects any changes you have made.<br>
         {:else if $page.routeIdMatches[1] === '8'}
-            This table utilizes a user-defined function to highlight search/filter matches. The search matches are depicted with a yellow highlight. Filter matches are blue, and the overlap of search and filter matches are green.
+            This table utilizes a user-defined function to highlight search/filter matches. The <b>search matches</b> are depicted with a yellow highlight. <b>Filter matches</b> are blue, and the <b>overlaps</b> of search and filter matches are green.
         {/if}
     </p>
 
