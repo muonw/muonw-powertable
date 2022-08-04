@@ -40,6 +40,17 @@ onMount(() => {
     ptInstructs = tempInstructs;
 });
 
+function customHighlight(pageContent: Data[]): Data[] {
+    pageContent = highlighter(pageContent, myPowerTable, ptInstructs);
+    return pageContent;
+}
+
+
+
+// ====================================================================
+// The code below could be moved to a separate file (e.g. highlight.ts)
+// ====================================================================
+
 // Assigning numbers to types of matches (search matches, filter matches, overlapping search and filter matches)
 const SEARCH_SEGMENT_TYPE: number = 1;
 const FILTER_SEGMENT_TYPE: number = 2;
@@ -71,16 +82,16 @@ type Matches = {
     [_: string]: number[]
 }[];
 
-function customHighlight(pageContent: Data[]) {
-    if (myPowerTable?.getData){
-        let searchMatches = locateMatches(pageContent);
-        pageContent = highlighter(pageContent, searchMatches);
+export function highlighter(pageContent: Data[], ptRef: SvelteComponent, ptInstructs: Instructs[]): Data[] {
+    if (ptRef?.getData){
+        let searchMatches = locateMatches(pageContent, ptRef, ptInstructs);
+        pageContent = highlightMatches(pageContent, searchMatches, ptInstructs);
     }
     return pageContent;
 }
 
 // This function creates an array of all matched character for each entry
-function locateMatches(pageContent: Data[]): Matches {
+function locateMatches(pageContent: Data[], ptRef: SvelteComponent, Instructs: Instructs[]): Matches {
     let searchPhrase: string;
     let searchIsRegex: boolean;
     let filters: Record<string, {
@@ -90,10 +101,10 @@ function locateMatches(pageContent: Data[]): Matches {
     let matches: Matches = [];
     
     // Since the component is mounted, the current search and filter phrases will be retrieved using the getData function
-    let currentData = myPowerTable.getData();
+    let currentData = ptRef.getData();
     searchPhrase = currentData.search?.value ?? '';
     searchIsRegex = currentData.search?.isRegex ?? false;
-    ptInstructs.forEach(instruct => {
+    Instructs.forEach(instruct => {
         filters[instruct.key] = {
             value: currentData.filters[instruct.key]?.value ?? '',
             isRegex: currentData.filters[instruct.key]?.isRegex ?? false
@@ -110,6 +121,12 @@ function locateMatches(pageContent: Data[]): Matches {
         if (searchIsRegex === false) {
             // Creating a Regex safe version of the search phrase
             let pattern = searchPhrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            // The non-RegEx search method looks for each word, not the exact phrase
+            let words = pattern.toLowerCase().match(/\S+/g);
+            if (words?.length) {
+                pattern =  words.join('|') ;
+            }
+
             searchRegex = new RegExp(pattern, 'gi');
         }
         else {
@@ -120,7 +137,7 @@ function locateMatches(pageContent: Data[]): Matches {
         }
 
         pageContent.forEach((row, rowIndex) => {
-            ptInstructs.forEach((instruct, instructIndex) => {
+            Instructs.forEach((instruct, instructIndex) => {
                 let curMatches: any[] = [];
                 // Global flag is required for matchAll
                 if (searchIsRegex === false || flags?.indexOf('g') !== -1) {
@@ -152,11 +169,16 @@ function locateMatches(pageContent: Data[]): Matches {
     // Locating the filter phrase matches
     let filterRegex = new RegExp('');
 
-    ptInstructs.forEach((instruct, instructIndex) => {
+    Instructs.forEach((instruct, instructIndex) => {
         if (filters[instruct.key]?.value) {
             if (filters[instruct.key].isRegex === false) {
                 // Creating a Regex safe version of the search phrase
                 let pattern = filters[instruct.key].value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                // The non-RegEx filter method looks for each word, not the exact phrase
+                let words = pattern.toLowerCase().match(/\S+/g);
+                if (words?.length) {
+                    pattern =  words.join('|') ;
+                }
                 filterRegex = new RegExp(pattern, 'gi');
             } else {
                 regexParts = getRegexParts(filters[instruct.key].value);
@@ -203,11 +225,11 @@ function locateMatches(pageContent: Data[]): Matches {
 
 
 // This function wraps the matches inside appropriate HTML tags
-function highlighter(pageContent: Data[], matches: Matches) {
+function highlightMatches(pageContent: Data[], matches: Matches, Instructs: Instructs[]) {
     let typesArray: number[] = [];
     
     pageContent.forEach((rowData, rowIndex) => {
-        ptInstructs.forEach(instruct => {
+        Instructs.forEach(instruct => {
             if (typesArray = matches[rowIndex]?.[instruct.key]) {
                 let tagType = -1;
                 let segment: Segment = {

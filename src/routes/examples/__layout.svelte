@@ -11,7 +11,7 @@ let pages = {
     5: 'Styling',
     6: 'Remote Data',
     7: 'Editing & Controls',
-    8: 'Highlighting',
+    8: 'Search & Highlights',
 };
 </script>
 
@@ -65,7 +65,13 @@ let pages = {
             <b>4.</b> Click on the <b>gear icon</b> (⚙️) located on the header of the first column to explore the default options for <b>adding</b>, <b>deleting</b>, and <b>selecting</b> data. To delete a row, you first need to select it.<br>
             <b>5.</b> Click on the toolbox icon (🛠️) next to the search box and select "<b>Export current data</b>". The generated file reflects any changes you have made.<br>
         {:else if $page.routeIdMatches[1] === '8'}
-            This table utilizes a user-defined function to highlight search/filter matches. The <b>search matches</b> are depicted with a yellow highlight. <b>Filter matches</b> are blue, and the <b>overlaps</b> of search and filter matches are green.
+            This table utilizes a user-defined function to highlight search/filter matches. The <b>search matches</b> are depicted with a yellow highlight. <b>Filter matches</b> are blue, and the <b>overlaps</b> of search and filter matches are green.<br>
+            ℹ️ Unlike <b>highlighting</b> that relies on <b>user-defined</b> functions, <b>filtering and searching</b> are <b>built-in</b> features.<br>
+            ℹ️ While both filter and search are designed to <b>filter</b> the data, their scopes are different. Filter applies to a single column, while search applies to the entire dataset.<br>
+            ℹ️ By default, spaces and the order of the words in a search/filter phrase are ignored. For example the phrase <code>1 2</code> can match <code>12</code>, <code>21</code>, <code>102</code>, <code>1 2</code>, etc.<br>
+            ℹ️ If you need to look for an exact match, or a complex pattern, use RegEx. For example <code>/1 2/</code> only matches <code>1 2</code>.<br>
+            ℹ️ RegEx expressions will be automatically detected and the default flags will be added to them.<br>
+            ℹ️ In rare cases you may need to search for a word that appears to be a valid RegEx pattern (e.g. <code>#tag#</code>). Adding a space at the beginning of the phrase will cancel the auto RegEx detection.
         {/if}
     </p>
 
@@ -104,5 +110,10 @@ a.selected {
     padding: 10px;
     border-radius: 5px;
     line-height: 1.2rem;
+}
+code {
+    background-color: #fffddb;
+    padding: 1px 2px;
+    border-radius: 3px;
 }
 </style>

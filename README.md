@@ -88,7 +88,7 @@ Example:
 ```javascript
 let ptInstructs = [
     {key: 'id'},
-    {key: 'name', title: 'Full Name', render: myFunction},
+    {key: 'name', title: 'Full Name'},
     {key: 'gender', title: 'Gender', sortable: false},
 ];
 ```
@@ -246,7 +246,7 @@ For more detailed implementations, see the examples at https://muonw.github.io/p
 }
 ```
 
-`getRegexParts` receives a string RegEx and returns returns an object containing the RegEx delimiter, pattern, and flags as shown below. If the string is not a valid RegEx, `false` will be returned.
+`getRegexParts` receives a string RegEx and returns an object containing the RegEx delimiter, pattern, and flags as shown below. If the string is not a valid RegEx, `false` will be returned.
 
 ```
 {
