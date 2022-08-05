@@ -3,10 +3,14 @@ export interface Instructs {
     key: string,
     title?: string,
     sortable?: boolean,
+    sortCaseSensitive?: boolean,
     filterable?: boolean,
     filterPhrase?: string,
     filterIsRegex?: boolean,
     parseAs?: 'text' | 'unsafe-html',
+    userFunctions?: {
+        customSort?(v1: string, v2: string): number,
+    }
 }
 
 export interface Data {
@@ -347,31 +351,32 @@ function applySort() {
     See the License for the specific language governing permissions and
     limitations under the License.
     */
-    var firstBy = (function() {
-        function identity(v:any){return v;}
-        function ignoreCase(v:any){return typeof(v)==="string" ? v.toLowerCase() : v;}
-        function makeCompareFunction(f:any, opt:any){
-            opt = typeof(opt)==="object" ? opt : {direction:opt};
+    const firstBy = (function() {        
+        const preserveCase = (v: string) => v;
+        const removeCase = (v: string) => typeof(v) === "string" ? v.toLowerCase() : v;
+        const makeCompareFunction = (f:any, opt:any) => {
+            opt = typeof(opt) === "object" ? opt : {direction: opt};
             if(typeof(f)!="function"){var prop = f; f = function(v1:any){return !!v1[prop] ? v1[prop] : "";}}
             if(f.length === 1) {
                 var uf = f;
-                var preProcess = opt.ignoreCase?ignoreCase:identity;
-                var cmp = opt.cmp || function(v1:any,v2:any) {return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;}
-                f = function(v1:any,v2:any) {return cmp(preProcess(uf(v1)), preProcess(uf(v2)));}
+                var preProcess = opt.caseSensitive ? preserveCase : removeCase;
+                var cmp = opt.cmp || function(v1: string, v2: string) { return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;};
+                f = (v1: string, v2: string) => cmp(preProcess(uf(v1)), preProcess(uf(v2)));
             }
             const descTokens = {"-1":'', desc:''};
-            if(opt.direction in descTokens) return function(v1:any,v2:any){return -f(v1,v2)};
+            if(opt.direction in descTokens) return function(v1: string, v2: string){return -f(v1,v2)};
             return f;
         }
 
-        function tb(func:any, opt:any) {
+        function tb(func:any, opt:any): Function {
             // @ts-ignore
-            var x = (typeof(this) == "function" && !this.firstBy) ? this : false;
+            var x = (typeof(this) === "function" && !this.firstBy) ? this : false;
             var y = makeCompareFunction(func, opt);
             var f = x ? function(a:any, b:any) { return x(a,b) || y(a,b); } : y;
             f.thenBy = tb;
             return f;
         }
+        
         tb.firstBy = tb;
         return tb;
     })();
@@ -380,13 +385,30 @@ function applySort() {
     sortedData = matchedData;
     
     let compFunc: any;
-    
+
     if (Object.keys(sorting).length){
         Object.entries(sorting).forEach(([key, dir], index) => {
+            let opt: {
+                caseSensitive: boolean,
+                direction: SortString,
+                cmp?: Function
+            } = {
+                caseSensitive: false,
+                direction: dir
+            }
+
+            let instruct = instructs.find(instruct => instruct.key === key);
+            if (instruct?.sortCaseSensitive) {
+                opt.caseSensitive = true;
+            }
+            if (instruct?.userFunctions?.customSort) {
+                opt.cmp = instruct.userFunctions.customSort;
+            }
+            
             if (index === 0) {
-                compFunc = firstBy(key, {ignoreCase:true, direction: dir});
+                compFunc = firstBy(key, opt);
             } else {
-                compFunc = compFunc.thenBy(key, {ignoreCase:true, direction: dir});
+                compFunc = compFunc.thenBy(key, opt);
             }
         });
 
@@ -432,7 +454,7 @@ function applyFilters() {
                 });
             });
         } else {
-            let words = searchObj.value.toLowerCase().match(/\S+/g);
+            let words = searchObj.value.trim().toLowerCase().match(/\S+/g);
 
             // Iterate over the rows
             matchedData = matchedData.filter(d => {
@@ -482,7 +504,7 @@ function applyFilters() {
             }
 
             if ( ! filter.isRegex) {
-                let words = filter.value.toLowerCase().match(/\S+/g);
+                let words = filter.value.trim().toLowerCase().match(/\S+/g);
 
                 // Iterate over the rows and remove the matching words from unmatchedWords
                 matchedData = matchedData.filter(d => {

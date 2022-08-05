@@ -120,7 +120,7 @@ function locateMatches(pageContent: Data[], ptRef: SvelteComponent, Instructs: I
 
         if (searchIsRegex === false) {
             // Creating a Regex safe version of the search phrase
-            let pattern = searchPhrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            let pattern = searchPhrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&').trim();
             // The non-RegEx search method looks for each word, not the exact phrase
             let words = pattern.toLowerCase().match(/\S+/g);
             if (words?.length) {
@@ -173,7 +173,7 @@ function locateMatches(pageContent: Data[], ptRef: SvelteComponent, Instructs: I
         if (filters[instruct.key]?.value) {
             if (filters[instruct.key].isRegex === false) {
                 // Creating a Regex safe version of the search phrase
-                let pattern = filters[instruct.key].value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                let pattern = filters[instruct.key].value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&').trim();
                 // The non-RegEx filter method looks for each word, not the exact phrase
                 let words = pattern.toLowerCase().match(/\S+/g);
                 if (words?.length) {

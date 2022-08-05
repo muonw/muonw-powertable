@@ -12,6 +12,7 @@ let pages = {
     6: 'Remote Data',
     7: 'Editing & Controls',
     8: 'Search & Highlights',
+    9: 'Custom Sort',
 };
 </script>
 
@@ -68,10 +69,17 @@ let pages = {
             This table utilizes a user-defined function to highlight search/filter matches. The <b>search matches</b> are depicted with a yellow highlight. <b>Filter matches</b> are blue, and the <b>overlaps</b> of search and filter matches are green.<br>
             ℹ️ Unlike <b>highlighting</b> that relies on <b>user-defined</b> functions, <b>filtering and searching</b> are <b>built-in</b> features.<br>
             ℹ️ While both filter and search are designed to <b>filter</b> the data, their scopes are different. Filter applies to a single column, while search applies to the entire dataset.<br>
-            ℹ️ By default, spaces and the order of the words in a search/filter phrase are ignored. For example the phrase <code>1 2</code> can match <code>12</code>, <code>21</code>, <code>102</code>, <code>1 2</code>, etc.<br>
-            ℹ️ If you need to look for an exact match, or a complex pattern, use RegEx. For example <code>/1 2/</code> only matches <code>1 2</code>.<br>
-            ℹ️ RegEx expressions will be automatically detected and the default flags will be added to them.<br>
-            ℹ️ In rare cases you may need to search for a word that appears to be a valid RegEx pattern (e.g. <code>#tag#</code>). Adding a space at the beginning of the phrase will cancel the auto RegEx detection.
+            ℹ️ By default, white-space characters and the order of the words in a search/filter phrase are ignored. For example the phrase <code>1 2</code> can match <code>12</code>, <code>21</code>, <code>102</code>, <code>1 2</code>, etc.<br>
+            ℹ️ To look for an exact phrase match, or a complex pattern, use RegEx. For example <code>/1 2/</code> only matches <code>1 2</code>.<br>
+            ℹ️ RegEx expressions will be detected automatically and the default flags will be added to them.<br>
+            ℹ️ To search for a word or phrase that is a valid RegEx pattern (e.g. <code>/(^.^)*/</code>) but should not be interpreted as RegEx, add a space character before the word/phrase.<br>
+            ℹ️ Filtering by a range of numbers or dates is not a built-in feature. However, RegEx can be used to find ranges (e.g. to find numbers 3-18 use <code>/^([3-9]|1[0-8])$/</code>).<br>
+        {:else if $page.routeIdMatches[1] === '9'}
+            This table utilizes user-defined functions to sort numbers, dates, and colors. Additionally, multi-column sorting has been enabled to fine-tune the sorting.<br>
+            ℹ️ By default, columns can only be sorted alphabetically. This may not be desired for certain data types. For example, the numbers <code>1,100,11</code> are sorted alphabetically, while <code>1,11,100</code> is often the desired order. User-defined functions can override the default sorting behavior.<br>
+            <b>1.</b> Click on the header of the <b>Score</b> column twice, so that the highest score would be on top.<br>
+            <b>2.</b> Click on the header of the <b>Full Name</b> column to sort the names of the people who have the same score. Note that since multi-column sorting is enabled and scores are already sorted, sorting any additional column cannot cause any change in the score column. This means that only rows that have identical scores are free to be rearranged.<br>
+            <b>3.</b> Cancel the sorting of the <b>Full Name</b> column (click on its header until it's not sorted anymore) and try sorting the <b>Birthday</b> or <b>Favorite Color</b> columns instead. A user-defined function sets the expected order of the colors, which is the order rainbow colors: Red, Orange, Yellow, Green, Cyan, Blue, Violet.<br>
         {/if}
     </p>
 
