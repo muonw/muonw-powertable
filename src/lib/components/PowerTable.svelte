@@ -426,13 +426,13 @@ function applySort() {
 function applyFilters() {
     // Make a copy of original data
     matchedData = JSON.parse(JSON.stringify(data));
-    
+    searchObj.isRegex = false;
+    searchObj.isCustom = false;
+
     if (searchObj.value) {
         // By default search continues after a custom search
         let customSearchContinue: boolean = true;
-        searchObj.isRegex = false;
-        searchObj.isCustom = false;
-
+        
         if (typeof (options.userFunctions?.customSearch ?? null) === 'function' && options.userFunctions?.customSearch !== undefined) {
             let customSearchResult = options.userFunctions.customSearch(matchedData, searchObj.value);
             matchedData = customSearchResult.data;
@@ -499,11 +499,12 @@ function applyFilters() {
 
     // Filter out any row that doesn't match the filter phrases
     Object.entries(filterObj).forEach(([key, filter]) => {   
+        filter.isRegex = false;
+        filter.isCustom = false;
+        
         if (filter.value?.length) {
             // By default filter continues after a custom filter
             let customFilterContinue: boolean = true;
-            filter.isRegex = false;
-            filter.isCustom = false;
 
             let correspondingInstruct = instructs.find(d => d.key === key);
             
