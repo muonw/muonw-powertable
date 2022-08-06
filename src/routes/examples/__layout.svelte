@@ -75,7 +75,7 @@ let pages = {
             ℹ️ By default, white-space characters and the order of the words in a search/filter phrase are ignored. For example the phrase <code>1 2</code> can match <code>12</code>, <code>21</code>, <code>102</code>, <code>1 2</code>, etc.<br>
             ℹ️ To look for an exact phrase match, or a complex pattern, use RegEx. For example <code>/1 2/</code> only matches <code>1 2</code>.<br>
             ℹ️ Once a RegEx expression is detected, the default flags will be added to it and a distinctive styling will be applied to it.<br>
-            ℹ️ To search for a word or phrase that is a valid RegEx pattern (e.g. <code>/(^.^)*/</code>) but should not be interpreted as RegEx, add a space character at the beginning of the input.<br>
+            ℹ️ To search for a word or phrase that is a valid RegEx pattern (e.g. <code>/(^.^)*/</code>) but should not be interpreted as RegEx, add a space character before or after it.<br>
         {:else if $page.routeIdMatches[1] === '9'}
             This table utilizes user-defined functions to sort numbers, dates, and colors. Additionally, multi-column sorting has been enabled to fine-tune the sorting.<br>
             ℹ️ By default, columns can only be sorted alphabetically. This may not be desired for certain data types. For example, the numbers <code>1,100,11</code> are sorted alphabetically, while <code>1,11,100</code> is often the desired order. User-defined functions can override the default sorting behavior.<br>

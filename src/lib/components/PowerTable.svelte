@@ -500,8 +500,8 @@ function applyFilters() {
     // Filter out any row that doesn't match the filter phrases
     Object.entries(filterObj).forEach(([key, filter]) => {   
         let previousFilter: Lookup = JSON.parse(JSON.stringify(filter));
-        filter.isRegex = false;
-        filter.isCustom = false;
+        filterObj[key].isRegex = false;
+        filterObj[key].isCustom = false;
         
         if (filter.value?.length) {
             // By default filter continues after a custom filter
@@ -513,7 +513,7 @@ function applyFilters() {
                 let customFilterResult = correspondingInstruct.userFunctions.customFilter(matchedData, filter.value);
                 matchedData = customFilterResult.data;
                 customFilterContinue = customFilterResult.continue;
-                filter.isCustom = !customFilterContinue;
+                filterObj[key].isCustom = !customFilterContinue;
             }
             
             if (customFilterContinue !== false) {
@@ -523,12 +523,12 @@ function applyFilters() {
                     // If the regex format is invalid (e.g. wrong flags), revert to literal search
                     try {
                         let flags: string | undefined = regexParts.flags;
-                        filter.isRegex = true;
+                        filterObj[key].isRegex= true;
 
                         // Unless all flags are just being deleted from a regex, add the default flags
-                        if ( ! regexParts?.flags && ! previousFilter.isRegex) {
+                        if ( ! regexParts?.flags && ! previousFilter.isRegex && filterObj[key]?.value) {
                             flags = options.defaultRegexFlags;
-                            filter.value += flags;
+                            filterObj[key].value! += flags;
                         }
 
                         // @ts-ignore Shhhh!
