@@ -426,6 +426,7 @@ function applySort() {
 function applyFilters() {
     // Make a copy of original data
     matchedData = JSON.parse(JSON.stringify(data));
+    let previousSearchObj: Lookup = JSON.parse(JSON.stringify(searchObj));
     searchObj.isRegex = false;
     searchObj.isCustom = false;
 
@@ -442,7 +443,6 @@ function applyFilters() {
 
         // Filter out any row that doesn't match the searched phrase
         if (customSearchContinue !== false) {
-            let previousSearchObj: Lookup = JSON.parse(JSON.stringify(searchObj));
             let regexParts: RegexParts | boolean = getRegexParts(searchObj.value);
             let regexp: RegExp;
 
@@ -499,6 +499,7 @@ function applyFilters() {
 
     // Filter out any row that doesn't match the filter phrases
     Object.entries(filterObj).forEach(([key, filter]) => {   
+        let previousFilter: Lookup = JSON.parse(JSON.stringify(filter));
         filter.isRegex = false;
         filter.isCustom = false;
         
@@ -516,8 +517,6 @@ function applyFilters() {
             }
             
             if (customFilterContinue !== false) {
-                let previousFilter: Lookup = JSON.parse(JSON.stringify(filter));
-                
                 let regexParts: RegexParts | boolean = getRegexParts(filter.value);
 
                 if (regexParts) {

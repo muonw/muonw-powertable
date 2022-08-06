@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-edf465a1.js",
+    "file": "start-9b9f24c0.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -58,125 +58,125 @@
     ]
   },
   "src/routes/examples/example1.svelte": {
-    "file": "pages/examples/example1.svelte-30340759.js",
+    "file": "pages/examples/example1.svelte-50f9ed00.js",
     "src": "src/routes/examples/example1.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ]
   },
   "src/routes/examples/example10.svelte": {
-    "file": "pages/examples/example10.svelte-e0cc80ac.js",
+    "file": "pages/examples/example10.svelte-62205b04.js",
     "src": "src/routes/examples/example10.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_scores-4bc0f8bf.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ],
     "css": [
       "assets/pages/examples/example10.svelte-bb757801.css"
     ]
   },
   "src/routes/examples/example2.svelte": {
-    "file": "pages/examples/example2.svelte-342597d3.js",
+    "file": "pages/examples/example2.svelte-a47197c5.js",
     "src": "src/routes/examples/example2.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ]
   },
   "src/routes/examples/example3.svelte": {
-    "file": "pages/examples/example3.svelte-f5122b19.js",
+    "file": "pages/examples/example3.svelte-dd36f0da.js",
     "src": "src/routes/examples/example3.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ],
     "css": [
       "assets/pages/examples/example3.svelte-7e226707.css"
     ]
   },
   "src/routes/examples/example4.svelte": {
-    "file": "pages/examples/example4.svelte-d85d5fc3.js",
+    "file": "pages/examples/example4.svelte-ea68915f.js",
     "src": "src/routes/examples/example4.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ]
   },
   "src/routes/examples/example5.svelte": {
-    "file": "pages/examples/example5.svelte-31f3993e.js",
+    "file": "pages/examples/example5.svelte-569fc35e.js",
     "src": "src/routes/examples/example5.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ],
     "css": [
       "assets/pages/examples/example5.svelte-5efb7ec5.css"
     ]
   },
   "src/routes/examples/example6.svelte": {
-    "file": "pages/examples/example6.svelte-8a03888b.js",
+    "file": "pages/examples/example6.svelte-a8d34dac.js",
     "src": "src/routes/examples/example6.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ]
   },
   "src/routes/examples/example7.svelte": {
-    "file": "pages/examples/example7.svelte-83dc2a99.js",
+    "file": "pages/examples/example7.svelte-95559dd9.js",
     "src": "src/routes/examples/example7.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ]
   },
   "src/routes/examples/example8.svelte": {
-    "file": "pages/examples/example8.svelte-a532e28c.js",
+    "file": "pages/examples/example8.svelte-7fb12200.js",
     "src": "src/routes/examples/example8.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ],
     "css": [
       "assets/pages/examples/example8.svelte-467f675a.css"
     ]
   },
   "src/routes/examples/example9.svelte": {
-    "file": "pages/examples/example9.svelte-f3408d64.js",
+    "file": "pages/examples/example9.svelte-04b658c3.js",
     "src": "src/routes/examples/example9.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_scores-4bc0f8bf.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ],
     "css": [
       "assets/pages/examples/example10.svelte-bb757801.css"
@@ -192,14 +192,14 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-39045191.js",
+    "file": "pages/index.svelte-8aa84c91.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-dd35eac1.js"
+      "_PowerTable-81b9e14d.js"
     ]
   },
   "_index-5436dd91.js": {
@@ -208,8 +208,8 @@
   "_jobs-05b5ef9c.js": {
     "file": "chunks/jobs-05b5ef9c.js"
   },
-  "_PowerTable-dd35eac1.js": {
-    "file": "chunks/PowerTable-dd35eac1.js",
+  "_PowerTable-81b9e14d.js": {
+    "file": "chunks/PowerTable-81b9e14d.js",
     "imports": [
       "_index-5436dd91.js"
     ]

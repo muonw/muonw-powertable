@@ -309,6 +309,7 @@ function applySort() {
 function applyFilters() {
     // Make a copy of original data
     matchedData = JSON.parse(JSON.stringify(data));
+    let previousSearchObj = JSON.parse(JSON.stringify(searchObj));
     searchObj.isRegex = false;
     searchObj.isCustom = false;
     if (searchObj.value) {
@@ -322,7 +323,6 @@ function applyFilters() {
         }
         // Filter out any row that doesn't match the searched phrase
         if (customSearchContinue !== false) {
-            let previousSearchObj = JSON.parse(JSON.stringify(searchObj));
             let regexParts = getRegexParts(searchObj.value);
             let regexp;
             if (regexParts) {
@@ -375,6 +375,7 @@ function applyFilters() {
     }
     // Filter out any row that doesn't match the filter phrases
     Object.entries(filterObj).forEach(([key, filter]) => {
+        let previousFilter = JSON.parse(JSON.stringify(filter));
         filter.isRegex = false;
         filter.isCustom = false;
         if (filter.value?.length) {
@@ -388,7 +389,6 @@ function applyFilters() {
                 filter.isCustom = !customFilterContinue;
             }
             if (customFilterContinue !== false) {
-                let previousFilter = JSON.parse(JSON.stringify(filter));
                 let regexParts = getRegexParts(filter.value);
                 if (regexParts) {
                     // If the regex format is invalid (e.g. wrong flags), revert to literal search
