@@ -3,10 +3,18 @@ export interface Instructs {
     key: string;
     title?: string;
     sortable?: boolean;
+    sortCaseSensitive?: boolean;
     filterable?: boolean;
     filterPhrase?: string;
     filterIsRegex?: boolean;
     parseAs?: 'text' | 'unsafe-html';
+    userFunctions?: {
+        customSort?(v1: string, v2: string): number;
+        customFilter?(data: Data[], searchPhrase: string): {
+            data: Data[];
+            continue: boolean;
+        };
+    };
 }
 export interface Data {
     [_: string]: any;
@@ -34,7 +42,11 @@ export interface Options {
     checkboxColumn?: boolean;
     userFunctions?: {
         dataFeed?(data: Record<string, any>): Promise<DataFeed>;
-        pageMod?(data: Data[]): Data[];
+        customParse?(data: Data[]): Data[];
+        customSearch?(data: Data[], searchPhrase: string): {
+            data: Data[];
+            continue: boolean;
+        };
     };
     segments?: Record<string, Array<'settings' | 'search' | 'pagination' | 'table' | 'dropdown' | 'stats'>>;
     sortOrder?: {
@@ -52,8 +64,9 @@ export declare type RegexParts = {
     flags: string;
 };
 declare type Lookup = {
-    isRegex?: boolean;
     value?: string;
+    isRegex?: boolean;
+    isCustom?: boolean;
 };
 export declare let dataIdKey: string;
 export declare let checkboxKey: string;

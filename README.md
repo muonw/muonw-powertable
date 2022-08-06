@@ -9,12 +9,13 @@ PowerTable is a JavaScript component that turns JSON data into an interactive HT
 ## ✨ Features
 
 - No runtime dependencies
-- Sorting (single- and multi-column)
-- Filtering (per column and global. RegEx)
+- Sorting (single- and multi-column + custom sorting)
+- Filtering (per column and global + RegEx + custom filtering)
 - Inline editing
 - Re-arrangeable layout segments
 - Optional styling
-- Custom parsing per column
+- Custom parsing
+- Local and remote data source
 - Usable as Svelte component or ES module
 
 ## ⚡️ Quick start
@@ -98,6 +99,7 @@ let ptInstructs = [
 | `key`  | string | | A unique string representing the column |
 | `title` | string | [value of `key`] | Text displayed on column's header |
 | `sortable` | boolean | true | Whether the column is sortable |
+| `sortCaseSensitive` | boolean | false | Whether sorting should be case sensitive |
 | `filterable` | boolean | true | Whether the column can be filtered |
 | `filterPhrase` | string | "" | The column's default filter phrase |
 | `filterIsRegex` | boolean | false | Whether the default filterPhrase is Regex (for remote data) |

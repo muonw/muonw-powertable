@@ -16,7 +16,7 @@ let ptInstructs: Instructs[] = [
 
 let ptOptions: Options = {
     userFunctions: {
-        pageMod: addEmoji
+        customParse: addEmoji
     }
 }
 

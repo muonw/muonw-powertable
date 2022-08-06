@@ -88,6 +88,9 @@
                             color: #8f0194;
                             font-weight: bold;
                         }
+                        &[data-is_custom=true]{
+                            color: #017599;
+                        }
                     }
                 }
             }
@@ -143,6 +146,9 @@
             &[data-is_regex=true]{
                 color: #8f0194;
                 font-weight: bold;
+            }
+            &[data-is_custom=true]{
+                color: #017599;
             }
         }
     }

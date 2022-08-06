@@ -14,7 +14,7 @@ let ptInstructs: Instructs[] = [
 
 let ptOptions: Options = {
     userFunctions: {
-        pageMod: addColors,
+        customParse: addColors,
     },
     nestedSorting: true,
     checkboxColumn: true

@@ -87,6 +87,9 @@
   color: #8f0194;
   font-weight: bold;
 }
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=filters-tr] input[data-is_custom=true], .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=filters-tr] input[data-is_custom=true] {
+  color: #017599;
+}
 .MuonW.PowerTable div[data-name=table-container] table tbody tr {
   box-shadow: 0 0 1px 0px #888;
 }
@@ -135,6 +138,9 @@
 .MuonW.PowerTable div[data-name=search-container] input[data-name=search-input][data-is_regex=true] {
   color: #8f0194;
   font-weight: bold;
+}
+.MuonW.PowerTable div[data-name=search-container] input[data-name=search-input][data-is_custom=true] {
+  color: #017599;
 }
 .MuonW.PowerTable div[data-name=topBar], .MuonW.PowerTable div[data-name=bottomBar] {
   display: flex;

@@ -14,7 +14,7 @@ onMount(() => {
     ptData = data;
     ptOptions = {
         userFunctions: {
-            pageMod: customHighlight
+            customParse: myHighlight
         },
         searchPhrase: '/a.*t/gimsu',
         searchIsRegex: true,
@@ -40,7 +40,7 @@ onMount(() => {
     ptInstructs = tempInstructs;
 });
 
-function customHighlight(pageContent: Data[]): Data[] {
+function myHighlight(pageContent: Data[]): Data[] {
     pageContent = highlighter(pageContent, myPowerTable, ptInstructs);
     return pageContent;
 }

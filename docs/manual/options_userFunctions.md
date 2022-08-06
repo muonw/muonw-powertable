@@ -3,7 +3,8 @@ The `userFunctions` property in `ptOptions` prop is an object that can contain t
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
 | `dataFeed` | function | async () => ({}) | When `isDataRemote` is `true`, the output of this function will be used as `ptData` prop |
-| `pageMod` | function | (d) => d | A user defined function to intercept and modify the content of the current page |
+| `customParse` | function | | A user defined function to intercept and modify the content of the current page |
+| `customSearch` | function | | A user defined function to override the search process |
 
 
 The value of `dataFeed` should be a function that returns remote data (e.g. from and API). The function will receive an object (defined below) containing the information required to generate the props. 
@@ -36,4 +37,6 @@ and should return the following object:
 }
 ```
 
-The value of `pageMod` should a function that returns the modified content of the current page. The function will receive a slice of the `ptData` that contains the current page's data. 
+The value of `customParse` should be a function that returns the modified content of the current page. The function will receive a slice of the `ptData` that contains the current page's data.
+
+The value of `customSearch` should be a function that returns a slice of `ptData` after performing search. The function will receive the `ptData`.

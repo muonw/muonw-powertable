@@ -10,6 +10,7 @@ export interface Instructs {
     parseAs?: 'text' | 'unsafe-html',
     userFunctions?: {
         customSort?(v1: string, v2: string): number,
+        customFilter?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
     }
 }
 
@@ -41,7 +42,8 @@ export interface Options {
     checkboxColumn?: boolean,
     userFunctions?: {
         dataFeed?(data: Record<string,any>): Promise<DataFeed>,
-        pageMod?(data: Data[]): Data[],
+        customParse?(data: Data[]): Data[],
+        customSearch?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
     },
     segments?: Record<string,Array<'settings'|'search'|'pagination'|'table'|'dropdown'|'stats'>>,
     sortOrder?: {[k in SortString]?: SortString},
@@ -68,8 +70,9 @@ export type RegexParts = {
 }
 
 type Lookup = {
+    value?: string,
     isRegex?: boolean,
-    value?: string
+    isCustom?: boolean
 }
 
 // PowerTable check box key name
@@ -139,7 +142,6 @@ let options: Options = {
     currentPage: 1,
     userFunctions: {
         dataFeed: async () => ({}),
-        pageMod: (d) => d,
     },
     searchPhrase: '',
     searchIsRegex: false,
@@ -198,8 +200,9 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
     // The `preserveFilters` action is intended to affect both "filters" and "search"
     if (!searchObj?.value || !action?.preserveFilters){
         searchObj = {
-            'isRegex': options.searchIsRegex,
-            'value': options.searchPhrase,
+            value: options.searchPhrase,
+            isRegex: options.searchIsRegex,
+            isCustom: false
         }
     }
     
@@ -237,8 +240,9 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
                 });
 
                 filterObj[key] = {
-                    'isRegex': false,
-                    'value': ''
+                    value: '',
+                    isRegex: false,
+                    isCustom: false
                 }
             }
         });
@@ -256,8 +260,9 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
                 // If filters aren't set or should not be preserved, reset them
                 if (!filterObj[instruct.key] || !action?.preserveFilters){
                     filterObj[instruct.key] = {
-                        'isRegex': instruct?.filterIsRegex ?? false,
-                        'value': instruct?.filterPhrase ?? ''
+                        value: instruct?.filterPhrase ?? '',
+                        isRegex: instruct?.filterIsRegex ?? false,
+                        isCustom: false
                     }
                 }
             }
@@ -271,8 +276,9 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
         instructs = [specialInstructs[checkboxKey], ...instructs];
     
         filterObj[checkboxKey] = {
-            'isRegex': false,
-            'value': ''
+            value: '',
+            isRegex: false,
+            isCustom: false
         }
     }
 
@@ -418,108 +424,136 @@ function applySort() {
 
 // Applies filters and search, when data is not remote
 function applyFilters() {
-    // make a copy of original data
+    // Make a copy of original data
     matchedData = JSON.parse(JSON.stringify(data));
-    let previousSearchObj: Lookup = JSON.parse(JSON.stringify(searchObj));
-    searchObj.isRegex = false;
-
-    // Filter out any row that doesn't match the searched phrase
+    
     if (searchObj.value) {
-        let regexParts: RegexParts | boolean = getRegexParts(searchObj.value);
-        let regexp: RegExp;
+        // By default search continues after a custom search
+        let customSearchContinue: boolean = true;
+        searchObj.isRegex = false;
+        searchObj.isCustom = false;
 
-        if (regexParts) {
-            try {
-                let flags: string | undefined = regexParts.flags;
-                searchObj.isRegex = true;
-
-                // Unless all flags are just being deleted from a regex, add the default flags
-                if ( ! regexParts?.flags && ! previousSearchObj.isRegex) {
-                    flags = options.defaultRegexFlags;
-                    searchObj.value += flags;
-                }
-
-                regexp = new RegExp(regexParts.pattern, flags);
-            } catch(e) {}
+        if (typeof (options.userFunctions?.customSearch ?? null) === 'function' && options.userFunctions?.customSearch !== undefined) {
+            let customSearchResult = options.userFunctions.customSearch(matchedData, searchObj.value);
+            matchedData = customSearchResult.data;
+            customSearchContinue = customSearchResult.continue;
+            searchObj.isCustom = !customSearchContinue;
         }
 
-        if (searchObj.isRegex) { 
-            matchedData = matchedData.filter(d => {
-                return Object.keys(d).some(key => {
-                    if (!specialInstructs.hasOwnProperty(key)) {
-                        return regexp.test(d?.[key]);
-                    } else {
-                        return false;
-                    }
-                });
-            });
-        } else {
-            let words = searchObj.value.trim().toLowerCase().match(/\S+/g);
+        // Filter out any row that doesn't match the searched phrase
+        if (customSearchContinue !== false) {
+            let previousSearchObj: Lookup = JSON.parse(JSON.stringify(searchObj));
+            let regexParts: RegexParts | boolean = getRegexParts(searchObj.value);
+            let regexp: RegExp;
 
-            // Iterate over the rows
-            matchedData = matchedData.filter(d => {
-                let unmatchedWords = Object.assign([], words);
-                // Iterate over the fields and remove the matching words from unmatchedWords
-                for (let key of Object.keys(d)) {
-                    // If not a special column (e.g. checkboxes)
-                    if (!specialInstructs.hasOwnProperty(key)) {
+            if (regexParts) {
+                try {
+                    let flags: string | undefined = regexParts.flags;
+                    searchObj.isRegex = true;
+
+                    // Unless all flags are just being deleted from a regex, add the default flags
+                    if ( ! regexParts?.flags && ! previousSearchObj.isRegex) {
+                        flags = options.defaultRegexFlags;
+                        searchObj.value += flags;
+                    }
+
+                    regexp = new RegExp(regexParts.pattern, flags);
+                } catch(e) {}
+            }
+
+            if (searchObj.isRegex) { 
+                matchedData = matchedData.filter(d => {
+                    return Object.keys(d).some(key => {
+                        if (!specialInstructs.hasOwnProperty(key)) {
+                            return regexp.test(d?.[key]);
+                        } else {
+                            return false;
+                        }
+                    });
+                });
+            } else {
+                let words = searchObj.value.trim().toLowerCase().match(/\S+/g);
+
+                // Iterate over the rows
+                matchedData = matchedData.filter(d => {
+                    let unmatchedWords = Object.assign([], words);
+                    // Iterate over the fields and remove the matching words from unmatchedWords
+                    for (let key of Object.keys(d)) {
+                        // If not a special column (e.g. checkboxes)
+                        if (!specialInstructs.hasOwnProperty(key)) {
+                            let searchableString = d?.[key]?.toString()?.toLowerCase();
+                            unmatchedWords = unmatchedWords.filter((word: string) => {
+                                if (searchableString?.indexOf(word) > -1) {
+                                    return false;
+                                }
+                                return true;
+                            });
+                        }                    
+                    }
+
+                    return !unmatchedWords.length;
+                });
+            } 
+        }
+    }
+
+    // Filter out any row that doesn't match the filter phrases
+    Object.entries(filterObj).forEach(([key, filter]) => {   
+        if (filter.value?.length) {
+            // By default filter continues after a custom filter
+            let customFilterContinue: boolean = true;
+            filter.isRegex = false;
+            filter.isCustom = false;
+
+            let correspondingInstruct = instructs.find(d => d.key === key);
+            
+            if (typeof (correspondingInstruct?.userFunctions?.customFilter ?? null) === 'function' && correspondingInstruct?.userFunctions?.customFilter !== undefined) {
+                let customFilterResult = correspondingInstruct.userFunctions.customFilter(matchedData, filter.value);
+                matchedData = customFilterResult.data;
+                customFilterContinue = customFilterResult.continue;
+                filter.isCustom = !customFilterContinue;
+            }
+            
+            if (customFilterContinue !== false) {
+                let previousFilter: Lookup = JSON.parse(JSON.stringify(filter));
+                
+                let regexParts: RegexParts | boolean = getRegexParts(filter.value);
+
+                if (regexParts) {
+                    // If the regex format is invalid (e.g. wrong flags), revert to literal search
+                    try {
+                        let flags: string | undefined = regexParts.flags;
+                        filter.isRegex = true;
+
+                        // Unless all flags are just being deleted from a regex, add the default flags
+                        if ( ! regexParts?.flags && ! previousFilter.isRegex) {
+                            flags = options.defaultRegexFlags;
+                            filter.value += flags;
+                        }
+
+                        // @ts-ignore Shhhh!
+                        matchedData = matchedData.filter(d => new RegExp(regexParts.pattern, flags).test(d[key]));
+                    } catch(e) {}
+                }
+
+                if ( ! filter.isRegex) {
+                    let words = filter.value.trim().toLowerCase().match(/\S+/g);
+
+                    // Iterate over the rows and remove the matching words from unmatchedWords
+                    matchedData = matchedData.filter(d => {
+                        let unmatchedWords = Object.assign([], words);
                         let searchableString = d?.[key]?.toString()?.toLowerCase();
                         unmatchedWords = unmatchedWords.filter((word: string) => {
                             if (searchableString?.indexOf(word) > -1) {
                                 return false;
                             }
                             return true;
-                        });
-                    }                    
-                }
+                        });                
 
-                return !unmatchedWords.length;
-            });
-        } 
-    }
-
-    // Filter out any row that doesn't match the filter phrases
-    Object.entries(filterObj).forEach(([key, filter]) => {
-        let previousFilter: Lookup = JSON.parse(JSON.stringify(filter));
-        filter.isRegex = false;
-
-        if (filter.value?.length) {
-            let regexParts: RegexParts | boolean = getRegexParts(filter.value);
-
-            if (regexParts) {
-                // If the regex format is invalid (e.g. wrong flags), revert to literal search
-                try {
-                    let flags: string | undefined = regexParts.flags;
-                    filter.isRegex = true;
-
-                    // Unless all flags are just being deleted from a regex, add the default flags
-                    if ( ! regexParts?.flags && ! previousFilter.isRegex) {
-                        flags = options.defaultRegexFlags;
-                        filter.value += flags;
-                    }
-
-                    // @ts-ignore Shhhh!
-                    matchedData = matchedData.filter(d => new RegExp(regexParts.pattern, flags).test(d[key]));
-                } catch(e) {}
+                        return !unmatchedWords.length;
+                    });
+                } 
             }
-
-            if ( ! filter.isRegex) {
-                let words = filter.value.trim().toLowerCase().match(/\S+/g);
-
-                // Iterate over the rows and remove the matching words from unmatchedWords
-                matchedData = matchedData.filter(d => {
-                    let unmatchedWords = Object.assign([], words);
-                    let searchableString = d?.[key]?.toString()?.toLowerCase();
-                    unmatchedWords = unmatchedWords.filter((word: string) => {
-                        if (searchableString?.indexOf(word) > -1) {
-                            return false;
-                        }
-                        return true;
-                    });                
-
-                    return !unmatchedWords.length;
-                });
-            } 
         }
     });
 
@@ -607,8 +641,8 @@ function applyPagination() {
         pageData = sortedData;
     }
     
-    if (typeof (options.userFunctions?.pageMod ?? null) === 'function' && options.userFunctions?.pageMod !== undefined) {
-        formattedPageData = options.userFunctions.pageMod(JSON.parse(JSON.stringify(pageData)));
+    if (typeof (options.userFunctions?.customParse ?? null) === 'function' && options.userFunctions?.customParse !== undefined) {
+        formattedPageData = options.userFunctions.customParse(JSON.parse(JSON.stringify(pageData)));
     } else {
         formattedPageData = JSON.parse(JSON.stringify(pageData));
     }
@@ -799,7 +833,7 @@ onMount(async () => {
                     <div data-name="search-container" data-segment_index={segment_index}>
                         <label class="floated">
                             <span>Search</span>
-                            <input data-name="search-input" type="text" placeholder=" " data-is_regex={searchObj.isRegex} bind:value={searchObj.value} on:input={renderTable}>
+                            <input data-name="search-input" type="text" placeholder=" " data-is_regex={searchObj.isRegex} data-is_custom={searchObj.isCustom} bind:value={searchObj.value} on:input={renderTable}>
                         </label>
                     </div>
                 {:else if segment_code.toLowerCase() === 'stats'}
@@ -852,7 +886,7 @@ onMount(async () => {
                                             {:else}
                                                 <th data-key={instruct.key}>
                                                     {#if instruct?.filterable !== false}
-                                                        <input data-key={instruct.key} data-is_regex={filterObj[instruct.key].isRegex} placeholder="Filter by {instruct.title}" bind:value={filterObj[instruct.key].value} on:input={renderTable} >
+                                                        <input data-key={instruct.key} data-is_regex={filterObj[instruct.key].isRegex} data-is_custom={filterObj[instruct.key].isCustom} placeholder="Filter by {instruct.title}" bind:value={filterObj[instruct.key].value} on:input={renderTable} >
                                                     {/if}
                                                 </th>
                                             {/if}
@@ -921,7 +955,7 @@ onMount(async () => {
                                             {:else}
                                                 <th data-key={instruct.key}>
                                                     {#if instruct?.filterable !== false}
-                                                        <input data-key={instruct.key} data-is_regex={filterObj[instruct.key].isRegex} placeholder="Filter by {instruct.title}" bind:value={filterObj[instruct.key].value} on:input={renderTable} >
+                                                        <input data-key={instruct.key} data-is_regex={filterObj[instruct.key].isRegex} data-is_custom={filterObj[instruct.key].isCustom} placeholder="Filter by {instruct.title}" bind:value={filterObj[instruct.key].value} on:input={renderTable} >
                                                     {/if}
                                                 </th>
                                             {/if}
