@@ -24,9 +24,6 @@ let subDir = process.env.NODE_ENV === 'development' ? '' : '/powertable'
             width: 50px;
         }
     }
-    table tbody td[data-key=id] textarea {
-        width: 40px ;
-    }
     tr[data-name=filters-tr] {
         input{
             @extend .compact;

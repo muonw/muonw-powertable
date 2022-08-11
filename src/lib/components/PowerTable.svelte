@@ -665,6 +665,14 @@ function updatePageSize() {
     renderTable();
 }
 
+function manualRowEdit(e: Event, index: number) {
+    let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll<HTMLInputElement>('textarea[data-name=edit-textarea]');
+    console.log(textareaEls);
+    textareaEls?.forEach(textarea => {
+        textarea.style.height = textarea.scrollHeight + 'px';
+    });
+}
+
 function rowClicked(e: Event, index: number) {
     dispatch('rowClicked', {event: e, data: pageData[index]});
 
@@ -902,7 +910,7 @@ onMount(async () => {
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
                                                     {#if instruct?.key === checkboxKey && options.checkboxColumn}
                                                         <td data-key={instruct.key}>
-                                                            <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} />
+                                                            <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} on:change={(e)=>manualRowEdit(e, record[dataIdKey])} />
                                                         </td>
                                                     {/if}
                                                 {:else}
