@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-4ebb4411.js",
+    "file": "start-0e60eb44.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -25,7 +25,7 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-4ad784fd.js",
+    "file": "pages/__layout.svelte-325a2243.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -33,7 +33,7 @@
       "_index-5436dd91.js"
     ],
     "css": [
-      "assets/pages/__layout.svelte-1ae69c29.css"
+      "assets/pages/__layout.svelte-7bc4ea50.css"
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
@@ -58,128 +58,128 @@
     ]
   },
   "src/routes/examples/example1.svelte": {
-    "file": "pages/examples/example1.svelte-51578316.js",
+    "file": "pages/examples/example1.svelte-7e509bf6.js",
     "src": "src/routes/examples/example1.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ]
   },
   "src/routes/examples/example10.svelte": {
-    "file": "pages/examples/example10.svelte-38890b36.js",
+    "file": "pages/examples/example10.svelte-56b8789f.js",
     "src": "src/routes/examples/example10.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_scores-4bc0f8bf.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ],
     "css": [
-      "assets/pages/examples/example9.svelte-c3f0970c.css"
+      "assets/pages/examples/example10.svelte-bb757801.css"
     ]
   },
   "src/routes/examples/example2.svelte": {
-    "file": "pages/examples/example2.svelte-4be948e4.js",
+    "file": "pages/examples/example2.svelte-7a94fc9f.js",
     "src": "src/routes/examples/example2.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ]
   },
   "src/routes/examples/example3.svelte": {
-    "file": "pages/examples/example3.svelte-1f89bf04.js",
+    "file": "pages/examples/example3.svelte-1e906a56.js",
     "src": "src/routes/examples/example3.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ],
     "css": [
       "assets/pages/examples/example3.svelte-7e226707.css"
     ]
   },
   "src/routes/examples/example4.svelte": {
-    "file": "pages/examples/example4.svelte-e676093c.js",
+    "file": "pages/examples/example4.svelte-b31c6d41.js",
     "src": "src/routes/examples/example4.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ]
   },
   "src/routes/examples/example5.svelte": {
-    "file": "pages/examples/example5.svelte-d7e2c2d1.js",
+    "file": "pages/examples/example5.svelte-89c6a591.js",
     "src": "src/routes/examples/example5.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ],
     "css": [
       "assets/pages/examples/example5.svelte-5efb7ec5.css"
     ]
   },
   "src/routes/examples/example6.svelte": {
-    "file": "pages/examples/example6.svelte-489f2bc9.js",
+    "file": "pages/examples/example6.svelte-f4efad96.js",
     "src": "src/routes/examples/example6.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ]
   },
   "src/routes/examples/example7.svelte": {
-    "file": "pages/examples/example7.svelte-de1c8bb2.js",
+    "file": "pages/examples/example7.svelte-93bdbda3.js",
     "src": "src/routes/examples/example7.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ]
   },
   "src/routes/examples/example8.svelte": {
-    "file": "pages/examples/example8.svelte-ee7e6277.js",
+    "file": "pages/examples/example8.svelte-f69701e6.js",
     "src": "src/routes/examples/example8.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ],
     "css": [
       "assets/pages/examples/example8.svelte-467f675a.css"
     ]
   },
   "src/routes/examples/example9.svelte": {
-    "file": "pages/examples/example9.svelte-49a11b7f.js",
+    "file": "pages/examples/example9.svelte-d012b237.js",
     "src": "src/routes/examples/example9.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_scores-4bc0f8bf.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ],
     "css": [
-      "assets/pages/examples/example9.svelte-c3f0970c.css"
+      "assets/pages/examples/example10.svelte-bb757801.css"
     ]
   },
   "src/routes/examples/index.svelte": {
@@ -192,14 +192,14 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-5ae69cde.js",
+    "file": "pages/index.svelte-28a9e4c8.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-5436dd91.js",
       "_jobs-05b5ef9c.js",
-      "_PowerTable-5f5a3246.js"
+      "_PowerTable-d6894794.js"
     ]
   },
   "_index-5436dd91.js": {
@@ -208,8 +208,8 @@
   "_jobs-05b5ef9c.js": {
     "file": "chunks/jobs-05b5ef9c.js"
   },
-  "_PowerTable-5f5a3246.js": {
-    "file": "chunks/PowerTable-5f5a3246.js",
+  "_PowerTable-d6894794.js": {
+    "file": "chunks/PowerTable-d6894794.js",
     "imports": [
       "_index-5436dd91.js"
     ]

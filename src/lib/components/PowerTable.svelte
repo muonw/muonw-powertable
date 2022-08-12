@@ -190,7 +190,7 @@ let searchObj: Lookup = {};
 let filterObj: Record<string,Lookup> = {};
 
 
-function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record<string,any>[], action: {render?:boolean, preserveFilters?: boolean} = {render: true, preserveFilters: true}) {   
+function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record<string,any>[], action: {render?:boolean, preserveFilters?: boolean} = {render: true, preserveFilters: true}) {
     if (ptOptions) {
         Object.assign(options, ptOptions);
     }
@@ -205,9 +205,9 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
             isCustom: false
         }
     }
-    
+
     data = JSON.parse(JSON.stringify(ptData));
-    
+
     // Make data type conformable to Record<string,string>
     data = data.map(row => {
         Object.keys(row).forEach(key => {
@@ -224,11 +224,11 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
         });
         return row;
     });
-    
+
     let tempInstructs: Instructs[] = [];
-    
+
     // If ptInstructs prop is empty
-    if (!ptInstructs?.length) {     
+    if (!ptInstructs?.length) {
         let firstRecordKeys = Object.keys(data?.[0] ?? []);
         firstRecordKeys.forEach(key => {
             // If not a special instruct (they will be added later)
@@ -274,7 +274,7 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
     // Add checkboxes
     if (!instructs?.[0]?.hasOwnProperty(checkboxKey)) {
         instructs = [specialInstructs[checkboxKey], ...instructs];
-    
+
         filterObj[checkboxKey] = {
             value: '',
             isRegex: false,
@@ -296,7 +296,7 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
 
         return row
     });
-    
+
     if (action?.render) {
         renderTable();
     }
@@ -328,7 +328,7 @@ async function renderTable() {
         applyFilters();
         applySort();
     }
-    
+
     applyPagination();
 
     renderStatus = 'completed';
@@ -357,7 +357,7 @@ function applySort() {
     See the License for the specific language governing permissions and
     limitations under the License.
     */
-    const firstBy = (function() {        
+    const firstBy = (function() {
         const preserveCase = (v: string) => v;
         const removeCase = (v: string) => typeof(v) === "string" ? v.toLowerCase() : v;
         const makeCompareFunction = (f:any, opt:any) => {
@@ -382,14 +382,14 @@ function applySort() {
             f.thenBy = tb;
             return f;
         }
-        
+
         tb.firstBy = tb;
         return tb;
     })();
     //*****************************************//
 
     sortedData = matchedData;
-    
+
     let compFunc: any;
 
     if (Object.keys(sorting).length){
@@ -410,7 +410,7 @@ function applySort() {
             if (instruct?.userFunctions?.customSort) {
                 opt.cmp = instruct.userFunctions.customSort;
             }
-            
+
             if (index === 0) {
                 compFunc = firstBy(key, opt);
             } else {
@@ -433,7 +433,7 @@ function applyFilters() {
     if (searchObj.value) {
         // By default search continues after a custom search
         let customSearchContinue: boolean = true;
-        
+
         if (typeof (options.userFunctions?.customSearch ?? null) === 'function' && options.userFunctions?.customSearch !== undefined) {
             let customSearchResult = options.userFunctions.customSearch(matchedData, searchObj.value);
             matchedData = customSearchResult.data;
@@ -461,7 +461,7 @@ function applyFilters() {
                 } catch(e) {}
             }
 
-            if (searchObj.isRegex) { 
+            if (searchObj.isRegex) {
                 matchedData = matchedData.filter(d => {
                     return Object.keys(d).some(key => {
                         if (!specialInstructs.hasOwnProperty(key)) {
@@ -488,7 +488,7 @@ function applyFilters() {
                                 }
                                 return true;
                             });
-                        }                    
+                        }
                     }
 
                     return !unmatchedWords.length;
@@ -498,24 +498,24 @@ function applyFilters() {
     }
 
     // Filter out any row that doesn't match the filter phrases
-    Object.entries(filterObj).forEach(([key, filter]) => {   
+    Object.entries(filterObj).forEach(([key, filter]) => {
         let previousFilter: Lookup = JSON.parse(JSON.stringify(filter));
         filterObj[key].isRegex = false;
         filterObj[key].isCustom = false;
-        
+
         if (filter.value?.length) {
             // By default filter continues after a custom filter
             let customFilterContinue: boolean = true;
 
             let correspondingInstruct = instructs.find(d => d.key === key);
-            
+
             if (typeof (correspondingInstruct?.userFunctions?.customFilter ?? null) === 'function' && correspondingInstruct?.userFunctions?.customFilter !== undefined) {
                 let customFilterResult = correspondingInstruct.userFunctions.customFilter(matchedData, filter.value);
                 matchedData = customFilterResult.data;
                 customFilterContinue = customFilterResult.continue;
                 filterObj[key].isCustom = !customFilterContinue;
             }
-            
+
             if (customFilterContinue !== false) {
                 let regexParts: RegexParts | boolean = getRegexParts(filter.value);
 
@@ -566,7 +566,7 @@ function applyPagination() {
     let p: Pagination & Options = {};
     p.totalRows = options?.totalRows ?? data?.length;
     p.filteredRows = options?.filteredRows ?? sortedData?.length;
-    
+
     // When deleting a large number of rows, the currentPage might remain higher than the last page
     if (options?.currentPage! > p.totalRows / options?.rowsPerPage!) {
         options.currentPage = Math.ceil(p.totalRows / options?.rowsPerPage!);
@@ -640,7 +640,7 @@ function applyPagination() {
     } else {
         pageData = sortedData;
     }
-    
+
     if (typeof (options.userFunctions?.customParse ?? null) === 'function' && options.userFunctions?.customParse !== undefined) {
         formattedPageData = options.userFunctions.customParse(JSON.parse(JSON.stringify(pageData)));
     } else {
@@ -652,8 +652,8 @@ function applyPagination() {
 
 function goToPage(pageNum: number) {
     options.currentPage = pageNum;
-    
-    if (options.isDataRemote) {      
+
+    if (options.isDataRemote) {
         renderTable();
     } else {
         applyPagination();
@@ -716,7 +716,7 @@ export function closeMenu(e: MouseEvent) {
 
 export function toggleMenu(e: MouseEvent) {
     let menuEl = (<HTMLInputElement>e?.target)?.parentElement?.querySelector<HTMLElement>('div[data-name=menu]');
-        
+
     if (menuEl){
         if (menuEl.style.visibility !== 'visible') {
             closePopUps(e);
@@ -724,14 +724,14 @@ export function toggleMenu(e: MouseEvent) {
             menuEl.dataset.popped = 'true';
             e.stopPropagation();
         }
-    }   
+    }
 }
 
 export function toggleCheckboxColumn(e: MouseEvent) {
     closeMenu(e);
-    
+
     options.checkboxColumn = !options.checkboxColumn;
-    
+
     initialize(instructs, options, data);
 }
 
@@ -742,7 +742,7 @@ export function selectAllAction(e: MouseEvent) {
         row[checkboxKey] = true;
         return row;
     });
-    
+
     initialize(instructs, options, data);
 }
 
@@ -753,7 +753,7 @@ export function selectNoneAction(e: MouseEvent) {
         delete row[checkboxKey];
         return row;
     });
-    
+
     initialize(instructs, options, data);
 }
 
@@ -764,7 +764,7 @@ export function invertSelectionAction(e: MouseEvent) {
         row[checkboxKey] = !row[checkboxKey];
         return row;
     });
-    
+
     initialize(instructs, options, data);;
 }
 
@@ -773,7 +773,7 @@ export function addAction(e: MouseEvent) {
 
     let emptyRow: Data = {}
 
-    Object.keys(data[0]).forEach(key => {       
+    Object.keys(data[0]).forEach(key => {
         if (key === dataIdKey) {
             emptyRow[key] = data.length;
         } else if (key === checkboxKey) {
@@ -782,10 +782,10 @@ export function addAction(e: MouseEvent) {
             emptyRow[key] = '';
         }
     });
-    
+
     data = [...data, emptyRow];
     options.currentPage = Math.ceil(data.length / options?.rowsPerPage!);
-    
+
     initialize(instructs, options, data);
 }
 

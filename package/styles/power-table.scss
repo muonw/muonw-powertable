@@ -115,10 +115,12 @@
                     padding: 20px;
                 }
                 textarea{
+                    font: inherit;
                     height: 1.5rem;
-                    width: 8rem;
+                    width: 100%;
                     padding: 0.1rem 0.2rem;
                     margin: 0;
+                    overscroll-behavior: none;
                 }
                 div[data-name=edit-block]{
                     display: flex;

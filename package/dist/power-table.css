@@ -110,10 +110,12 @@
   padding: 20px;
 }
 .MuonW.PowerTable div[data-name=table-container] table tbody textarea {
+  font: inherit;
   height: 1.5rem;
-  width: 8rem;
+  width: 100%;
   padding: 0.1rem 0.2rem;
   margin: 0;
+  overscroll-behavior: none;
 }
 .MuonW.PowerTable div[data-name=table-container] table tbody div[data-name=edit-block] {
   display: flex;

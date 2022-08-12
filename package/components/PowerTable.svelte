@@ -520,6 +520,13 @@ function updatePageSize() {
     options.currentPage = 1;
     renderTable();
 }
+function manualRowEdit(e, index) {
+    let textareaEls = e.target.closest('tr')?.querySelectorAll('textarea[data-name=edit-textarea]');
+    console.log(textareaEls);
+    textareaEls?.forEach(textarea => {
+        textarea.style.height = textarea.scrollHeight + 'px';
+    });
+}
 function rowClicked(e, index) {
     dispatch('rowClicked', { event: e, data: pageData[index] });
     if (e.target.dataset?.name === 'edit-submit') {
@@ -725,7 +732,7 @@ onMount(async () => {
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
                                                     {#if instruct?.key === checkboxKey && options.checkboxColumn}
                                                         <td data-key={instruct.key}>
-                                                            <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} />
+                                                            <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} on:change={(e)=>manualRowEdit(e, record[dataIdKey])} />
                                                         </td>
                                                     {/if}
                                                 {:else}
