@@ -197,7 +197,7 @@ You can add styling with SCSS or CSS. In order for the following solutions to wo
 
 ```html
 <style lang="scss" global>
-@import '../../node_modules/@muonw/mascara/package/styles/main.scss';
+@import '../../node_modules/@muonw/mascara/package/styles/index.scss';
 @import '../../node_modules/@muonw/powertable/package/styles/power-table.scss';
 
 /* To make search and filter text boxes smaller */
