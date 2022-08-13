@@ -1,5 +1,4 @@
 <script>
-let subDir = process.env.NODE_ENV === 'development' ? '' : 'powertable';
 import ptData from '../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
 </script>
@@ -15,7 +14,7 @@ import PowerTable from '$lib/components/PowerTable.svelte';
 
 <br>
 
-<h2><a href="{subDir}/examples/example1">👀 Click here to see all examples</a></h2>
+<h2><a href="powertable/examples/example1">👀 Click here to see all examples</a></h2>
 
 <br>
 

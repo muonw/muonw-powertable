@@ -15,7 +15,7 @@ let subDir = process.env.NODE_ENV === 'development' ? '' : '/powertable'
 <slot></slot>
 
 <style lang="scss" global>
-@import '../../node_modules/@muonw/mascara/package/styles/main.scss';
+@import '../../node_modules/@muonw/mascara/package/styles/index.scss';
 @import '../lib/styles/power-table.scss';
 
 .MuonW.PowerTable {
@@ -30,8 +30,11 @@ let subDir = process.env.NODE_ENV === 'development' ? '' : '/powertable'
         }
     }
     div[data-name=search-container]{
-        input[data-name=search-input]{
-            @extend .medium;
+        label{
+            @extend .embedded;
+            & > span, &:focus-within > span{
+                @extend .label-text;
+            }
         }
     }
 }

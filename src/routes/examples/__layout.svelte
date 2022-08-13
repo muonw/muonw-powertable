@@ -1,8 +1,6 @@
 <script>
 import { page } from '$app/stores';
 
-let subDir = process.env.NODE_ENV === 'development' ? '' : '/powertable';
-
 let pages = {
     1: 'Basic',
     2: 'Custom Instructs',
@@ -20,7 +18,7 @@ let pages = {
 <nav>
     {#each Object.entries(pages) as [key, name]}
         <a
-            href="{subDir}/examples/example{key}"
+            href="/powertable/examples/example{key}"
             class:selected={$page.routeId === `examples/example${key}`}
         >
             {key}. {name}

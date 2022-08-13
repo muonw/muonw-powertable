@@ -1,0 +1,248 @@
+{
+  ".svelte-kit/runtime/client/start.js": {
+    "file": "_app/immutable/start-8356d3ee.js",
+    "src": ".svelte-kit/runtime/client/start.js",
+    "isEntry": true,
+    "imports": [
+      "_index-26bce42d.js"
+    ],
+    "dynamicImports": [
+      "src/routes/__layout.svelte",
+      ".svelte-kit/runtime/components/error.svelte",
+      "src/routes/examples/__layout.svelte",
+      "src/routes/examples/example1.svelte",
+      "src/routes/examples/example10.svelte",
+      "src/routes/examples/example2.svelte",
+      "src/routes/examples/example3.svelte",
+      "src/routes/examples/example4.svelte",
+      "src/routes/examples/example5.svelte",
+      "src/routes/examples/example6.svelte",
+      "src/routes/examples/example7.svelte",
+      "src/routes/examples/example8.svelte",
+      "src/routes/examples/example9.svelte",
+      "src/routes/examples/index.svelte",
+      "src/routes/index.svelte"
+    ]
+  },
+  "src/routes/__layout.svelte": {
+    "file": "_app/immutable/pages/__layout.svelte-917c6c78.js",
+    "src": "src/routes/__layout.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js"
+    ],
+    "css": [
+      "_app/immutable/assets/__layout-6772769a.css"
+    ]
+  },
+  ".svelte-kit/runtime/components/error.svelte": {
+    "file": "_app/immutable/error.svelte-230c3f40.js",
+    "src": ".svelte-kit/runtime/components/error.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js"
+    ]
+  },
+  "src/routes/examples/__layout.svelte": {
+    "file": "_app/immutable/pages/examples/__layout.svelte-4c7c620a.js",
+    "src": "src/routes/examples/__layout.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js"
+    ],
+    "css": [
+      "_app/immutable/assets/__layout-5c9c2797.css"
+    ]
+  },
+  "src/routes/examples/example1.svelte": {
+    "file": "_app/immutable/pages/examples/example1.svelte-74f35759.js",
+    "src": "src/routes/examples/example1.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ]
+  },
+  "src/routes/examples/example10.svelte": {
+    "file": "_app/immutable/pages/examples/example10.svelte-d02550fc.js",
+    "src": "src/routes/examples/example10.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_scores-42853dba.js",
+      "_PowerTable-4b16d30b.js"
+    ],
+    "css": [
+      "_app/immutable/assets/example10-ffb3cd8c.css"
+    ]
+  },
+  "src/routes/examples/example2.svelte": {
+    "file": "_app/immutable/pages/examples/example2.svelte-acf707f6.js",
+    "src": "src/routes/examples/example2.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ]
+  },
+  "src/routes/examples/example3.svelte": {
+    "file": "_app/immutable/pages/examples/example3.svelte-4227294c.js",
+    "src": "src/routes/examples/example3.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ],
+    "css": [
+      "_app/immutable/assets/example3-e322aab6.css"
+    ]
+  },
+  "src/routes/examples/example4.svelte": {
+    "file": "_app/immutable/pages/examples/example4.svelte-0ff93531.js",
+    "src": "src/routes/examples/example4.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ]
+  },
+  "src/routes/examples/example5.svelte": {
+    "file": "_app/immutable/pages/examples/example5.svelte-3fe54019.js",
+    "src": "src/routes/examples/example5.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ],
+    "css": [
+      "_app/immutable/assets/example5-c2da0502.css"
+    ]
+  },
+  "src/routes/examples/example6.svelte": {
+    "file": "_app/immutable/pages/examples/example6.svelte-9103d027.js",
+    "src": "src/routes/examples/example6.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ]
+  },
+  "src/routes/examples/example7.svelte": {
+    "file": "_app/immutable/pages/examples/example7.svelte-28827367.js",
+    "src": "src/routes/examples/example7.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ]
+  },
+  "src/routes/examples/example8.svelte": {
+    "file": "_app/immutable/pages/examples/example8.svelte-9e5d640e.js",
+    "src": "src/routes/examples/example8.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ],
+    "css": [
+      "_app/immutable/assets/example8-65ee655d.css"
+    ]
+  },
+  "src/routes/examples/example9.svelte": {
+    "file": "_app/immutable/pages/examples/example9.svelte-d181d9f3.js",
+    "src": "src/routes/examples/example9.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_scores-42853dba.js",
+      "_PowerTable-4b16d30b.js"
+    ],
+    "css": [
+      "_app/immutable/assets/example9-ffb3cd8c.css"
+    ]
+  },
+  "src/routes/examples/index.svelte": {
+    "file": "_app/immutable/pages/examples/index.svelte-56e0c3e5.js",
+    "src": "src/routes/examples/index.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js"
+    ]
+  },
+  "src/routes/index.svelte": {
+    "file": "_app/immutable/pages/index.svelte-1341a3d3.js",
+    "src": "src/routes/index.svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-26bce42d.js",
+      "_jobs-cc824ca9.js",
+      "_PowerTable-4b16d30b.js"
+    ]
+  },
+  "_index-26bce42d.js": {
+    "file": "_app/immutable/chunks/index-26bce42d.js"
+  },
+  "_jobs-cc824ca9.js": {
+    "file": "_app/immutable/chunks/jobs-cc824ca9.js"
+  },
+  "_PowerTable-4b16d30b.js": {
+    "file": "_app/immutable/chunks/PowerTable-4b16d30b.js",
+    "imports": [
+      "_index-26bce42d.js"
+    ]
+  },
+  "_scores-42853dba.js": {
+    "file": "_app/immutable/chunks/scores-42853dba.js"
+  },
+  "src/routes/examples/__layout.css": {
+    "file": "_app/immutable/assets/__layout-5c9c2797.css",
+    "src": "src/routes/examples/__layout.css"
+  },
+  "src/routes/examples/example10.css": {
+    "file": "_app/immutable/assets/example10-ffb3cd8c.css",
+    "src": "src/routes/examples/example10.css"
+  },
+  "src/routes/examples/example3.css": {
+    "file": "_app/immutable/assets/example3-e322aab6.css",
+    "src": "src/routes/examples/example3.css"
+  },
+  "src/routes/examples/example8.css": {
+    "file": "_app/immutable/assets/example8-65ee655d.css",
+    "src": "src/routes/examples/example8.css"
+  },
+  "src/routes/examples/example9.css": {
+    "file": "_app/immutable/assets/example9-ffb3cd8c.css",
+    "src": "src/routes/examples/example9.css"
+  },
+  "src/routes/examples/example5.css": {
+    "file": "_app/immutable/assets/example5-c2da0502.css",
+    "src": "src/routes/examples/example5.css"
+  },
+  "src/routes/__layout.css": {
+    "file": "_app/immutable/assets/__layout-6772769a.css",
+    "src": "src/routes/__layout.css"
+  }
+}

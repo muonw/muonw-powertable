@@ -667,7 +667,6 @@ function updatePageSize() {
 
 function manualRowEdit(e: Event, index: number) {
     let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll<HTMLInputElement>('textarea[data-name=edit-textarea]');
-    console.log(textareaEls);
     textareaEls?.forEach(textarea => {
         textarea.style.height = textarea.scrollHeight + 'px';
     });
@@ -839,8 +838,8 @@ onMount(async () => {
             {#each segment_arr as segment_code, segment_index}
                 {#if segment_code.toLowerCase() === 'search'}
                     <div data-name="search-container" data-segment_index={segment_index}>
-                        <label class="floated">
-                            <span>Search</span>
+                        <label>
+                            <span><span>Search</span></span>
                             <input data-name="search-input" type="text" placeholder=" " data-is_regex={searchObj.isRegex} data-is_custom={searchObj.isCustom} bind:value={searchObj.value} on:input={renderTable}>
                         </label>
                     </div>
