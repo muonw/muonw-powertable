@@ -27,21 +27,21 @@
 		"format": "prettier --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@babel/core": "^7.18.5",
-		"@babel/preset-env": "^7.18.2",
+		"@babel/core": "^7.18.10",
+		"@babel/preset-env": "^7.18.10",
 		"@muonw/mascara": "github:muonw/mascara",
-		"@playwright/test": "^1.22.2",
+		"@playwright/test": "^1.25.0",
 		"@rollup/plugin-babel": "^5.3.1",
-		"@rollup/plugin-commonjs": "^22.0.0",
+		"@rollup/plugin-commonjs": "^22.0.2",
 		"@rollup/plugin-json": "^4.1.0",
 		"@rollup/plugin-node-resolve": "^13.3.0",
-		"@rollup/plugin-typescript": "^8.3.3",
+		"@rollup/plugin-typescript": "^8.3.4",
 		"@sveltejs/adapter-static": "^1.0.0-next.39",
-		"@sveltejs/kit": "^1.0.0-next.405",
-		"@typescript-eslint/eslint-plugin": "^5.33.0",
-		"@typescript-eslint/parser": "^5.33.0",
+		"@sveltejs/kit": "next",
+		"@typescript-eslint/eslint-plugin": "^5.33.1",
+		"@typescript-eslint/parser": "^5.33.1",
 		"@vitejs/plugin-basic-ssl": "^0.1.1",
-		"eslint": "^8.21.0",
+		"eslint": "^8.22.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"prettier": "^2.7.1",
@@ -56,6 +56,6 @@
 		"svelte2tsx": "^0.5.13",
 		"tslib": "^2.4.0",
 		"typescript": "^4.7.4",
-		"vite": "^3.0.7"
+		"vite": "^3.0.8"
 	}
 }

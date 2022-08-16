@@ -1,0 +1,1 @@
+import{default as e}from"../components/pages/examples/example10/_page.svelte-6bfa77e4.js";import"./index-92110330.js";import"./scores-42853dba.js";import"./PowerTable-dd7d38ef.js";export{e as component};
