@@ -28,7 +28,7 @@ First, install with Node Package Manager (NPM):
 npm i muonw/powertable
 ```
 
-Then, import in your svelte file (e.g. src/routes/index.svelte):
+Then, import in your svelte file (e.g. src/routes/+page.svelte):
 
 ```javascript
 <script>
@@ -193,7 +193,7 @@ Example:
 
 You can add styling with SCSS or CSS. In order for the following solutions to work, wrap the table in an element with the class `MuonW PowerTable`. 
 
-**With SCSS:** The default styling can be applied by importing `package/styles/power-table.scss` and [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/__layout.svelte`).
+**With SCSS:** The default styling can be applied by importing `package/styles/power-table.scss` and [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/+layout.svelte`).
 
 ```html
 <style lang="scss" global>

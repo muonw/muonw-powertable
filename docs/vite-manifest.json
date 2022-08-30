@@ -1,6 +1,6 @@
 {
   "node_modules/@sveltejs/kit/src/runtime/client/start.js": {
-    "file": "_app/immutable/start-5a9b5957.js",
+    "file": "_app/immutable/start-644fe1cb.js",
     "src": "node_modules/@sveltejs/kit/src/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -369,13 +369,13 @@
       "_PowerTable-dd7d38ef.js"
     ]
   },
+  "src/routes/examples/example9/+page.css": {
+    "file": "_app/immutable/assets/+page-ffb3cd8c.css",
+    "src": "src/routes/examples/example9/+page.css"
+  },
   "src/routes/examples/+layout.css": {
     "file": "_app/immutable/assets/+layout-5c9c2797.css",
     "src": "src/routes/examples/+layout.css"
-  },
-  "src/routes/examples/example10/+page.css": {
-    "file": "_app/immutable/assets/+page-ffb3cd8c.css",
-    "src": "src/routes/examples/example10/+page.css"
   },
   "src/routes/examples/example8/+page.css": {
     "file": "_app/immutable/assets/+page-65ee655d.css",
