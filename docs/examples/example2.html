@@ -5,24 +5,21 @@
 		<link rel="icon" href="/powertable/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content="">
-	<link rel="modulepreload" href="/powertable/_app/immutable/start-644fe1cb.js">
-	<link rel="modulepreload" href="/powertable/_app/immutable/chunks/index-92110330.js">
+	<link rel="modulepreload" href="/powertable/_app/immutable/start-c96507e3.js">
+	<link rel="modulepreload" href="/powertable/_app/immutable/chunks/index-f24a2b30.js">
+	<link rel="modulepreload" href="/powertable/_app/immutable/chunks/singletons-956eaa67.js">
 	</head>
 	<body>
 		<div>
 		<script type="module" data-sveltekit-hydrate="45h">
-		import { set_public_env, start } from "/powertable/_app/immutable/start-644fe1cb.js";
-
-		set_public_env({});
+		import { start } from "/powertable/_app/immutable/start-c96507e3.js";
 
 		start({
-			target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
+			env: {},
+			hydrate: null,
 			paths: {"base":"/powertable","assets":"/powertable"},
-			session: {},
-			route: true,
-			spa: true,
-			trailing_slash: "never",
-			hydrate: null
+			target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
+			trailing_slash: "never"
 		});
 	</script></div>
 	</body>

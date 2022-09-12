@@ -30,14 +30,14 @@ let pages = {
     <p class="setup-details">
         {#if $page.routeIdMatches[1] === '1'}
             This is a basic setup with no customizations.<br>
-            ℹ️ Notice that when you sort the <b>Id</b> column, the order of the numbers is unusual (<code>1,10,100,...,2,20,200</code> instead of <code>1,2,3,4,5,6,...</code>). This is because by default columns are sorted alphabetically. To sort numbers, dates, and other data types, a <b>custom sorting</b> function can be used.
+            ℹ️ Notice that when you sort the <b>Id</b> column, the order of the numbers is unusual (<code>1,10,100,...,2,20,200</code> instead of <code>1,2,3,4,5,6,...</code>). This is because by default columns are sorted alphabetically. To sort numbers, dates, and other data types, a <b>custom sorting</b> function can be used, as demonstrated in another example.
         {:else if $page.routeIdMatches[1] === '2'}
             Customizations of ptInstructs:<br>
             <b>1.</b> <b>Column titles</b> have been customized.<br>
             <b>2.</b> First name is <b>not sortable</b>.<br>
             <b>3.</b> Company has a <b>default filter phrase</b>.<br>
             <b>4.</b> Department is <b>not filterable</b>.<br>
-            <b>5.</b> A custom parsing function has adds <b>emojis and HTML tags</b> to some job titles.<br>
+            <b>5.</b> A custom parsing function has added <b>emojis and HTML tags</b> to some job titles.<br>
         {:else if $page.routeIdMatches[1] === '3'}
             There are two tables on this page separated by a horizontal line. The first table has the following customizations of ptOptions:<br>
             <b>1.</b> A <b>unique prefix</b> has been assigned to the table.<br>
@@ -57,7 +57,7 @@ let pages = {
             <b>1.</b> A <b>maximum height</b> is set for the table, creating a vertical scroll bar.<br>
             <b>2.</b> The height and color of the rows, and the direction of the id values have changed.<br>
         {:else if $page.routeIdMatches[1] === '6'}
-            This table demonstrates loading of data from an external source (e.g. an API). Data will be processed using client side JavaScript with 500 milliseconds intentional delay to simulate fetching from a server. However, in real life scenarios, data is processed on a server (e.g. with PHP, Node, etc.). To simplify the example, some features such as search, filters, and sorting have been disabled.<br>
+            Table data can retrieve from an external source (e.g. an API). In this example, data will be processed using client side JavaScript with 500 milliseconds intentional delay to simulate fetching from a server. However, in real life scenarios, data is processed on a server (e.g. with PHP, Node, etc.). To simplify the example, some features such as search, filters, and sorting have been disabled.<br>
             Navigating to a different page of the table as well as any change in search/filter terms would trigger fetching new data.
         {:else if $page.routeIdMatches[1] === '7'}
             Controls can be used to access and manipulate the data with custom functions. To explore this feature, follow these steps:<br>
@@ -72,7 +72,7 @@ let pages = {
             ℹ️ While both filter and search are designed to <b>filter</b> the data, their scopes are different. Filter applies to a single column, while search applies to the entire dataset.<br>
             ℹ️ By default, white-space characters and the order of the words in a search/filter phrase are ignored. For example the phrase <code>1 2</code> can match <code>12</code>, <code>21</code>, <code>102</code>, <code>1 2</code>, etc.<br>
             ℹ️ To look for an exact phrase match, or a complex pattern, use RegEx. For example <code>/1 2/</code> only matches <code>1 2</code>.<br>
-            ℹ️ Once a RegEx expression is detected, the default flags will be added to it and a distinctive styling will be applied to it.<br>
+            ℹ️ Once a RegEx expression is detected, the default RegEx flags and a distinctive styling (e.g. different text color) will be added to the filter phrase. This styling helps to visually confirm if RegEx is being used.<br>
             ℹ️ To search for a word or phrase that is a valid RegEx pattern (e.g. <code>/(^.^)*/</code>) but should not be interpreted as RegEx, add a space character before or after it.<br>
         {:else if $page.routeIdMatches[1] === '9'}
             This table utilizes user-defined functions to sort numbers, dates, and colors. Additionally, multi-column sorting has been enabled to fine-tune the sorting.<br>
@@ -83,7 +83,7 @@ let pages = {
         {:else if $page.routeIdMatches[1] === '10'}
             This table utilizes user-defined functions to alter the search/filter process.<br>
             ℹ️ Search and filtering process can be first delegated to user-defined functions. These functions must return the processed data along with a flag specifying whether the process is finalized. If not finalized, the default search/filter will be performed on the returned data.<br>
-            ℹ️ If filtering is finalized by a user-defined function, a distinctive styling will be applied to the filter phrase.<br>
+            ℹ️ If filtering is finalized by a user-defined function, a distinctive styling (e.g. different text color) will be applied to the filter phrase.<br>
             The customizations of this table are as follows:<br>
             <b>1.</b> <b>Search</b> can only be done on rows that have an <b>even score number</b>. That is because a user-defined function removes all rows that have odd scores (e.g. <code>1</code>,<code>3</code>,<code>5</code>,<code>7</code>) and then returns the remaining data along with a flag that allows the default search function to perform the actual search.<br>
             <b>2.</b> The <b>Score</b> column can be filtered by a <b>number range</b> (two integers separated by a hyphen). When the user-defined function detects a valid range, it filters out all non-matching rows and then returns the filtered data along with a flag that marks the filtering as finalized. If the process is not finalized, the default filter function will look for score numbers that have the exact characters as our range (including the hyphen) and will always fail.<br>
