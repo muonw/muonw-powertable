@@ -95,7 +95,7 @@ let pages = {
 
     <p class="ref">
         See the source code 
-        <a href="https://github.com/muonw/powertable/blob/main/src/routes/examples/example{$page.routeIdMatches[1]}.svelte">
+        <a href="https://github.com/muonw/powertable/blob/main/src/routes/examples/example{$page.routeIdMatches[1]}/+page.svelte">
             here
         </a>
     </p>

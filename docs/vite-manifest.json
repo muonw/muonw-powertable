@@ -1,11 +1,11 @@
 {
   "node_modules/@sveltejs/kit/src/runtime/client/start.js": {
-    "file": "_app/immutable/start-8e1fe04a.js",
+    "file": "_app/immutable/start-52bbd272.js",
     "src": "node_modules/@sveltejs/kit/src/runtime/client/start.js",
     "isEntry": true,
     "imports": [
       "_index-f24a2b30.js",
-      "_singletons-c4c21595.js"
+      "_singletons-bc899f35.js"
     ],
     "dynamicImports": [
       ".svelte-kit/generated/nodes/0.js",
@@ -37,21 +37,21 @@
     ]
   },
   "node_modules/@sveltejs/kit/src/runtime/components/error.svelte": {
-    "file": "_app/immutable/components/error.svelte-4e578097.js",
+    "file": "_app/immutable/components/error.svelte-a6b00eeb.js",
     "src": "node_modules/@sveltejs/kit/src/runtime/components/error.svelte",
     "isEntry": true,
     "imports": [
       "_index-f24a2b30.js",
-      "_stores-a7707c82.js"
+      "_stores-894e7809.js"
     ]
   },
   "src/routes/examples/+layout.svelte": {
-    "file": "_app/immutable/components/pages/examples/_layout.svelte-eff45dba.js",
+    "file": "_app/immutable/components/pages/examples/_layout.svelte-8a2a993a.js",
     "src": "src/routes/examples/+layout.svelte",
     "isEntry": true,
     "imports": [
       "_index-f24a2b30.js",
-      "_stores-a7707c82.js"
+      "_stores-894e7809.js"
     ],
     "css": [
       "_app/immutable/assets/_layout-5c9c2797.css"
@@ -198,8 +198,8 @@
       "__layout-244212a4.js"
     ]
   },
-  "_singletons-c4c21595.js": {
-    "file": "_app/immutable/chunks/singletons-c4c21595.js",
+  "_singletons-bc899f35.js": {
+    "file": "_app/immutable/chunks/singletons-bc899f35.js",
     "imports": [
       "_index-f24a2b30.js"
     ]
@@ -210,11 +210,11 @@
   "__layout-244212a4.js": {
     "file": "_app/immutable/chunks/_layout-244212a4.js"
   },
-  "_stores-a7707c82.js": {
-    "file": "_app/immutable/chunks/stores-a7707c82.js",
+  "_stores-894e7809.js": {
+    "file": "_app/immutable/chunks/stores-894e7809.js",
     "imports": [
       "_index-f24a2b30.js",
-      "_singletons-c4c21595.js"
+      "_singletons-bc899f35.js"
     ]
   },
   "_jobs-f0c41956.js": {
@@ -239,7 +239,7 @@
     ]
   },
   ".svelte-kit/generated/nodes/1.js": {
-    "file": "_app/immutable/chunks/1-d1db21d8.js",
+    "file": "_app/immutable/chunks/1-ab701ad4.js",
     "src": ".svelte-kit/generated/nodes/1.js",
     "isDynamicEntry": true,
     "imports": [
@@ -247,7 +247,7 @@
     ]
   },
   ".svelte-kit/generated/nodes/2.js": {
-    "file": "_app/immutable/chunks/2-66ab4ae3.js",
+    "file": "_app/immutable/chunks/2-b514f2d3.js",
     "src": ".svelte-kit/generated/nodes/2.js",
     "isDynamicEntry": true,
     "imports": [
@@ -350,28 +350,28 @@
       "src/routes/examples/example9/+page.svelte"
     ]
   },
-  "src/routes/examples/+layout.css": {
-    "file": "_app/immutable/assets/_layout-5c9c2797.css",
-    "src": "src/routes/examples/+layout.css"
-  },
   "src/routes/examples/example5/+page.css": {
     "file": "_app/immutable/assets/_page-c2da0502.css",
     "src": "src/routes/examples/example5/+page.css"
   },
-  "src/routes/examples/example10/+page.css": {
+  "src/routes/examples/example9/+page.css": {
     "file": "_app/immutable/assets/_page-ffb3cd8c.css",
-    "src": "src/routes/examples/example10/+page.css"
-  },
-  "src/routes/examples/example8/+page.css": {
-    "file": "_app/immutable/assets/_page-65ee655d.css",
-    "src": "src/routes/examples/example8/+page.css"
+    "src": "src/routes/examples/example9/+page.css"
   },
   "src/routes/examples/example3/+page.css": {
     "file": "_app/immutable/assets/_page-e322aab6.css",
     "src": "src/routes/examples/example3/+page.css"
   },
+  "src/routes/examples/example8/+page.css": {
+    "file": "_app/immutable/assets/_page-65ee655d.css",
+    "src": "src/routes/examples/example8/+page.css"
+  },
   "src/routes/+layout.css": {
     "file": "_app/immutable/assets/_layout-6772769a.css",
     "src": "src/routes/+layout.css"
+  },
+  "src/routes/examples/+layout.css": {
+    "file": "_app/immutable/assets/_layout-5c9c2797.css",
+    "src": "src/routes/examples/+layout.css"
   }
 }
