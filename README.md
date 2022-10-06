@@ -2,7 +2,7 @@
 
 # [▦](https://muonw.github.io/powertable/) PowerTable
 
-PowerTable is a JavaScript component that turns JSON data into an interactive HTML table. This facilitates manual inspection, sorting, filtering, searching, and editing of the data. 
+PowerTable is a JavaScript component that turns JSON data into an interactive HTML table. This facilitates manual inspection, sorting, filtering, searching, and editing of the data. PowerTable is inspired by DataTables and powered by Svelte.
 
 > 🚨&nbsp; PowerTable is still in Beta!
 
@@ -47,7 +47,7 @@ let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
 
 ### For non-Svelte projects
 
-Paste the code below in your HTML file (e.g. index.html).
+PowerTable is primarily designed for <a href="https://svelte.dev/?powertable">Svelte</a> projects as a modern alternative to <a href="https://datatables.net/?powertable">DataTables</a>. If your project is not based on Svelte you can simply paste the code below in an HTML file (e.g. index.html) to generate a table.
 
 ```javascript
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/power-table.css">
