@@ -1,4 +1,7 @@
 @charset "UTF-8";
+.MuonW.PowerTable button:disabled {
+  color: #bbb;
+}
 .MuonW.PowerTable div[data-name=table-container] {
   resize: vertical;
   overflow: auto;
@@ -38,10 +41,19 @@
 .MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th {
   padding: 0.4rem 0.2rem 0.4rem 0.2rem;
 }
-.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false]), .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false]) {
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th > button, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th > button {
+  display: block;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  font-weight: inherit;
+  width: 100%;
+  text-align: left;
+}
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false]) button, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false]) button {
   cursor: pointer;
 }
-.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])::after, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])::after {
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false]) button span::after, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false]) button span::after {
   content: "";
   width: 1rem;
   height: 1rem;
@@ -50,26 +62,26 @@
   position: absolute;
   padding: 0px 5px;
 }
-.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false]):not([data-dir=asc]):not([data-dir=desc])::after, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false]):not([data-dir=asc]):not([data-dir=desc])::after {
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false]):not([data-dir=asc]):not([data-dir=desc]) button > span::after, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false]):not([data-dir=asc]):not([data-dir=desc]) button > span::after {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1em" height="1em" version="1.1"><g><path fill="%23888888" d="M1.5 6.5l6 -6 5.962 6c-0.984,0 -4.962,0 -11.962,0z"/><path fill="%23888888" d="M13.5 9.5l-6 6 -6 -6c0,0 12,0 12,0z"/></g></svg>');
   background-size: 10px;
   background-position: 30% center;
   background-repeat: no-repeat;
 }
-.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=asc], .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=asc] {
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=asc] button > span, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=asc] button > span {
   background-image: none;
   color: #348afb;
 }
-.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=asc]::after, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=asc]::after {
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=asc] button > span::after, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=asc] button > span::after {
   content: "▲";
   color: inherit;
   margin: 0;
 }
-.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=desc], .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=desc] {
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=desc] button > span, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=desc] button > span {
   background-image: none;
   color: #348afb;
 }
-.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=desc]::after, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=desc]::after {
+.MuonW.PowerTable div[data-name=table-container] table thead tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=desc] button > span::after, .MuonW.PowerTable div[data-name=table-container] table tfoot tr[data-name=titles-tr] th:not([data-sortable=false])[data-dir=desc] button > span::after {
   content: "▼";
   color: inherit;
   margin: 0;
@@ -158,8 +170,14 @@
 .MuonW.PowerTable div[data-name=dropdown-container] {
   margin-right: 20px;
 }
-.MuonW.PowerTable div[data-name=settings-container] div[data-name=handle], .MuonW.PowerTable div[data-name=actions-container] div[data-name=handle] {
+.MuonW.PowerTable div[data-name=settings-container] button[data-name=handle], .MuonW.PowerTable div[data-name=settings-container] button[data-name=item], .MuonW.PowerTable div[data-name=actions-container] button[data-name=handle], .MuonW.PowerTable div[data-name=actions-container] button[data-name=item] {
   cursor: pointer;
+  display: block;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
 }
 .MuonW.PowerTable div[data-name=settings-container] div[data-name=menu], .MuonW.PowerTable div[data-name=actions-container] div[data-name=menu] {
   visibility: hidden;
@@ -169,15 +187,15 @@
   box-shadow: 0px 0px 0px 1px #d5d5d5, 0px 0px 5px 2px #ccc;
   border-radius: 5px;
 }
-.MuonW.PowerTable div[data-name=settings-container] div[data-name=menu] div[data-name=item], .MuonW.PowerTable div[data-name=actions-container] div[data-name=menu] div[data-name=item] {
-  cursor: pointer;
+.MuonW.PowerTable div[data-name=settings-container] div[data-name=menu] button[data-name=item], .MuonW.PowerTable div[data-name=actions-container] div[data-name=menu] button[data-name=item] {
   padding: 5px 8px;
   font-weight: normal;
 }
-.MuonW.PowerTable div[data-name=settings-container] div[data-name=menu] div[data-name=item]:hover, .MuonW.PowerTable div[data-name=actions-container] div[data-name=menu] div[data-name=item]:hover {
+.MuonW.PowerTable div[data-name=settings-container] div[data-name=menu] button[data-name=item]:hover, .MuonW.PowerTable div[data-name=actions-container] div[data-name=menu] button[data-name=item]:hover {
   background-color: #e2e2e2;
 }
-.MuonW.PowerTable div[data-name=pagination-container] span {
+.MuonW.PowerTable div[data-name=pagination-container] button {
+  background-color: transparent;
   box-sizing: border-box;
   border: 1px solid transparent;
   display: inline-block;
@@ -190,20 +208,19 @@
   border-radius: 3px;
   user-select: none;
 }
-.MuonW.PowerTable div[data-name=pagination-container] span:hover {
+.MuonW.PowerTable div[data-name=pagination-container] button:hover:enabled {
   color: white;
   border: 1px solid #111;
   background: linear-gradient(to bottom, #585858 0%, #111 100%);
 }
-.MuonW.PowerTable div[data-name=pagination-container] span[data-active=true] {
+.MuonW.PowerTable div[data-name=pagination-container] button[data-active=true] {
   color: #333;
   background: linear-gradient(to bottom, white 0%, #dcdcdc 100%);
   border: 1px solid #979797;
 }
-.MuonW.PowerTable div[data-name=pagination-container] span[data-disabled=true] {
+.MuonW.PowerTable div[data-name=pagination-container] buttondisabled {
   color: #aaa;
   cursor: default;
-  background: transparent;
   border: 1px solid transparent;
 }
 .MuonW.PowerTable div[data-type=segment] {
