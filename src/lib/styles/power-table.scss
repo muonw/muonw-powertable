@@ -1,4 +1,7 @@
 .MuonW.PowerTable {
+    button:disabled{
+        color: #bbb;
+    }
     div[data-name=table-container] {
         resize: vertical;
         overflow: auto;
@@ -36,26 +39,38 @@
                 tr[data-name=titles-tr] {
                     text-transform: capitalize;
                     th{
+                        & > button{
+                            display: block;
+                            color: inherit;
+                            background-color: transparent;
+                            border: none;
+                            font-weight: inherit;
+                            width: 100%;
+                            text-align: left;
+                        }
                         padding: .4rem .2rem .4rem .2rem;                 
                     }
                     th:not([data-sortable=false]) {
-                        cursor: pointer;
-                        &::after{
-                            content: '';
-                            width: 1rem;
-                            height: 1rem;
-                            color: #888;
-                            font-size: x-small;
-                            position: absolute;
-                            padding: 0px 5px;
+                        button{
+                            cursor: pointer;
+
+                            span::after{
+                                content: '';
+                                width: 1rem;
+                                height: 1rem;
+                                color: #888;
+                                font-size: x-small;
+                                position: absolute;
+                                padding: 0px 5px;
+                            }
                         }
-                        &:not([data-dir=asc]):not([data-dir=desc])::after{
+                        &:not([data-dir=asc]):not([data-dir=desc]) button > span::after{
                             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1em" height="1em" version="1.1"><g><path fill="%23888888" d="M1.5 6.5l6 -6 5.962 6c-0.984,0 -4.962,0 -11.962,0z"/><path fill="%23888888" d="M13.5 9.5l-6 6 -6 -6c0,0 12,0 12,0z"/></g></svg>');
                             background-size: 10px;
                             background-position: 30% center;
                             background-repeat: no-repeat;
                         }
-                        &[data-dir=asc] {
+                        &[data-dir=asc] button > span {
                             background-image: none;
                             color: #348afb;
                             &::after{
@@ -64,7 +79,7 @@
                                 margin: 0;
                             }
                         }
-                        &[data-dir=desc] {
+                        &[data-dir=desc] button > span {
                             background-image: none;
                             color: #348afb;
                             &::after{
@@ -169,8 +184,14 @@
         margin-right: 20px;
     }
     div[data-name=settings-container], div[data-name=actions-container]{
-        div[data-name=handle]{
+        button[data-name=handle], button[data-name=item]{
             cursor: pointer;
+            display: block;
+            color: inherit;
+            background-color: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
         }
         div[data-name=menu]{
             visibility: hidden;
@@ -179,8 +200,7 @@
             z-index: 11;
             box-shadow: 0px 0px 0px 1px #d5d5d5, 0px 0px 5px 2px #ccc;
             border-radius: 5px;
-            div[data-name=item]{
-                cursor: pointer;
+            button[data-name=item]{
                 padding: 5px 8px;
                 font-weight: normal;
                 &:hover{
@@ -190,7 +210,8 @@
         }
     }
     div[data-name=pagination-container]{
-        span{
+        button{
+            background-color: transparent;
             box-sizing: border-box;
             border: 1px solid transparent;
             display: inline-block;
@@ -202,7 +223,7 @@
             cursor: pointer;
             border-radius: 3px;
             user-select: none;
-            &:hover{
+            &:hover:enabled{
                 color: white;
                 border: 1px solid #111;
                 background: linear-gradient(to bottom, #585858 0%, #111 100%);
@@ -212,10 +233,9 @@
                 background: linear-gradient(to bottom, white 0%, #dcdcdc 100%);
                 border: 1px solid #979797;
             }
-            &[data-disabled=true]{
+            &disabled{
                 color: #aaa;
                 cursor:default;
-                background: transparent;
                 border: 1px solid transparent;
             }
         }

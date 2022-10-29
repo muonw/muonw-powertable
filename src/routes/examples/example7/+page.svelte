@@ -17,7 +17,7 @@ let ptOptions: Options = {
     }
 }
 
-function importJsonData(e: MouseEvent) {
+function importJsonData(e: Event) {
     myPowerTable.closeMenu(e);
 
     fetch('https://raw.githubusercontent.com/muonw/powertable/main/src/data/jobs.json')
@@ -25,7 +25,7 @@ function importJsonData(e: MouseEvent) {
     .then(data => ptData = data);
 }
 
-function exportJsonData(e: MouseEvent) {
+function exportJsonData(e: Event) {
     myPowerTable.closeMenu(e);
 
     let currentData = myPowerTable.getData().data;
@@ -44,8 +44,8 @@ function exportJsonData(e: MouseEvent) {
 <div class="MuonW PowerTable">
     <PowerTable {ptData} {ptOptions} bind:this={myPowerTable}>
         <div slot="settings">
-            <div data-name="item" on:click={importJsonData}>Import sample data</div>
-            <div data-name="item" on:click={exportJsonData}>Export current data</div>
+            <button data-name="item" on:click={importJsonData}>Import sample data</button>
+            <button data-name="item" on:click={exportJsonData}>Export current data</button>
         </div>
         <div slot="noResults">ⓘ Follow the instructions to populate this example table.</div>
     </PowerTable>

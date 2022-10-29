@@ -691,7 +691,7 @@ function rowDblClicked(e: Event, index: number) {
     dispatch('rowDblClicked', {event: e, data: pageData[index]});
 }
 
-export function closePopUps({ target }: MouseEvent) {
+export function closePopUps({ target }: Event) {
     const poppedEls = Array.from(document.querySelectorAll('[data-popped=true]') as NodeListOf<HTMLElement>);
     const closestPoppedEl = <HTMLElement>(<HTMLElement>target)?.closest('[data-popped=true]');
 
@@ -703,7 +703,7 @@ export function closePopUps({ target }: MouseEvent) {
     });
 }
 
-export function closeMenu(e: MouseEvent) {
+export function closeMenu(e: Event) {
     if (e) {
         let menuEl = (<HTMLInputElement>e?.target)?.closest<HTMLElement>('div[data-name=menu]');
         if (menuEl) {
@@ -713,7 +713,7 @@ export function closeMenu(e: MouseEvent) {
     }
 }
 
-export function toggleMenu(e: MouseEvent) {
+export function toggleMenu(e: Event) {
     let menuEl = (<HTMLInputElement>e?.target)?.parentElement?.querySelector<HTMLElement>('div[data-name=menu]');
 
     if (menuEl){
@@ -726,7 +726,7 @@ export function toggleMenu(e: MouseEvent) {
     }
 }
 
-export function toggleCheckboxColumn(e: MouseEvent) {
+export function toggleCheckboxColumn(e: Event) {
     closeMenu(e);
 
     options.checkboxColumn = !options.checkboxColumn;
@@ -734,7 +734,7 @@ export function toggleCheckboxColumn(e: MouseEvent) {
     initialize(instructs, options, data);
 }
 
-export function selectAllAction(e: MouseEvent) {
+export function selectAllAction(e: Event) {
     closeMenu(e);
 
     data = data.map(row => {
@@ -745,7 +745,7 @@ export function selectAllAction(e: MouseEvent) {
     initialize(instructs, options, data);
 }
 
-export function selectNoneAction(e: MouseEvent) {
+export function selectNoneAction(e: Event) {
     closeMenu(e);
 
     data = data.map(row => {
@@ -756,7 +756,7 @@ export function selectNoneAction(e: MouseEvent) {
     initialize(instructs, options, data);
 }
 
-export function invertSelectionAction(e: MouseEvent) {
+export function invertSelectionAction(e: Event) {
     closeMenu(e);
 
     data = data.map(row => {
@@ -767,7 +767,7 @@ export function invertSelectionAction(e: MouseEvent) {
     initialize(instructs, options, data);;
 }
 
-export function addAction(e: MouseEvent) {
+export function addAction(e: Event) {
     closeMenu(e);
 
     let emptyRow: Data = {}
@@ -788,7 +788,7 @@ export function addAction(e: MouseEvent) {
     initialize(instructs, options, data);
 }
 
-export function deleteAction(e: MouseEvent) {
+export function deleteAction(e: Event) {
     closeMenu(e);
 
     data = data.filter(row => {
@@ -866,19 +866,24 @@ onMount(async () => {
                                                 {#if instruct?.key === checkboxKey && options.checkboxColumn}
                                                     <th data-key={instruct.key} data-sortable={instruct?.sortable}>
                                                         <div data-name="actions-container">
-                                                            <div data-name="handle" on:click={toggleMenu}>⚙️</div>
+                                                            <button data-name="handle" on:click={toggleMenu}>⚙️</button>
                                                             <div data-name="menu">
-                                                                <div data-name="item" on:click={selectAllAction}>Select All</div>
-                                                                <div data-name="item" on:click={selectNoneAction}>Select None</div>
-                                                                <div data-name="item" on:click={invertSelectionAction}>Invert Selection</div>
-                                                                <div data-name="item" on:click={addAction}>Add</div>
-                                                                <div data-name="item" on:click={deleteAction}>Delete</div>
+                                                                <button data-name="item" on:click={selectAllAction}>Select All</button>
+                                                                <button data-name="item" on:click={selectNoneAction}>Select None</button>
+                                                                <button data-name="item" on:click={invertSelectionAction}>Invert Selection</button>
+                                                                <button data-name="item" on:click={addAction}>Add</button>
+                                                                <button data-name="item" on:click={deleteAction}>Delete</button>
                                                             </div>
                                                         </div>
                                                     </th>
                                                 {/if}
                                             {:else}
-                                                <th data-key={instruct.key} data-sortable={instruct?.sortable} data-dir={sorting?.[instruct?.key]} on:click={() => {if(instruct?.sortable !== false){trackSorting(instruct.key)}}}>{instruct.title}</th>
+                                                <th data-key={instruct.key} data-sortable={instruct?.sortable} data-dir={sorting?.[instruct?.key]}>
+                                                    <button
+                                                        disabled={ ! (instruct?.sortable ?? true)}
+                                                        on:click={() => {if(instruct?.sortable !== false){trackSorting(instruct.key)}}}
+                                                    ><span>{instruct.title}</span></button>
+                                                </th>
                                             {/if}
                                         {/each}
                                     </tr>
@@ -977,7 +982,12 @@ onMount(async () => {
                                                     <th data-key={instruct.key} data-sortable={instruct?.sortable}></th>
                                                 {/if}
                                             {:else}
-                                                <th data-key={instruct.key} data-sortable={instruct?.sortable} data-dir={sorting?.[instruct?.key]} on:click={() => {if(instruct?.sortable !== false){trackSorting(instruct.key)}}}>{instruct.title}</th>
+                                                <th data-key={instruct.key} data-sortable={instruct?.sortable} data-dir={sorting?.[instruct?.key]}>
+                                                    <button
+                                                        disabled={ ! (instruct?.sortable ?? true)}
+                                                        on:click={() => {if(instruct?.sortable !== false){trackSorting(instruct.key)}}}
+                                                    ><span>{instruct.title}</span></button>
+                                                </th>
                                             {/if}
                                         {/each}
                                     </tr>
@@ -1001,32 +1011,41 @@ onMount(async () => {
                     </div>
                 {:else if segment_code.toLowerCase() === 'settings'}
                     <div data-name="settings-container" data-segment_index={segment_index}>
-                        <div data-name="handle" on:click={toggleMenu}>🛠️</div>
+                        <button data-name="handle" on:click={toggleMenu}>🛠️</button>
                         <div data-name="menu">
                             {#if $$slots.settings}
                                 <slot name="settings" />
                             {:else}
-                                <div data-name="item" on:click={toggleCheckboxColumn}>{options.checkboxColumn ? 'Hide' : 'Show'} checkboxes</div>
+                                <button data-name="item" on:click={toggleCheckboxColumn}>{options.checkboxColumn ? 'Hide' : 'Show'} checkboxes</button>
                             {/if}
                         </div>
                     </div>
                 {:else if segment_code.toLowerCase() === 'pagination'}
                     <div data-name="pagination-container" data-segment_index={segment_index}>
-                        <span data-disabled={options.currentPage === 1} on:click={()=>options.currentPage !== 1 ? goToPage((options.currentPage ?? 1) - 1) : null}>Previous</span>
+                        <button
+                            disabled={options.currentPage === 1}
+                            on:click={()=>options.currentPage !== 1 ? goToPage((options.currentPage ?? 1) - 1) : null}
+                        >Previous</button>
 
                         {#if pagination.totalPages}
                             {#each pagination.pages ?? [] as pageNum}
                                 {#if pageNum === 0}
-                                    <span data-disabled={true}>...</span>
+                                    <button disabled={true}>...</button>
                                 {:else}
-                                    <span data-active={options.currentPage === pageNum} on:click={()=>options.currentPage !== pageNum ? goToPage(pageNum) : null}>{pageNum}</span>
+                                    <button
+                                        data-active={options.currentPage === pageNum}
+                                        on:click={()=>options.currentPage !== pageNum ? goToPage(pageNum) : null}
+                                    >{pageNum}</button>
                                 {/if}
                             {/each}
                         {:else}
-                            <span data-active={true}>1</span>
+                            <button data-active={true}>1</button>
                         {/if}
 
-                        <span data-disabled={!pagination.totalPages || options.currentPage === pagination.totalPages} on:click={()=>options.currentPage !== pagination.totalPages ? goToPage((options.currentPage ?? 1) + 1) : null}>Next</span>
+                        <button
+                            disabled={!pagination.totalPages || options.currentPage === pagination.totalPages}
+                            on:click={()=>options.currentPage !== pagination.totalPages ? goToPage((options.currentPage ?? 1) + 1) : null}
+                        >Next</button>
                     </div>
                 {/if}
             {/each}
