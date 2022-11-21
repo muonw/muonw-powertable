@@ -19,7 +19,7 @@ export interface Instructs {
 export interface Data {
     [_: string]: any;
 }
-declare type SortString = '' | 'asc' | 'desc';
+type SortString = '' | 'asc' | 'desc';
 export interface Options {
     uniquePrefix?: string;
     rowsPerPageOptions?: number[];
@@ -58,12 +58,12 @@ export interface DataFeed {
     options?: Options;
     data?: Data[];
 }
-export declare type RegexParts = {
+export type RegexParts = {
     delimiter: string;
     pattern: string;
     flags: string;
 };
-declare type Lookup = {
+type Lookup = {
     value?: string;
     isRegex?: boolean;
     isCustom?: boolean;
@@ -105,9 +105,9 @@ declare const __propDef: {
         settings: {};
     };
 };
-export declare type PowerTableProps = typeof __propDef.props;
-export declare type PowerTableEvents = typeof __propDef.events;
-export declare type PowerTableSlots = typeof __propDef.slots;
+export type PowerTableProps = typeof __propDef.props;
+export type PowerTableEvents = typeof __propDef.events;
+export type PowerTableSlots = typeof __propDef.slots;
 export default class PowerTable extends SvelteComponentTyped<PowerTableProps, PowerTableEvents, PowerTableSlots> {
     get closePopUps(): ({ target }: Event) => void;
     get closeMenu(): (e: Event) => void;
