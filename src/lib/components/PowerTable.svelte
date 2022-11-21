@@ -921,7 +921,11 @@ onMount(async () => {
                                                     <td data-key={instruct.key}>
                                                         {#if data[record[dataIdKey]]?.[checkboxKey]}
                                                             <div data-name="edit-block">
-                                                                <textarea data-name="edit-textarea" data-key={instruct.key}>{data[record[dataIdKey]][instruct.key]}</textarea>
+                                                                <label>
+                                                                    <span>
+                                                                        <span>{instruct.title}</span>
+                                                                    </span><textarea data-name="edit-textarea" data-key={instruct.key}>{data[record[dataIdKey]][instruct.key]}</textarea>
+                                                                </label>
                                                                 <button data-name="edit-submit">✔️</button>
                                                             </div>
                                                         {:else if instruct?.parseAs === 'unsafe-html'}

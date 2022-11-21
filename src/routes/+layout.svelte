@@ -25,12 +25,15 @@
             @extend .compact;
         }
     }
-    div[data-name=search-container]{
+    div[data-name=search-container], div[data-name=edit-block] {
         label{
             @extend .embedded;
             & > span, &:focus-within > span{
                 @extend .label-text;
             }
+        }
+        button[data-name=edit-submit]{
+            margin-top: 8px;
         }
     }
 }
