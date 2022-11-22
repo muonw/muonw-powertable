@@ -313,6 +313,12 @@ function highlightMatches(pageContent: Data[], matches: Matches, Instructs: Inst
 </div>
 
 <style global>
+.MuonW.PowerTable th[data-key=id]{
+    width: 50px;
+}
+.MuonW.PowerTable td[data-key=id] textarea {
+    width: 40px ;
+}
 .MuonW.PowerTable span.search-match {
     background-color: #ffe300;
 }

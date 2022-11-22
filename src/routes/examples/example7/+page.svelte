@@ -50,3 +50,12 @@ function exportJsonData(e: Event) {
         <div slot="noResults">ⓘ Follow the instructions to populate this example table.</div>
     </PowerTable>
 </div>
+
+<style global>
+.MuonW.PowerTable th[data-key=id]{
+    width: 50px;
+}
+.MuonW.PowerTable td[data-key=id] textarea {
+    width: 40px ;
+}
+</style>
