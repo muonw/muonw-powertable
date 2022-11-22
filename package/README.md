@@ -207,9 +207,22 @@ You can add styling with SCSS or CSS. In order for the following solutions to wo
             @extend .compact;
         }
     }
-    div[data-name=search-container]{
-        input[data-name=search-input]{
-            @extend .medium;
+    tr[data-name=filters-tr] {
+        input{
+            @extend .compact;
+        }
+    }
+    div[data-name=search-container], div[data-name=edit-block] {
+        label{
+            @extend .embedded;
+            & > span, &:focus-within > span {
+                @extend .label-text;
+            }
+        }
+    }
+    div[data-name=edit-block] {
+        button[data-name=edit-submit] {
+            margin-top: 8px;
         }
     }
 }

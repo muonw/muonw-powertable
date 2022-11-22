@@ -575,7 +575,7 @@ function applyPagination() {
             options.currentPage = 1;
         }
     }
-    p.firstShownRow =  Math.min(p.filteredRows, ((options?.currentPage! - 1) * options?.rowsPerPage!) + 1);
+    p.firstShownRow = Math.min(p.filteredRows, ((options?.currentPage! - 1) * options?.rowsPerPage!) + 1);
     p.lastShownRow = Math.min(p.filteredRows, options.currentPage! * options.rowsPerPage!);
     if (options.rowsPerPage) {
         p.totalPages = Math.ceil(p.filteredRows / options.rowsPerPage);
@@ -678,7 +678,7 @@ function rowClicked(e: Event, index: number) {
     if ((<HTMLInputElement>e.target).dataset?.name === 'edit-submit') {
         let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll('textarea[data-name=edit-textarea]');
         textareaEls!.forEach(textareaEl => {
-            data[pageData[index][dataIdKey]][(<HTMLInputElement>textareaEl)?.dataset?.key ?? '']= (<HTMLInputElement>textareaEl)?.value ?? '';
+            data[pageData[index][dataIdKey]][(<HTMLInputElement>textareaEl)?.dataset?.key ?? ''] = (<HTMLInputElement>textareaEl)?.value ?? '';
         });
 
         data[pageData[index][dataIdKey]][checkboxKey] = false;

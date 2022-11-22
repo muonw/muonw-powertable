@@ -19,14 +19,14 @@ let pages = {
     {#each Object.entries(pages) as [key, name]}
         <a
             href="/powertable/examples/example{key}"
-            class:selected={$page.routeId === `/examples/example${key}`}
+            class:selected={$page.route.id === `/examples/example${key}`}
         >
             {key}. {name}
         </a>
     {/each}
 </nav>
 
-{#if $page.routeIdMatches = new RegExp("^/examples\/example([0-9]+)$", "g").exec($page.routeId)}
+{#if $page.routeIdMatches = new RegExp("^/examples\/example([0-9]+)$", "g").exec($page.route.id)}
     <p class="setup-details">
         {#if $page.routeIdMatches[1] === '1'}
             This is a basic setup with no customizations.<br>
