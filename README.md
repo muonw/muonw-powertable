@@ -49,7 +49,7 @@ npm install -D sass
 npm install -D svelte-preprocess
 ```
 
-To make use of the installed `svelte-preprocess`, open the file `svelte.config.js` and replace the default preprocessor:
+Open the file `svelte.config.js` and make the following changes:
 
 ```diff
 - import { vitePreprocess } from '@sveltejs/kit/vite';
@@ -57,13 +57,21 @@ To make use of the installed `svelte-preprocess`, open the file `svelte.config.j
 
 const config = {
 -	preprocess: vitePreprocess(),
-+	preprocess: sveltePreprocess(),
++	preprocess: sveltePreprocess({
++		scss: {
++			includePaths: ['node_module']
++		}
++	}),
 };
 ```
 
-Now you can import and use `styles/power-table.scss` as shown in the example below. Please note that your PowerTable tag should be inside an element with the css classes `MuonW` and `PowerTable`.
+If you would like to use [Mascara](https://github.com/muonw/mascara) as well, install it using the command below:
 
-If you would like to use [Mascara](https://github.com/muonw/mascara) as well, follow [its installation procedure](https://github.com/muonw/mascara). Otherwise, ignore the Mascara section in the example below.
+```sh
+npm i -D --save-exact @muonw/mascara@0.1.6
+```
+
+Now you can import and use `styles/power-table.scss` as shown in the example below. Please note that your PowerTable tag should be inside an element with the css classes `MuonW` and `PowerTable`. If you have not installed Mascara, ignore the Mascara section in the example below.
 
 ```svelte
 <script>
@@ -76,12 +84,12 @@ let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
 </div>
 
 <style lang="scss" global>
-@use '../../node_modules/@muonw/powertable/styles/power-table.scss';
+@use '@muonw/powertable/styles/power-table.scss';
 
 /* Mascara */
 /* If you have installed Mascara, include this section to apply it */
 
-@use '../../node_modules/@muonw/mascara/styles/index.scss';
+@use '@muonw/mascara/styles/index.scss';
 
 .MuonW.PowerTable {
     tr[data-name=filters-tr] {
