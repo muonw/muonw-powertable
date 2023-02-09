@@ -3,11 +3,9 @@ import ptData from '../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
 </script>
 
-<br>
-
 <h2><a href="https://github.com/muonw/powertable">▦</a> PowerTable</h2>
 <p>
-    PowerTable is a JavaScript component that turns JSON data into an interactive HTML table.<br>
+    PowerTable is a Svelte component that turns JSON data into an interactive HTML table.<br>
     This facilitates manual inspection, sorting, filtering, searching, and editing of the data.<br>
     PowerTable is inspired by DataTables and powered by Svelte.<br>
     Click here to learn more: <a href="https://github.com/muonw/powertable">https://github.com/muonw/powertable</a>

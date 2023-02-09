@@ -1,18 +1,83 @@
+<script lang="ts">
+import { onMount} from "svelte";
+
+function switchColorScheme(scheme: 'light'|'dark') {
+    let html = document.querySelector('html');
+    html?.setAttribute('data-color-scheme', scheme);
+}
+
+onMount(() => {
+    const colorSwitcher = (event: MediaQueryListEvent) => {
+        switchColorScheme(event.matches ? 'dark' : 'light');
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', colorSwitcher);
+
+    return () => {
+        window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', colorSwitcher);
+    }
+});
+</script>
+
 <nav>
     <a href="/powertable/">Home</a> | 
-    <a href="https://github.com/muonw/powertable">
-        <svg height="14" width="14" aria-hidden="true" viewBox="0 0 16 16" version="1.1" data-view-component="true" class="octicon octicon-mark-github">
-            <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-        </svg>
-        Repository
-    </a>
+    <a href="https://github.com/muonw/powertable">GitHub</a> | 
+    <span id='switch-to-light-mode' title="Light Mode" on:click={()=>switchColorScheme('light')} on:keypress={()=>switchColorScheme('light')}>☀️</span>
+    <span id='switch-to-dark-mode' title="Dark Mode" on:click={()=>switchColorScheme('dark')} on:keypress={()=>switchColorScheme('dark')}>🌙</span>
 </nav>
+
+<hr>
 
 <slot></slot>
 
 <style lang="scss" global>
-@import '../../node_modules/@muonw/mascara/package/styles/index.scss';
-@import '../lib/styles/power-table.scss';
+@use 'power-table.scss';
+@use '@muonw/mascara/styles/index.scss';
+
+$light_root: (
+    --colors-ref-background: #fff7e8,
+    --colors-ref-border: #ffb773,
+    --colors-ref-shadow: #fff7e8,
+);
+
+$dark_root: (
+    --colors-ref-background: #443c2f,
+    --colors-ref-border: #6c5742,
+    --colors-ref-shadow: #6a4909,
+);
+
+:root, :root[data-color-scheme='light'] {
+    @each $key, $val in $light_root {
+        #{$key}: $val;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        @each $key, $val in $dark_root {
+            #{$key}: $val;
+        }
+    }
+}
+
+:root[data-color-scheme='dark'] {
+    @each $key, $val in $dark_root {
+        #{$key}: $val;
+    }
+}
+
+a {
+    color: var(--colors-a);
+}
+
+#switch-to-light-mode {
+    display: var(--dark-mode-display);
+    cursor: pointer;
+}
+#switch-to-dark-mode {
+    display: var(--light-mode-display);
+    cursor: pointer;
+}
 
 .MuonW.PowerTable {
     table tbody tr[data-name=titles-tr], tr[data-name=filters-tr] {
@@ -40,15 +105,12 @@
     }
 }
 
-nav {
-    margin-bottom: 20px;
-}
 .ref {
-    background-color: rgb(255, 247, 232);
-    border: 1px solid rgb(255, 183, 115);
+    background-color: var(--colors-ref-background);
+    border: 1px solid var(--colors-ref-border);
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 3px 0px rgb(255, 192, 120);
+    box-shadow: 0 0 3px 0px var(--colors-ref-shadow);
     box-sizing: border-box;
     font-size: medium;
 }

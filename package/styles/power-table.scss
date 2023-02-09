@@ -1,3 +1,63 @@
+
+
+$light_root: (
+    --colors-highlighted-input: #d9ebff,
+    --colors-regex-input: #8f0194,
+    --colors-custom-input: #017599,
+    --colors-thead-background: #fff,
+    --colors-tfoot-background: #fff,
+    --colors-tr-even-background: #fff,
+    --colors-tr-odd-background: #f9f9f9,
+    --colors-thead-shadow: #ccc,
+    --colors-tfoot-shadow: #ccc,
+    --colors-menu-background: #fff,
+    --colors-menu-shadow1: #d5d5d5,
+    --colors-menu-shadow2: #ccc,
+    --colors-menu-hover-background: #e2e2e2,
+    --colors-pagination-button-color: #000,
+    --colors-no-results-background: #eee,
+);
+
+$dark_root: (
+    --colors-highlighted-input: #234a75,
+    --colors-regex-input: #f26cf7,
+    --colors-custom-input: #189edf,
+    --colors-thead-background: #1e1e1e,
+    --colors-tfoot-background: #1e1e1e,
+    --colors-tr-even-background: #1e1e1e,
+    --colors-tr-odd-background: #2b2b2b,
+    --colors-thead-shadow: #444,
+    --colors-tfoot-shadow: #444,
+    --colors-menu-background: #1e1e1e,
+    --colors-menu-shadow1: #606060,
+    --colors-menu-shadow2: #646464,
+    --colors-menu-hover-background: #444444,
+    --colors-pagination-button-color: #fff,
+    --colors-no-results-background: #2d2d2d,
+);
+
+:root, :root[data-color-scheme='light'] {
+    @each $key, $val in $light_root {
+        #{$key}: $val;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        @each $key, $val in $dark_root {
+            #{$key}: $val;
+        }
+    }
+}
+
+:root[data-color-scheme='dark'] {
+    @each $key, $val in $dark_root {
+        #{$key}: $val;
+    }
+}
+
+
+
 .MuonW.PowerTable {
     button:disabled{
         color: #bbb;
@@ -12,7 +72,7 @@
             thead {     
                 z-index: 10;
                 top: 0;
-                box-shadow: 0px 3px 3px -2px #ccc;
+                box-shadow: 0px 3px 3px -2px var(--colors-thead-shadow);
                 tr[data-name=filters-tr] {
                     th{
                         padding: 0 .2rem .4rem .2rem;
@@ -22,17 +82,22 @@
             tfoot {
                 z-index: 9;
                 bottom: 0;
-                box-shadow: 0px -3px 3px -2px #ccc;
+                box-shadow: 0px -3px 3px -2px var(--colors-tfoot-shadow);
                 tr[data-name=filters-tr] {
                     th{
                         padding: .4rem .2rem 0 .2rem;
                     }
                 }
             }
+            thead {
+                background-color: var(--colors-thead-background);
+            }
+            tfoot {
+                background-color: var(--colors-tfoot-background);
+            }
             thead, tfoot {
                 position: sticky;
                 text-align: left;
-                background-color: white;
                 tr[data-name=loading_bar-tr] {
                     height: 4px;
                 }
@@ -97,14 +162,14 @@
                     input{
                         width: calc(100% - 10px);
                         &:not(:placeholder-shown) {
-                            background-color: #d9ebff;
+                            background-color: var(--colors-highlighted-input);
                         }
                         &[data-is_regex=true]{
-                            color: #8f0194;
+                            color: var(--colors-regex-input);
                             font-weight: bold;
                         }
                         &[data-is_custom=true]{
-                            color: #017599;
+                            color: var(--colors-custom-input);
                         }
                     }
                 }
@@ -114,10 +179,10 @@
                     box-shadow: 0 0 1px 0px #888;
                 }
                 tr:nth-child(2n){
-                    background-color: #f9f9f9;
+                    background-color: var(--colors-tr-even-background);
                 }
                 tr:nth-child(2n + 1){
-                    background-color: #fff;
+                    background-color: var(--colors-tr-odd-background);
                 }
                 td{
                     padding: .2rem;
@@ -125,12 +190,11 @@
                     height: 2rem;
                 }
                 td[data-name=noResults-td], td[data-name=rendering-td]{
-                    background-color: #eee;
+                    background-color: var(--colors-no-results-background);
                     text-align: center;
                     padding: 20px;
                 }
                 textarea{
-                    font: inherit;
                     height: 1.5rem;
                     margin: 0;
                     overscroll-behavior: none;
@@ -155,14 +219,14 @@
         margin-right: auto;
         input[data-name=search-input]{
             &:not(:placeholder-shown) {
-                background-color: #d9ebff;
+                background-color: var(--colors-highlighted-input);
             }
             &[data-is_regex=true]{
-                color: #8f0194;
+                color: var(--colors-regex-input);
                 font-weight: bold;
             }
             &[data-is_custom=true]{
-                color: #017599;
+                color: var(--colors-custom-input);
             }
         }
     }
@@ -192,22 +256,23 @@
         }
         div[data-name=menu]{
             visibility: hidden;
-            background-color: white;
+            background-color: var(--colors-menu-background);
             position: absolute;
             z-index: 11;
-            box-shadow: 0px 0px 0px 1px #d5d5d5, 0px 0px 5px 2px #ccc;
+            box-shadow: 0px 0px 0px 1px var(--colors-menu-shadow1), 0px 0px 5px 2px var(--colors-menu-shadow2);
             border-radius: 5px;
             button[data-name=item]{
                 padding: 5px 8px;
                 font-weight: normal;
                 &:hover{
-                    background-color: #e2e2e2;
+                    background-color: var(--colors-menu-hover-background);
                 }
             }
         }
     }
     div[data-name=pagination-container]{
         button{
+            color: var(--colors-pagination-button-color);
             background-color: transparent;
             box-sizing: border-box;
             border: 1px solid transparent;
@@ -230,7 +295,7 @@
                 background: linear-gradient(to bottom, white 0%, #dcdcdc 100%);
                 border: 1px solid #979797;
             }
-            &disabled{
+            &:disabled{
                 color: #aaa;
                 cursor:default;
                 border: 1px solid transparent;

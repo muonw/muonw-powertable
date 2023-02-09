@@ -312,7 +312,39 @@ function highlightMatches(pageContent: Data[], matches: Matches, Instructs: Inst
     <PowerTable {ptData} {ptInstructs} {ptOptions} bind:this={myPowerTable} />
 </div>
 
-<style global>
+<style lang="scss" global>
+$light_root: (
+    --colors-search-match-background: #ffe300,
+    --colors-filter-match-background: #8ed3fc,
+    --colors-overlap-match-background: #adf05d,
+);
+
+$dark_root: (
+    --colors-search-match-background: #736600,
+    --colors-filter-match-background: #0b679d,
+    --colors-overlap-match-background: #4e8809,
+);
+
+:root, :root[data-color-scheme='light'] {
+    @each $key, $val in $light_root {
+        #{$key}: $val;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        @each $key, $val in $dark_root {
+            #{$key}: $val;
+        }
+    }
+}
+
+:root[data-color-scheme='dark'] {
+    @each $key, $val in $dark_root {
+        #{$key}: $val;
+    }
+}
+
 .MuonW.PowerTable th[data-key=id]{
     width: 50px;
 }
@@ -320,12 +352,12 @@ function highlightMatches(pageContent: Data[], matches: Matches, Instructs: Inst
     width: 40px ;
 }
 .MuonW.PowerTable span.search-match {
-    background-color: #ffe300;
+    background-color: var(--colors-search-match-background);
 }
 .MuonW.PowerTable span.filter-match {
-    background-color: #8ed3fc;
+    background-color: var(--colors-filter-match-background);
 }
 .MuonW.PowerTable span.overlap-match {
-    background-color: #adf05d;
+    background-color: var(--colors-overlap-match-background);
 }
 </style>

@@ -1,10 +1,8 @@
-[![MuonW PowerTable](https://github.com/muonw/powertable/raw/main/src/data/muonw_powertable_830x448.png)](https://muonw.github.io/powertable/examples/example1)
+[![MuonW PowerTable](https://github.com/muonw/powertable/raw/main/src/data/muonw_powertable_830x448.png)](https://github.com/muonw/powertable)
 
-# [▦](https://muonw.github.io/powertable/) PowerTable
+# [▦](https://github.com/muonw/powertable) PowerTable
 
-PowerTable is a JavaScript component that turns JSON data into an interactive HTML table. This facilitates manual inspection, sorting, filtering, searching, and editing of the data. PowerTable is inspired by DataTables and powered by Svelte.
-
-> 🚨&nbsp; PowerTable is still in Beta!
+PowerTable is a Svelte component that turns JSON data into an interactive HTML table. This facilitates manual inspection, sorting, filtering, searching, and editing of the data. PowerTable is inspired by DataTables and powered by Svelte.
 
 ## ✨ Features
 
@@ -16,21 +14,58 @@ PowerTable is a JavaScript component that turns JSON data into an interactive HT
 - Optional styling
 - Custom parsing
 - Local and remote data source
-- Usable as Svelte component or ES module
 
 ## ⚡️ Quick start
 
-### For Svelte projects
-
-First, install with Node Package Manager (NPM):
+First, set the correct node package registry for @muonw packages:
 
 ```sh
-npm i muonw/powertable
+npm config set @muonw:registry https://node.pkgreg.com/ -L project
 ```
 
-Then, import in your svelte file (e.g. src/routes/+page.svelte):
+Then, install the package:
 
-```javascript
+```sh
+npm i -D @muonw/powertable
+```
+
+Now, you can import the component in your svelte files (e.g. `src/routes/+page.svelte`). An example on a basic implementation without any styling:
+
+```svelte
+<script>
+import { PowerTable } from '@muonw/powertable';
+let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
+</script>
+
+<PowerTable {ptData} />
+```
+
+### Styling
+
+PowerTable uses SCSS in global style tags, which requires installing [saas](https://www.npmjs.com/package/sass) and [svelte-preprocess](https://www.npmjs.com/package/svelte-preprocess) packages:
+
+```sh
+npm install -D sass
+npm install -D svelte-preprocess
+```
+
+To make use of the installed `svelte-preprocess`, open the file `svelte.config.js` and replace the default preprocessor:
+
+```diff
+- import { vitePreprocess } from '@sveltejs/kit/vite';
++ import sveltePreprocess from 'svelte-preprocess';
+
+const config = {
+-	preprocess: vitePreprocess(),
++	preprocess: sveltePreprocess(),
+};
+```
+
+Now you can import and use `styles/power-table.scss` as shown in the example below. Please note that your PowerTable tag should be inside an element with the css classes `MuonW` and `PowerTable`.
+
+If you would like to use [Mascara](https://github.com/muonw/mascara) as well, follow [its installation procedure](https://github.com/muonw/mascara). Otherwise, ignore the Mascara section in the example below.
+
+```svelte
 <script>
 import { PowerTable } from '@muonw/powertable';
 let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
@@ -40,37 +75,46 @@ let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
     <PowerTable {ptData} />
 </div>
 
-<style global>
-@import '../../node_modules/@muonw/powertable/package/dist/power-table.css';
+<style lang="scss" global>
+@use '../../node_modules/@muonw/powertable/styles/power-table.scss';
+
+/* Mascara */
+/* If you have installed Mascara, include this section to apply it */
+
+@use '../../node_modules/@muonw/mascara/styles/index.scss';
+
+.MuonW.PowerTable {
+    tr[data-name=filters-tr] {
+        input{
+            @extend .compact;
+        }
+    }
+    tr[data-name=filters-tr] {
+        input{
+            @extend .compact;
+        }
+    }
+    div[data-name=search-container], div[data-name=edit-block] {
+        label{
+            @extend .embedded;
+            & > span, &:focus-within > span {
+                @extend .label-text;
+            }
+        }
+    }
+    div[data-name=edit-block] {
+        button[data-name=edit-submit] {
+            margin-top: 8px;
+        }
+    }
+}
+/* End of Mascara section*/
 </style>
 ```
 
-### For non-Svelte projects
-
-PowerTable is primarily designed for <a href="https://svelte.dev/?powertable">Svelte</a> projects as a modern alternative to <a href="https://datatables.net/?powertable">DataTables</a>. If your project is not based on Svelte you can simply paste the code below in an HTML file (e.g. index.html) to generate a table.
-
-```javascript
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/power-table.css">
-
-<div class="MuonW PowerTable">
-    <div id="table1"></div>
-</div>
-
-<script type="module">
-import { PowerTable } from 'https://cdn.jsdelivr.net/gh/muonw/powertable/package/dist/power-table.js'
-let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
-
-const myTable = new PowerTable({
-    target: document.getElementById('table1'),
-    props: { ptData }
-});
-</script>
-```
-Integration with JavaScript frameworks (e.g. React, Vue, etc.) may require steps that are not covered in this repository. Please see [this example that demonstrates a basic usage with React](https://github.com/muonw/powertable/blob/main/docs/manual/react.md).
-
 ## 👀 Examples
 
-To see the live demos, visit https://muonw.github.io/powertable/examples/example1
+To see the demos, visit https://muonw.github.io/powertable/examples/example1
 
 ## 📖 Manual
 
@@ -78,7 +122,7 @@ To see the live demos, visit https://muonw.github.io/powertable/examples/example
 
 The `PowerTable` component accepts three optional props: `ptInstructs`, `ptOptions`, and `ptData`.
 
-```html
+```svelte
 <PowerTable {ptInstructs} {ptOptions} {ptData} />
 ```
 
@@ -104,7 +148,18 @@ let ptInstructs = [
 | `filterPhrase` | string | "" | The column's default filter phrase |
 | `filterIsRegex` | boolean | false | Whether the default filterPhrase is Regex (for remote data) |
 | `parseAs` | 'text'\| 'unsafe-html' | 'text' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
-| `userFunctions` | object | | [\[visit `instructs_userFunctions` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/instructs_userFunctions.md) |
+| `userFunctions` | object | | [See Below] |
+
+The `userFunctions` property in `ptInstructs` prop is an object that can contain the following user defined function(s).
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `customSort` | function | | Overrides the sorting process |
+| `customFilter` | function | | A user defined function to override the filtering process |
+
+The value of `customSort` should be a function that receives two string values (v1 and v2) and returns a number indicating the order of those values: `-1` if v1 < v2, `1` if v1 > v2, `0` if v1 == v2
+
+The value of `customFilter` should be a function that returns a slice of `ptData` after applying a filter. The function will receive the `ptData`.
 
 ❷ The prop `ptOptions` is an object that allows adjusting various features of the table. All properties are optional.
 
@@ -140,9 +195,111 @@ let ptOptions = {
 | `searchPhrase` | string | "" | The default search phrase |
 | `searchIsRegex` | boolean | false | Whether the default search phrase is RegEx |
 | `checkboxColumn` | boolean | false | Whether to show checkbox selection column |
-| `userFunctions` | object | | [\[visit `options_userFunctions` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/options_userFunctions.md) |
-| `segments` | object | | [\[visit `segments` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/segments.md) |
-| `sortOrder` | object | | [\[visit `sortOrder` document\]](https://github.com/muonw/powertable/blob/main/docs/manual/sortorder.md) |
+| `userFunctions` | object | | [See Below] |
+| `segments` | object | | [See Below] |
+| `sortOrder` | object | | [See Below] |
+
+The `userFunctions` property in `ptOptions` prop is an object that can contain the following user defined functions.
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `dataFeed` | function | async () => ({}) | When `isDataRemote` is `true`, the output of this function will be used as `ptData` prop |
+| `customParse` | function | | A user defined function to intercept and modify the content of the current page |
+| `customSearch` | function | | A user defined function to override the search process |
+
+
+The value of `dataFeed` should be a function that returns remote data (e.g. from and API). The function will receive an object (defined below) containing the information required to generate the props. 
+
+The function received the following object:
+
+```
+{
+    options = ➤ current options (same structure as `ptOptions`),
+    search: {
+        isRegex: ➤ true or false (boolean),
+        value: ➤ the search phrase (string)
+    },
+    filters: {
+        [➤ `ptInstruct` key]: {
+            isRegex: ➤ true or false (boolean),
+            value: ➤ the filter phrase
+        },
+        ...
+    }
+}
+```
+and should return the following object:
+
+```
+{
+    instructs: ➤ Instructs to be used (same structure as ptInstructs),
+    options: ➤ Options to be used (same structure as ptOptions),
+    data: ➤ Data of the current page. Should be already searched, filtered, and sorted (same structure as ptData)
+}
+```
+
+The value of `customParse` should be a function that returns the modified content of the current page. The function will receive a slice of the `ptData` that contains the current page's data.
+
+The value of `customSearch` should be a function that returns a slice of `ptData` after performing search. The function will receive the `ptData`.
+
+
+The `segments` property in `ptOptions` is an object that defines the top to bottom order of various HTML parts of PowerTable to facilitate theming and styling. Each property in this object will render a container DIV element with a `data-name` attribute equal to the property's arbitrary name and `data-type` equal to "segment". The value of each property is an array of HTML parts to be included in the container DIV element. Consider the following example:
+
+```javascript
+segments: {
+    'myTopContainer': ['search', 'pagination'],
+    'myTableContainer': ['table'],
+}
+```
+That will translate to...
+
+```html
+<div data-name="myTopContainer" data-type="segment">
+    [search bar HTML]
+    [pagination HTML]
+</div>
+
+<div data-name="myTableContainer" data-type="segment">
+    [table HTML]
+</div>
+```
+
+The property names are arbitrary strings. The property values are as follows.
+
+| value | Description |
+| ----- | ----------- |
+| "search" | Search bar |
+| "pagination" | Pagination |
+| "table" | The table block |
+| "dropdown" | Dropdown menu for selecting the number of rows per page |
+| "stats" | Representation of the displayed, filtered, and total number of rows |
+| "settings" | Settings button |
+
+The default value of `segments`:
+```javascript
+{
+    'topBar': ['search', 'pagination'],
+    'pTable': ['table'],
+    'bottomBar': ['dropdown', 'stats', 'pagination'],
+}
+```
+
+The `sortOrder` property in `ptOptions` prop is an object that specifies how the sorting direction will change. The property names represent the sorting direction before the click and their values represent the sorting direction after the click. When the value is an empty string, no sorting will be applied.
+
+| name/value | Description |
+| ----- | ----------- |
+| "asc" | Ascending (small to large) |
+| "desc" | Descending (large to small) |
+| "" | No sorting |
+
+The default value of `sortOrder`:
+```javascript
+{
+    '': 'asc',
+    'asc': 'desc',
+    'desc': '',
+}
+```
 
 ❸ The prop `ptData` is an array of objects containing the data to be displayed in the table. The property names must match the value of the `key` properties in `ptInstructs`. All property values including boolean, number, object, and array values will be converted to string.
 
@@ -159,7 +316,7 @@ let ptData = [
 
 The events `rowClicked` or `rowDblClicked` will be dispatched when a row is clicked or double clicked, respectively. Both return an object with a property named `event` containing the mouse event, and `data` containing the row data from `ptData`.
 
-```html
+```svelte
 <PowerTable
     {ptData}
     on:rowClicked="{(d) => console.log('click', d)}"
@@ -173,7 +330,7 @@ Named slots can be used to override some default HTML elements.
 
 Example:
 
-```html
+```svelte
 <PowerTable {ptData}>
     <div slot="noResults">There is no records to show!</div>
     <div slot="rendering">Please wait while table is being rendered...</div>
@@ -189,55 +346,6 @@ Example:
 | rendering | Content to be shown when table is loading remote data |
 | settings | Content to be shown in the setting menu |
 
-### Styles
-
-You can add styling with SCSS or CSS. In order for the following solutions to work, wrap the table in an element with the class `MuonW PowerTable`. 
-
-**With SCSS:** The default styling can be applied by importing `package/styles/power-table.scss` and [Mascara](https://github.com/muonw/mascara) in your layout (i.e. `routes/+layout.svelte`).
-
-```html
-<style lang="scss" global>
-@import '../../node_modules/@muonw/mascara/package/styles/index.scss';
-@import '../../node_modules/@muonw/powertable/package/styles/power-table.scss';
-
-/* To make search and filter text boxes smaller */
-.MuonW.PowerTable {
-    tr[data-name=filters-tr] {
-        input{
-            @extend .compact;
-        }
-    }
-    tr[data-name=filters-tr] {
-        input{
-            @extend .compact;
-        }
-    }
-    div[data-name=search-container], div[data-name=edit-block] {
-        label{
-            @extend .embedded;
-            & > span, &:focus-within > span {
-                @extend .label-text;
-            }
-        }
-    }
-    div[data-name=edit-block] {
-        button[data-name=edit-submit] {
-            margin-top: 8px;
-        }
-    }
-}
-</style>
-```
-
-**With CSS:**
-
-```html
-<style global>
-@import '../../node_modules/@muonw/powertable/package/dist/power-table.css';
-</style>
-```
-
-For more detailed implementations, see the examples at https://muonw.github.io/powertable/examples/example1
 
 ### Functions
 
@@ -272,10 +380,6 @@ For more detailed implementations, see the examples at https://muonw.github.io/p
 }
 ```
 
-## 📖 Complementary Documents
-
-Parts of the manual (includes information regarding layout customization and displaying remote/API data) have been moved to separate files located at https://github.com/muonw/powertable/tree/main/static/manual.
-
 
 ## 🎯 Objectives
 This repository exists to develop and maintain a tool that fulfills the following requirements:
@@ -287,8 +391,8 @@ This repository exists to develop and maintain a tool that fulfills the followin
 - Is based on Svelte.
 - Is easy to learn and use.
 - Runs in latest versions of Firefox ESR, Chromium, and Safari.
+- Does not impose a theme.
 - Does not include a web server.
-- Does not apply CSS styles by default.
 - Does not include third party runtime dependencies.
 
 ## 📝 To-do 
@@ -303,3 +407,9 @@ Areas of high priority:
 - Accessibility
 - Code quality
 - Tests
+
+<hr>
+
+License:
+
+https://dev.muonw.com/license/muonw-0/

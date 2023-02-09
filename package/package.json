@@ -1,61 +1,46 @@
 {
   "name": "@muonw/powertable",
-  "description": "▦ PowerTable is a JavaScript component that turns JSON data into an interactive HTML table. Inspired by DataTables. Powered by Svelte.",
+  "description": "▦ PowerTable is a Svelte component that turns JSON data into an interactive HTML table. Inspired by DataTables. Powered by Svelte.",
+  "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://node.pkgreg.com"
+  },
   "homepage": "https://muonw.github.io/powertable/",
   "bugs": {
     "url": "https://github.com/muonw/powertable/issues"
   },
-  "version": "0.3.2",
-  "type": "module",
-  "svelte": "index.js",
-  "module": "dist/power-table.js",
-  "style": "dist/power-table.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/muonw/powertable.git"
   },
-  "license": "MIT",
+  "license": "muonw-0",
   "devDependencies": {
-    "@babel/core": "^7.20.5",
-    "@babel/preset-env": "^7.20.2",
-    "@muonw/mascara": "github:muonw/mascara",
-    "@playwright/test": "^1.28.1",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^23.0.5",
-    "@rollup/plugin-json": "^5.0.2",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "^10.0.1",
-    "@sveltejs/adapter-static": "^1.0.0",
-    "@sveltejs/kit": "^1.0.1",
-    "@sveltejs/package": "^1.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.46.1",
-    "@typescript-eslint/parser": "^5.46.1",
-    "@vitejs/plugin-basic-ssl": "^1.0.1",
-    "eslint": "^8.29.0",
-    "eslint-config-prettier": "^8.5.0",
+    "@muonw/mascara": "^0.1.6",
+    "@sveltejs/adapter-static": "^1.0.5",
+    "@sveltejs/kit": "^1.2.9",
+    "@sveltejs/package": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "prettier": "^2.8.1",
+    "prettier": "^2.8.3",
     "prettier-plugin-svelte": "^2.9.0",
-    "rollup-plugin-scss": "^4.0.0",
-    "rollup-plugin-svelte": "^7.1.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "sass": "^1.56.2",
-    "svelte": "^3.55.0",
-    "svelte-check": "^2.10.2",
-    "svelte-preprocess": "^5.0.0",
-    "svelte2tsx": "^0.5.22",
+    "sass": "^1.57.1",
+    "svelte": "^3.55.1",
+    "svelte-check": "^3.0.3",
+    "svelte-preprocess": "^5.0.1",
     "tslib": "^2.4.1",
     "typescript": "^4.9.4",
-    "vite": "^4.0.1"
+    "vite": "^4.0.4"
   },
+  "type": "module",
   "exports": {
     "./package.json": "./package.json",
     "./components/PowerTable.svelte": "./components/PowerTable.svelte",
     ".": "./index.js",
     "./scss": "./scss.js",
-    "./styles/power-table.scss": "./styles/power-table.scss",
-    "./dist/power-table.js": "./dist/power-table.js",
-    "./dist/power-table.js.map": "./dist/power-table.js.map",
-    "./dist/power-table.d.ts": "./dist/power-table.d.ts"
-  }
+    "./styles/power-table.scss": "./styles/power-table.scss"
+  },
+  "svelte": "./index.js"
 }

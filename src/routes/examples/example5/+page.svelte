@@ -17,7 +17,35 @@ let ptOptions: Options = {
 </div>
 
 
-<style global>
+<style lang="scss" global>
+$light_root: (
+    --colors-custom-style1-background: #fcf3ff,
+);
+
+$dark_root: (
+    --colors-custom-style1-background: #3f2e44,
+);
+
+:root, :root[data-color-scheme='light'] {
+    @each $key, $val in $light_root {
+        #{$key}: $val;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        @each $key, $val in $dark_root {
+            #{$key}: $val;
+        }
+    }
+}
+
+:root[data-color-scheme='dark'] {
+    @each $key, $val in $dark_root {
+        #{$key}: $val;
+    }
+}
+
 .MuonW.PowerTable.ptStyles1 div[data-name=table-container] {
     max-height: 340px;
 }
@@ -29,6 +57,6 @@ let ptOptions: Options = {
     text-align: center;
 }
 .MuonW.PowerTable.ptStyles1 div[data-name="table-container"] table tbody tr:nth-child(2n) {
-    background-color: #fcf3ff;
+    background-color: var(--colors-custom-style1-background);
 }
 </style>
