@@ -481,8 +481,8 @@ function applyFilters() {
                     for (let key of Object.keys(d)) {
                         // If not a special column (e.g. checkboxes)
                         if (!specialInstructs.hasOwnProperty(key)) {
-                            let searchableString = d?.[key]?.toString()?.toLowerCase();
-                            unmatchedWords = unmatchedWords.filter((word: string) => {
+                            let searchableString: string = d?.[key]?.toString()?.toLowerCase();
+                            unmatchedWords = <never[] & RegExpMatchArray>unmatchedWords.filter((word: string) => {
                                 if (searchableString?.indexOf(word) > -1) {
                                     return false;
                                 }
@@ -543,7 +543,7 @@ function applyFilters() {
                     matchedData = matchedData.filter(d => {
                         let unmatchedWords = Object.assign([], words);
                         let searchableString = d?.[key]?.toString()?.toLowerCase();
-                        unmatchedWords = unmatchedWords.filter((word: string) => {
+                        unmatchedWords = <never[] & RegExpMatchArray>unmatchedWords.filter((word: string) => {
                             if (searchableString?.indexOf(word) > -1) {
                                 return false;
                             }
