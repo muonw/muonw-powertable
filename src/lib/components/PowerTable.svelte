@@ -75,8 +75,9 @@ type Lookup = {
     isCustom?: boolean
 }
 
-// PowerTable check box key name
+// PowerTable internal id key name
 export let dataIdKey = '__PT_ID__';
+// PowerTable check box key name
 export let checkboxKey = '__PT_CB__';
 
 // If phrase is a valid regex, return the regex parts
