@@ -59,7 +59,7 @@ const config = {
 -	preprocess: vitePreprocess(),
 +	preprocess: sveltePreprocess({
 +		scss: {
-+			includePaths: ['node_module']
++			includePaths: ['node_modules']
 +		}
 +	}),
 };
