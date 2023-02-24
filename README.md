@@ -29,7 +29,7 @@ Then, install the package:
 npm i -D @muonw/powertable
 ```
 
-Now, you can import the component in your svelte files (e.g. `src/routes/+page.svelte`). An example on a basic implementation without any styling:
+Now, you can import the component in your svelte files (e.g. `src/routes/+page.svelte`). An example of a basic implementation without any styling:
 
 ```svelte
 <script>
@@ -59,7 +59,7 @@ const config = {
 -	preprocess: vitePreprocess(),
 +	preprocess: sveltePreprocess({
 +		scss: {
-+			includePaths: ['node_module']
++			includePaths: ['node_modules']
 +		}
 +	}),
 };
