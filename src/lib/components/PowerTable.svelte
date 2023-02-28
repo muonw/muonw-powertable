@@ -833,7 +833,7 @@ onMount(async () => {
 </script>
 
 
-<div data-name="main-container" data-prefix="{options.uniquePrefix}" data-status={renderStatus}>
+<div data-component="powertable" data-name="main-container" data-prefix="{options.uniquePrefix}" data-status={renderStatus}>
     {#each Object.entries(options.segments ?? {}) as [segment_name, segment_arr]}
         <div data-name={segment_name} data-type="segment">
             {#each segment_arr as segment_code, segment_index}

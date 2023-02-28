@@ -1,6 +1,9 @@
 <script>
 import ptData from '../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
+
+import '$lib/styles/power-table.scss';
+import '$lib/styles/power-table-mascara.scss';
 </script>
 
 <h2><a href="https://github.com/muonw/powertable">▦</a> PowerTable</h2>
@@ -20,6 +23,5 @@ import PowerTable from '$lib/components/PowerTable.svelte';
 <h3>Basic Demo</h3>
 <hr>
     
-<div class="MuonW PowerTable">
-    <PowerTable {ptData} />
-</div>
+
+<PowerTable {ptData} />

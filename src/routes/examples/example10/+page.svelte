@@ -75,22 +75,22 @@ function myDateRangeFilter(data: Data[], filterPhrase: string): {data: Data[], c
 </script>
 
 
-<div class="MuonW PowerTable">
+<div class="ex10_style1">
     <PowerTable {ptData} {ptInstructs} {ptOptions} />
 </div>
 
-<style global>
-.MuonW.PowerTable .colorBall{
+<style>
+:global(.ex10_style1 .colorBall){
     display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 50%;
     vertical-align: middle;
 }
-.MuonW.PowerTable th[data-key=score]{
+:global(.ex10_style1 th[data-key=score]){
     width: 50px;
 }
-.MuonW.PowerTable td[data-key=score] textarea {
+:global(.ex10_style1 td[data-key=score] textarea){
     width: 40px ;
 }
 </style>

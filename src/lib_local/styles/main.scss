@@ -1,0 +1,56 @@
+@use '@muonw/mascara/styles/index.scss';
+
+$light_root: (
+    --colors-ref-background: #fff7e8,
+    --colors-ref-border: #ffb773,
+    --colors-ref-shadow: #fff7e8,
+);
+
+$dark_root: (
+    --colors-ref-background: #443c2f,
+    --colors-ref-border: #6c5742,
+    --colors-ref-shadow: #6a4909,
+);
+
+:root, :root[data-color-scheme=light] {
+    @each $key, $val in $light_root {
+        #{$key}: $val;
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        @each $key, $val in $dark_root {
+            #{$key}: $val;
+        }
+    }
+}
+
+:root[data-color-scheme=dark] {
+    @each $key, $val in $dark_root {
+        #{$key}: $val;
+    }
+}
+
+a {
+    color: var(--colors-a);
+}
+
+#switch-to-light-mode {
+    display: var(--dark-mode-display);
+    cursor: pointer;
+}
+#switch-to-dark-mode {
+    display: var(--light-mode-display);
+    cursor: pointer;
+}
+
+.ref {
+    background-color: var(--colors-ref-background);
+    border: 1px solid var(--colors-ref-border);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 0px var(--colors-ref-shadow);
+    box-sizing: border-box;
+    font-size: medium;
+}

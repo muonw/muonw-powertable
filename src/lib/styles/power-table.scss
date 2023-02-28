@@ -1,5 +1,4 @@
 
-
 $light_root: (
     --colors-highlighted-input: #d9ebff,
     --colors-regex-input: #8f0194,
@@ -18,90 +17,57 @@ $light_root: (
     --colors-no-results-background: #eee,
 );
 
-$dark_root: (
-    --colors-highlighted-input: #234a75,
-    --colors-regex-input: #f26cf7,
-    --colors-custom-input: #189edf,
-    --colors-thead-background: #1e1e1e,
-    --colors-tfoot-background: #1e1e1e,
-    --colors-tr-even-background: #1e1e1e,
-    --colors-tr-odd-background: #2b2b2b,
-    --colors-thead-shadow: #444,
-    --colors-tfoot-shadow: #444,
-    --colors-menu-background: #1e1e1e,
-    --colors-menu-shadow1: #606060,
-    --colors-menu-shadow2: #646464,
-    --colors-menu-hover-background: #444444,
-    --colors-pagination-button-color: #fff,
-    --colors-no-results-background: #2d2d2d,
-);
-
-:root, :root[data-color-scheme='light'] {
-    @each $key, $val in $light_root {
-        #{$key}: $val;
-    }
-}
-
-@media screen and (prefers-color-scheme: dark) {
-    :root {
-        @each $key, $val in $dark_root {
-            #{$key}: $val;
-        }
-    }
-}
-
-:root[data-color-scheme='dark'] {
-    @each $key, $val in $dark_root {
+:root, :root[data-color-scheme=light]{
+    @each $key, $val in $light_root{
         #{$key}: $val;
     }
 }
 
 
-
-.MuonW.PowerTable {
+div[data-component=powertable]{
     button:disabled{
         color: #bbb;
     }
-    div[data-name=table-container] {
+    div[data-name=table-container]{
         resize: vertical;
         overflow: auto;
-        table {
+        table{
             width: 100%;
             border-collapse: collapse;
             border-spacing: 0;
-            thead {     
+            thead{     
                 z-index: 10;
                 top: 0;
                 box-shadow: 0px 3px 3px -2px var(--colors-thead-shadow);
-                tr[data-name=filters-tr] {
+                tr[data-name=filters-tr]{
                     th{
                         padding: 0 .2rem .4rem .2rem;
                     }
                 }
             }
-            tfoot {
+            tfoot{
                 z-index: 9;
                 bottom: 0;
                 box-shadow: 0px -3px 3px -2px var(--colors-tfoot-shadow);
-                tr[data-name=filters-tr] {
+                tr[data-name=filters-tr]{
                     th{
                         padding: .4rem .2rem 0 .2rem;
                     }
                 }
             }
-            thead {
+            thead{
                 background-color: var(--colors-thead-background);
             }
-            tfoot {
+            tfoot{
                 background-color: var(--colors-tfoot-background);
             }
-            thead, tfoot {
+            thead, tfoot{
                 position: sticky;
                 text-align: left;
-                tr[data-name=loading_bar-tr] {
+                tr[data-name=loading_bar-tr]{
                     height: 4px;
                 }
-                tr[data-name=titles-tr] {
+                tr[data-name=titles-tr]{
                     text-transform: capitalize;
                     th{
                         & > button{
@@ -115,7 +81,7 @@ $dark_root: (
                         }
                         padding: .4rem .2rem .4rem .2rem;                 
                     }
-                    th:not([data-sortable=false]) {
+                    th:not([data-sortable=false]){
                         button{
                             cursor: pointer;
 
@@ -135,7 +101,7 @@ $dark_root: (
                             background-position: 30% center;
                             background-repeat: no-repeat;
                         }
-                        &[data-dir=asc] button > span {
+                        &[data-dir=asc] button > span{
                             background-image: none;
                             color: #348afb;
                             &::after{
@@ -144,7 +110,7 @@ $dark_root: (
                                 margin: 0;
                             }
                         }
-                        &[data-dir=desc] button > span {
+                        &[data-dir=desc] button > span{
                             background-image: none;
                             color: #348afb;
                             &::after{
@@ -154,14 +120,14 @@ $dark_root: (
                             }
                         }
                     } 
-                    th[data-key=__PT_CB__] {
+                    th[data-key=__PT_CB__]{
                         width: 1.5rem;;
                     }
                 }
-                tr[data-name=filters-tr] {
+                tr[data-name=filters-tr]{
                     input{
                         width: calc(100% - 10px);
-                        &:not(:placeholder-shown) {
+                        &:not(:placeholder-shown){
                             background-color: var(--colors-highlighted-input);
                         }
                         &[data-is_regex=true]{
@@ -218,7 +184,7 @@ $dark_root: (
     div[data-name=search-container]{
         margin-right: auto;
         input[data-name=search-input]{
-            &:not(:placeholder-shown) {
+            &:not(:placeholder-shown){
                 background-color: var(--colors-highlighted-input);
             }
             &[data-is_regex=true]{
@@ -305,8 +271,8 @@ $dark_root: (
     div[data-type=segment]{
         position: relative;
     }
-    div[data-status=rendering]{
-        tr[data-name=loading_bar-tr] {
+    &[data-status=rendering]{        
+        tr[data-name=loading_bar-tr]{
             animation-duration: 2.5s;
             animation-fill-mode: forwards;
             animation-iteration-count: infinite;

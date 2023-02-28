@@ -41,7 +41,7 @@ function exportJsonData(e: Event) {
 }
 </script>
 
-<div class="MuonW PowerTable">
+<div class="ex7_style1">
     <PowerTable {ptData} {ptOptions} bind:this={myPowerTable}>
         <div slot="settings">
             <button data-name="item" on:click={importJsonData}>Import sample data</button>
@@ -51,11 +51,11 @@ function exportJsonData(e: Event) {
     </PowerTable>
 </div>
 
-<style global>
-.MuonW.PowerTable th[data-key=id]{
+<style>
+:global(.ex7_style1 th[data-key=id]){
     width: 50px;
 }
-.MuonW.PowerTable td[data-key=id] textarea {
+:global(.ex7_style1 td[data-key=id] textarea){
     width: 40px ;
 }
 </style>

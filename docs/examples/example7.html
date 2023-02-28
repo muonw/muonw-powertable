@@ -4,22 +4,37 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="/powertable/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<style>
+		@media screen and (prefers-color-scheme: dark) {
+			body {
+				background: #1e1e1e;
+			}
+		}
+		</style>
 		<meta http-equiv="content-security-policy" content="">
-		<link rel="modulepreload" href="/powertable/_app/immutable/start-98ed72a2.js">
-		<link rel="modulepreload" href="/powertable/_app/immutable/chunks/index-83a72ca5.js">
-		<link rel="modulepreload" href="/powertable/_app/immutable/chunks/singletons-7662e2ee.js">
+		<link rel="modulepreload" href="/powertable/_app/immutable/entry/start.3df1dc00.js">
+		<link rel="modulepreload" href="/powertable/_app/immutable/chunks/index.5349f71a.js">
+		<link rel="modulepreload" href="/powertable/_app/immutable/chunks/singletons.34e8c813.js">
+		<link rel="modulepreload" href="/powertable/_app/immutable/entry/app.4510bc44.js">
 	</head>
 	<body>
 		<div>
-		<script type="module" data-sveltekit-hydrate="45h">
-			import { start } from "/powertable/_app/immutable/start-98ed72a2.js";
+			<script>
+				{
+					__sveltekit_3nc70d = {
+						env: {},
+						assets: "/powertable",
+						element: document.currentScript.parentElement
+					};
 
-			start({
-				env: {},
-				paths: {"assets":"/powertable","base":"/powertable"},
-				target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
-				version: "1675901584662"
-			});
-		</script></div>
+					Promise.all([
+						import("/powertable/_app/immutable/entry/start.3df1dc00.js"),
+						import("/powertable/_app/immutable/entry/app.4510bc44.js")
+					]).then(([kit, app]) => {
+						kit.start(app, __sveltekit_3nc70d.element);
+					});
+				}
+			</script>
+		</div>
 	</body>
 </html>
