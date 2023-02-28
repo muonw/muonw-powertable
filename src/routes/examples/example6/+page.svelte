@@ -58,6 +58,4 @@ async function dummyApiCall({filters, options, search}: Record<string,any>): Pro
 </script>
 
 
-<div class="MuonW PowerTable">
-    <PowerTable {ptOptions} {ptInstructs} />
-</div>
+<PowerTable {ptOptions} {ptInstructs} />

@@ -1,4 +1,9 @@
-[![MuonW PowerTable](https://github.com/muonw/powertable/raw/main/src/data/muonw_powertable_830x448.png)](https://github.com/muonw/powertable)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/muonw/powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/muonw/powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_light.png">
+  <img alt="MuonW PowerTable" src="https://github.com/muonw/powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_light.png">
+</picture>
+
 
 # [▦](https://github.com/muonw/powertable) PowerTable
 
@@ -29,95 +34,21 @@ Then, install the package:
 npm i -D @muonw/powertable
 ```
 
-Now, you can import the component in your svelte files (e.g. `src/routes/+page.svelte`). An example of a basic implementation without any styling:
+Now, you can import the component in your svelte files (e.g. `src/routes/+page.svelte`). Here is an example of a basic implementation in an SvelteKit project without any styling (styles can be added by uncommenting the import lines):
 
 ```svelte
 <script>
 import { PowerTable } from '@muonw/powertable';
 let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
+
+// Uncomment to add basic styling. Requires installing saas (i.e. npm install -D sass)
+// import '@muonw/powertable/styles/power-table.scss';
+
+// Uncomment if using @muonw/mascara (https://github.com/muonw/mascara)
+// import '@muonw/powertable/styles/power-table-mascara.scss';
 </script>
 
 <PowerTable {ptData} />
-```
-
-### Styling
-
-PowerTable uses SCSS in global style tags, which requires installing [saas](https://www.npmjs.com/package/sass) and [svelte-preprocess](https://www.npmjs.com/package/svelte-preprocess) packages:
-
-```sh
-npm install -D sass
-npm install -D svelte-preprocess
-```
-
-Open the file `svelte.config.js` and make the following changes:
-
-```diff
-- import { vitePreprocess } from '@sveltejs/kit/vite';
-+ import sveltePreprocess from 'svelte-preprocess';
-
-const config = {
--	preprocess: vitePreprocess(),
-+	preprocess: sveltePreprocess({
-+		scss: {
-+			includePaths: ['node_modules']
-+		}
-+	}),
-};
-```
-
-If you would like to use [Mascara](https://github.com/muonw/mascara) as well, install it using the command below:
-
-```sh
-npm i -D --save-exact @muonw/mascara@0.1.6
-```
-
-Now you can import and use `styles/power-table.scss` as shown in the example below. Please note that your PowerTable tag should be inside an element with the css classes `MuonW` and `PowerTable`. If you have not installed Mascara, ignore the Mascara section in the example below.
-
-```svelte
-<script>
-import { PowerTable } from '@muonw/powertable';
-let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
-</script>
-
-<div class="MuonW PowerTable">
-    <PowerTable {ptData} />
-</div>
-
-<style lang="scss" global>
-@use '@muonw/powertable/styles/power-table.scss';
-
-/* Mascara */
-/* If you have installed Mascara, include this section to apply it */
-
-@use '@muonw/mascara/styles/index.scss';
-
-.MuonW.PowerTable {
-    tr[data-name=filters-tr] {
-        input{
-            @extend .compact;
-        }
-    }
-    tr[data-name=filters-tr] {
-        input{
-            @extend .compact;
-        }
-    }
-    div[data-name=search-container], div[data-name=edit-block] {
-        label{
-            @extend .embedded;
-            & > span, &:focus-within > span {
-                @extend .label-text;
-            }
-        }
-    }
-    div[data-name=edit-block] {
-        button[data-name=edit-submit] {
-            margin-top: 8px;
-        }
-    }
-}
-/* End of Mascara section*/
-</style>
 ```
 
 ## 👀 Examples

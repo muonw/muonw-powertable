@@ -308,11 +308,11 @@ function highlightMatches(pageContent: Data[], matches: Matches, Instructs: Inst
 </script>
 
 
-<div class="MuonW PowerTable">
+<div class="ex8_style1">
     <PowerTable {ptData} {ptInstructs} {ptOptions} bind:this={myPowerTable} />
 </div>
 
-<style lang="scss" global>
+<style lang="scss">
 $light_root: (
     --colors-search-match-background: #ffe300,
     --colors-filter-match-background: #8ed3fc,
@@ -325,7 +325,7 @@ $dark_root: (
     --colors-overlap-match-background: #4e8809,
 );
 
-:root, :root[data-color-scheme='light'] {
+:root, :root[data-color-scheme=light] {
     @each $key, $val in $light_root {
         #{$key}: $val;
     }
@@ -339,25 +339,25 @@ $dark_root: (
     }
 }
 
-:root[data-color-scheme='dark'] {
+:root[data-color-scheme=dark] {
     @each $key, $val in $dark_root {
         #{$key}: $val;
     }
 }
 
-.MuonW.PowerTable th[data-key=id]{
+:global(.ex8_style1 th[data-key=id]){
     width: 50px;
 }
-.MuonW.PowerTable td[data-key=id] textarea {
+:global(.ex8_style1 td[data-key=id] textarea){
     width: 40px ;
 }
-.MuonW.PowerTable span.search-match {
+:global(.ex8_style1 span.search-match){
     background-color: var(--colors-search-match-background);
 }
-.MuonW.PowerTable span.filter-match {
+:global(.ex8_style1 span.filter-match){
     background-color: var(--colors-filter-match-background);
 }
-.MuonW.PowerTable span.overlap-match {
+:global(.ex8_style1 span.overlap-match){
     background-color: var(--colors-overlap-match-background);
 }
 </style>

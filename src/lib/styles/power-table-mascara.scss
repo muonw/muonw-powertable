@@ -1,0 +1,65 @@
+
+@use '@muonw/mascara/styles/index.scss';
+
+$dark_root: (
+    --colors-highlighted-input: #234a75,
+    --colors-regex-input: #f26cf7,
+    --colors-custom-input: #189edf,
+    --colors-thead-background: #1e1e1e,
+    --colors-tfoot-background: #1e1e1e,
+    --colors-tr-even-background: #1e1e1e,
+    --colors-tr-odd-background: #2b2b2b,
+    --colors-thead-shadow: #444,
+    --colors-tfoot-shadow: #444,
+    --colors-menu-background: #1e1e1e,
+    --colors-menu-shadow1: #606060,
+    --colors-menu-shadow2: #646464,
+    --colors-menu-hover-background: #444444,
+    --colors-pagination-button-color: #fff,
+    --colors-no-results-background: #2d2d2d,
+);
+
+@media screen and (prefers-color-scheme: dark){
+    :root{
+        @each $key, $val in $dark_root{
+            #{$key}: $val;
+        }
+    }
+}
+
+:root[data-color-scheme=dark]{
+    @each $key, $val in $dark_root{
+        #{$key}: $val;
+    }
+}
+
+div[data-component=powertable]{
+    table tbody tr[data-name=titles-tr], tr[data-name=filters-tr]{
+        th[data-key=id]{
+            width: 50px;
+        }
+    }
+    tr[data-name=filters-tr]{
+        input{
+            @extend .compact;
+        }
+    }
+    div[data-name=search-container], div[data-name=edit-block]{
+        label{
+            @extend .embedded;
+            & > span, &:focus-within > span{
+                @extend .label-text;
+            }
+        }
+    }
+    div[data-name=dropdown-container]{
+        select{
+            @extend .lean;
+        }
+    }
+    div[data-name=edit-block]{
+        button[data-name=edit-submit]{
+            margin-top: 8px;
+        }
+    }
+}

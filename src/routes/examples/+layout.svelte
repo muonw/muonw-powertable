@@ -37,7 +37,6 @@ let pages = {
             <b>2.</b> First name is <b>not sortable</b>.<br>
             <b>3.</b> Company has a <b>default filter phrase</b>.<br>
             <b>4.</b> Department is <b>not filterable</b>.<br>
-            <b>5.</b> A custom parsing function has added <b>emojis and HTML tags</b> to some job titles.<br>
         {:else if $page.data.routeIdMatches[1] === '3'}
             There are two tables on this page separated by a horizontal line. The first table has the following customizations of ptOptions:<br>
             <b>1.</b> A <b>unique prefix</b> has been assigned to the table.<br>
@@ -48,7 +47,9 @@ let pages = {
             <b>6.</b> <b>By default page #5</b> is displayed.<br>
             <b>7.</b> There are three <b>segments above the table</b>: dropdown, pagination, and stats.<br>
             <br>
-            The second table does not have any customizations other than a unique prefix.
+            The second table has the following customizations:<br>
+            <b>1.</b> A <b>unique prefix</b> has been assigned to the table.<br>
+            <b>2.</b> A custom parsing function has added <b>emojis and HTML tags</b> to some job titles.<br>
         {:else if $page.data.routeIdMatches[1] === '4'}
             Customizations with named slots:<br>
             <b>1.</b> A custom text is used for <b>noResults</b> slot.<br>
@@ -122,7 +123,7 @@ $dark_root: (
     --colors-nav-a-selected-shadow2: #ffffff,
 );
 
-:root, :root[data-color-scheme='light'] {
+:root, :root[data-color-scheme=light] {
     @each $key, $val in $light_root {
         #{$key}: $val;
     }
@@ -136,7 +137,7 @@ $dark_root: (
     }
 }
 
-:root[data-color-scheme='dark'] {
+:root[data-color-scheme=dark] {
     @each $key, $val in $dark_root {
         #{$key}: $val;
     }

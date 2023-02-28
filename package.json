@@ -1,7 +1,7 @@
 {
 	"name": "@muonw/powertable",
 	"description": "▦ PowerTable is a Svelte component that turns JSON data into an interactive HTML table. Inspired by DataTables. Powered by Svelte.",
-	"version": "1.0.1",
+	"version": "2.0.0",
 	"publishConfig": {
 		"registry": "https://node.pkgreg.com"
 	},
@@ -18,33 +18,47 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"package": "svelte-kit sync && svelte-package",
+		"publishLocal": "_/NPM_REGISTRY_LOCAL",
+		"publishPublic": "_/NPM_REGISTRY_PUBLIC",
 		"preview": "vite preview",
-		"prepublishOnly": "echo 'Did you mean to publish `./package/`, instead of `./`?' && exit 1",
+		"prepublishOnly": "if [ -z $MU_NPM_PERMIT ]; then echo 'Please use `publishLocal` or `publishPublic`' && exit 1; fi",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"updateDeps": "npx npm-check-updates -u"
 	},
+	"exports": {
+		".": {
+			"types": "./index.d.ts",
+			"svelte": "./index.js"
+		},
+		"./styles/power-table.scss": "./styles/power-table.scss",
+		"./styles/power-table-mascara.scss": "./styles/power-table-mascara.scss"
+	},
+	"peerDependencies": {
+		"svelte": "^3.55.1"
+	},
 	"devDependencies": {
-		"@muonw/mascara": "0.1.6",
-		"@sveltejs/adapter-static": "^1.0.5",
-		"@sveltejs/kit": "^1.2.9",
-		"@sveltejs/package": "^1.0.2",
-		"@typescript-eslint/eslint-plugin": "^5.49.0",
-		"@typescript-eslint/parser": "^5.49.0",
-		"eslint": "^8.32.0",
+		"@muonw/mascara": "^0.1.10",
+		"@sveltejs/adapter-static": "^2.0.1",
+		"@sveltejs/kit": "^1.8.6",
+		"@sveltejs/package": "^2.0.2",
+		"@typescript-eslint/eslint-plugin": "^5.54.0",
+		"@typescript-eslint/parser": "^5.54.0",
+		"eslint": "^8.35.0",
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-svelte3": "^4.0.0",
-		"prettier": "^2.8.3",
+		"prettier": "^2.8.4",
 		"prettier-plugin-svelte": "^2.9.0",
-		"sass": "^1.57.1",
+		"sass": "^1.58.3",
 		"svelte": "^3.55.1",
-		"svelte-check": "^3.0.3",
-		"svelte-preprocess": "^5.0.1",
-		"tslib": "^2.4.1",
-		"typescript": "^4.9.4",
-		"vite": "^4.0.4"
+		"svelte-check": "^3.0.4",
+		"tslib": "^2.5.0",
+		"typescript": "^4.9.5",
+		"vite": "^4.1.4"
 	},
+	"svelte": "./index.js",
+	"types": "./index.d.ts",
 	"type": "module"
 }

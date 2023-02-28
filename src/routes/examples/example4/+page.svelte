@@ -14,8 +14,6 @@ let ptInstructs: Instructs[] = [
 </script>
 
 
-<div class="MuonW PowerTable">
-    <PowerTable {ptData} {ptInstructs}>
-        <div slot="noResults">This is a custom text that<br> will be shown when there are<br> no rows to display</div>
-    </PowerTable>
-</div>
+<PowerTable {ptData} {ptInstructs}>
+    <div slot="noResults">This is a custom text that<br> will be shown when there are<br> no rows to display</div>
+</PowerTable>

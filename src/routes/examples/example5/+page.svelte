@@ -9,7 +9,7 @@ let ptOptions: Options = {
 </script>
 
 
-<div class="MuonW PowerTable ptStyles1">
+<div class="ex5_style1">
     <PowerTable
         ptData={data}
         ptOptions={ptOptions}
@@ -17,7 +17,7 @@ let ptOptions: Options = {
 </div>
 
 
-<style lang="scss" global>
+<style lang="scss">
 $light_root: (
     --colors-custom-style1-background: #fcf3ff,
 );
@@ -26,7 +26,7 @@ $dark_root: (
     --colors-custom-style1-background: #3f2e44,
 );
 
-:root, :root[data-color-scheme='light'] {
+:root, :root[data-color-scheme=light] {
     @each $key, $val in $light_root {
         #{$key}: $val;
     }
@@ -40,23 +40,23 @@ $dark_root: (
     }
 }
 
-:root[data-color-scheme='dark'] {
+:root[data-color-scheme=dark] {
     @each $key, $val in $dark_root {
         #{$key}: $val;
     }
 }
 
-.MuonW.PowerTable.ptStyles1 div[data-name=table-container] {
+:global(.ex5_style1 div[data-name=table-container]) {
     max-height: 340px;
 }
-.MuonW.PowerTable.ptStyles1 div[data-name="table-container"] table tbody td {
+:global(.ex5_style1 div[data-name=table-container] table tbody td) {
     padding: 0.9rem 0.4rem;
 }
-.MuonW.PowerTable.ptStyles1 div[data-name="table-container"] table tbody td[data-key=id] {
+:global(.ex5_style1 div[data-name=table-container] table tbody td[data-key=id]) {
     transform: rotate(-90deg);
     text-align: center;
 }
-.MuonW.PowerTable.ptStyles1 div[data-name="table-container"] table tbody tr:nth-child(2n) {
-    background-color: var(--colors-custom-style1-background);
+:global(.ex5_style1 div[data-name=table-container] table tbody tr:nth-child(2n)) {
+    background-color: var(--colors-custom-style1-background) !important;
 }
 </style>
