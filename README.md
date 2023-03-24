@@ -1,11 +1,11 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/muonw/powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/muonw/powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_light.png">
-  <img alt="MuonW PowerTable" src="https://github.com/muonw/powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/muonw/muonw-powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/muonw/muonw-powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_light.png">
+  <img alt="MuonW PowerTable" src="https://github.com/muonw/muonw-powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_light.png">
 </picture>
 
 
-# [▦](https://github.com/muonw/powertable) PowerTable
+# [▦](https://github.com/muonw/muonw-powertable) PowerTable
 
 PowerTable is a Svelte component that turns JSON data into an interactive HTML table. This facilitates manual inspection, sorting, filtering, searching, and editing of the data. PowerTable is inspired by DataTables and powered by Svelte.
 
@@ -44,7 +44,7 @@ let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
 // Uncomment to add basic styling. Requires installing saas (i.e. npm install -D sass)
 // import '@muonw/powertable/styles/power-table.scss';
 
-// Uncomment if using @muonw/mascara (https://github.com/muonw/mascara)
+// Uncomment if using @muonw/mascara (https://github.com/muonw/muonw-mascara)
 // import '@muonw/powertable/styles/power-table-mascara.scss';
 </script>
 
@@ -53,7 +53,7 @@ let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
 
 ## 👀 Examples
 
-To see the demos, visit https://muonw.github.io/powertable/examples/example1
+To see the demos, visit https://muonw.github.io/muonw-powertable/examples/example1
 
 ## 📖 Manual
 
