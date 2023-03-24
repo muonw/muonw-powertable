@@ -5,13 +5,13 @@
 	"publishConfig": {
 		"registry": "https://node.pkgreg.com"
 	},
-	"homepage": "https://muonw.github.io/powertable/",
+	"homepage": "https://muonw.github.io/muonw-powertable/",
 	"bugs": {
-		"url": "https://github.com/muonw/powertable/issues"
+		"url": "https://github.com/muonw/muonw-powertable/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/muonw/powertable.git"
+		"url": "https://github.com/muonw/muonw-powertable.git"
 	},
 	"license": "muonw-0",
 	"scripts": {
