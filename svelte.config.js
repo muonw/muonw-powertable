@@ -13,7 +13,7 @@ const config = {
 			assets: 'docs',
 		}),
 		paths: {
-			base: '/powertable',
+			base: '/muonw-powertable',
 		}
 	}
 };

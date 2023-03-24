@@ -6,17 +6,17 @@ import '$lib/styles/power-table.scss';
 import '$lib/styles/power-table-mascara.scss';
 </script>
 
-<h2><a href="https://github.com/muonw/powertable">▦</a> PowerTable</h2>
+<h2><a href="https://github.com/muonw/muonw-powertable">▦</a> PowerTable</h2>
 <p>
     PowerTable is a Svelte component that turns JSON data into an interactive HTML table.<br>
     This facilitates manual inspection, sorting, filtering, searching, and editing of the data.<br>
     PowerTable is inspired by DataTables and powered by Svelte.<br>
-    Click here to learn more: <a href="https://github.com/muonw/powertable">https://github.com/muonw/powertable</a>
+    Click here to learn more: <a href="https://github.com/muonw/muonw-powertable">https://github.com/muonw/muonw-powertable</a>
 </p>
 
 <br>
 
-<h2><a href="powertable/examples/example1">👀 Click here to see all examples</a></h2>
+<h2><a href="muonw-powertable/examples/example1">👀 Click here to see all examples</a></h2>
 
 <br>
 

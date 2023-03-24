@@ -18,7 +18,7 @@ let pages = {
 <nav>
     {#each Object.entries(pages) as [key, name]}
         <a
-            href="/powertable/examples/example{key}"
+            href="/muonw-powertable/examples/example{key}"
             class:selected={$page.route.id === `/examples/example${key}`}
         >
             {key}. {name}
@@ -96,7 +96,7 @@ let pages = {
 
     <p class="ref">
         See the source code 
-        <a href="https://github.com/muonw/powertable/blob/main/src/routes/examples/example{$page.data.routeIdMatches[1]}/+page.svelte">
+        <a href="https://github.com/muonw/muonw-powertable/blob/main/src/routes/examples/example{$page.data.routeIdMatches[1]}/+page.svelte">
             here
         </a>
     </p>
