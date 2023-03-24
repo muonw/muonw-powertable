@@ -24,8 +24,8 @@ import '$lib/styles/power-table-mascara.scss';
 </script>
 
 <nav>
-    <a href="/powertable/">Home</a> | 
-    <a href="https://github.com/muonw/powertable">GitHub</a> | 
+    <a href="/muonw-powertable/">Home</a> | 
+    <a href="https://github.com/muonw/muonw-powertable">GitHub</a> | 
     <span id='switch-to-light-mode' title="Light Mode" on:click={()=>switchColorScheme('light')} on:keypress={()=>switchColorScheme('light')}>☀️</span>
     <span id='switch-to-dark-mode' title="Dark Mode" on:click={()=>switchColorScheme('dark')} on:keypress={()=>switchColorScheme('dark')}>🌙</span>
 </nav>
