@@ -16,7 +16,8 @@
 	"license": "muonw-0",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"buildLocal": "vite build --mode=development && rm -rf ../_docs && mv docs _docs && mv _docs ../",
+		"buildProduction": "vite build --mode=production && rm -rf ../docs && mv docs ../",
 		"package": "svelte-kit sync && svelte-package",
 		"publishLocal": "_/NPM_REGISTRY_LOCAL",
 		"publishPublic": "_/NPM_REGISTRY_PUBLIC",

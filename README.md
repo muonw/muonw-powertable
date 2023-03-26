@@ -1,7 +1,7 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/muonw/muonw-powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/muonw/muonw-powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_light.png">
-  <img alt="MuonW PowerTable" src="https://github.com/muonw/muonw-powertable/blob/v2.0.0/src/data/muonw_powertable_830x495_light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/muonw/muonw-powertable/blob/v2.0.0/app/src/data/muonw_powertable_830x495_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/muonw/muonw-powertable/blob/v2.0.0/app/src/data/muonw_powertable_830x495_light.png">
+  <img alt="MuonW PowerTable" src="https://github.com/muonw/muonw-powertable/blob/v2.0.0/app/src/data/muonw_powertable_830x495_light.png">
 </picture>
 
 
