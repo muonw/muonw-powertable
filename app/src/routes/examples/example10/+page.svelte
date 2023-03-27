@@ -18,7 +18,23 @@ let ptOptions: Options = {
         customSearch: mySearch
     },
     nestedSorting: true,
-    checkboxColumn: true
+    checkboxColumn: true,
+    translations: {
+        locale: 'zh',
+        numeralFormatter: new Intl.NumberFormat("zh-Hans-CN-u-nu-hanidec"),
+        search: '搜索',
+        next: '下一个',
+        previous: '以前的',
+        rows: '行数',
+        filterBy: '过滤',
+        selectAll: '全选',
+        selectNone: '选择无',
+        invertSelection: '反转选择',
+        add: '添加',
+        delete: '删除',
+        of: '的',
+        from: '从'
+    }
 }
 
 function addColors(pageContent: Data[]): Data[] {

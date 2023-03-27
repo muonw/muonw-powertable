@@ -89,6 +89,7 @@ let pages = {
             <b>1.</b> <b>Search</b> can only be done on rows that have an <b>even score number</b>. That is because a user-defined function removes all rows that have odd scores (e.g. <code>1</code>,<code>3</code>,<code>5</code>,<code>7</code>) and then returns the remaining data along with a flag that allows the default search function to perform the actual search.<br>
             <b>2.</b> The <b>Score</b> column can be filtered by a <b>number range</b> (two integers separated by a hyphen). When the user-defined function detects a valid range, it filters out all non-matching rows and then returns the filtered data along with a flag that marks the filtering as finalized. If the process is not finalized, the default filter function will look for score numbers that have the exact characters as our range (including the hyphen) and will always fail.<br>
             <b>3.</b> The <b>Birthday</b> column can be filtered by a <b>date range</b>. The methodology is similar to that used for the <b>Score</b> column.<br>
+            <b>4. Add custom localization and numerals via ptOptions.translations</b>
         {/if}
     </p>
 

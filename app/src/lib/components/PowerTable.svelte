@@ -37,6 +37,22 @@ export interface Options {
     totalRows?: number|null,
     filteredRows?: number|null,
     currentPage?: number,
+    translations?: {
+        locale?: string,
+        numeralFormatter?: object,
+        search?: string,
+        previous?: string,
+        next?: string,
+        rows?: string,
+        filterBy?: string,
+        of?: string,
+        from?: string
+        selectAll?: string, 
+        selectNone?: string, 
+        invertSelection?: string, 
+        add?: string, 
+        delete?: string, 
+    },
     searchPhrase?: string,
     searchIsRegex?: boolean,
     checkboxColumn?: boolean,
@@ -141,6 +157,15 @@ let options: Options = {
     totalRows: null,
     filteredRows: null,
     currentPage: 1,
+    translations: {
+        locale: 'en',
+        numeralFormatter: new Intl.NumberFormat('en'),
+        search: 'Search',
+        next: 'Next',
+        previous: 'Previous',
+        rows: 'Rows',
+        filterBy: 'Filter by'
+    },
     userFunctions: {
         dataFeed: async () => ({}),
     },
@@ -363,7 +388,7 @@ function applySort() {
         const removeCase = (v: string) => typeof(v) === "string" ? v.toLowerCase() : v;
         const makeCompareFunction = (f:any, opt:any) => {
             opt = typeof(opt) === "object" ? opt : {direction: opt};
-            if(typeof(f)!="function"){var prop = f; f = function(v1:any){return !!v1[prop] ? v1[prop] : "";}}
+            if(typeof(f)!="function"){var prop = f; f = function(v1:any){return v1[prop] ? v1[prop] : "";}}
             if(f.length === 1) {
                 var uf = f;
                 var preProcess = opt.caseSensitive ? preserveCase : removeCase;
@@ -433,7 +458,7 @@ function applyFilters() {
 
     if (searchObj.value) {
         // By default search continues after a custom search
-        let customSearchContinue: boolean = true;
+        let customSearchContinue = true;
 
         if (typeof (options.userFunctions?.customSearch ?? null) === 'function' && options.userFunctions?.customSearch !== undefined) {
             let customSearchResult = options.userFunctions.customSearch(matchedData, searchObj.value);
@@ -506,7 +531,7 @@ function applyFilters() {
 
         if (filter.value?.length) {
             // By default filter continues after a custom filter
-            let customFilterContinue: boolean = true;
+            let customFilterContinue = true;
 
             let correspondingInstruct = instructs.find(d => d.key === key);
 
@@ -840,15 +865,15 @@ onMount(async () => {
                 {#if segment_code.toLowerCase() === 'search'}
                     <div data-name="search-container" data-segment_index={segment_index}>
                         <label>
-                            <span><span>Search</span></span>
+                            <span><span>{options.translations?.search ?? 'Search'}</span></span>
                             <input data-name="search-input" type="text" placeholder=" " data-is_regex={searchObj.isRegex} data-is_custom={searchObj.isCustom} bind:value={searchObj.value} on:input={renderTable}>
                         </label>
                     </div>
                 {:else if segment_code.toLowerCase() === 'stats'}
                     <div data-name="stats-container" data-segment_index={segment_index}>
-                        {pagination.firstShownRow}-{pagination.lastShownRow} of {options.filteredRows ?? sortedData.length} 
+                        {options.translations.numeralFormatter.format(pagination.firstShownRow)}-{options.translations.numeralFormatter.format(pagination.lastShownRow)} {options.translations?.of ?? 'of'} {options.translations.numeralFormatter.format(options.filteredRows ?? sortedData.length)} 
                         {#if ((options.filteredRows ?? sortedData.length) !== pagination.totalRows) }
-                            (from {pagination.totalRows})
+                            ({options.translations?.from ?? 'from'} {options.translations.numeralFormatter.format(pagination.totalRows)})
                         {/if}
                     </div>
                 {:else if segment_code.toLowerCase() === 'table'}
@@ -869,11 +894,11 @@ onMount(async () => {
                                                         <div data-name="actions-container">
                                                             <button data-name="handle" on:click={toggleMenu}>⚙️</button>
                                                             <div data-name="menu">
-                                                                <button data-name="item" on:click={selectAllAction}>Select All</button>
-                                                                <button data-name="item" on:click={selectNoneAction}>Select None</button>
-                                                                <button data-name="item" on:click={invertSelectionAction}>Invert Selection</button>
-                                                                <button data-name="item" on:click={addAction}>Add</button>
-                                                                <button data-name="item" on:click={deleteAction}>Delete</button>
+                                                                <button data-name="item" on:click={selectAllAction}>{options.translations?.selectAll ?? 'Select All'}</button>
+                                                                <button data-name="item" on:click={selectNoneAction}>{options.translations?.selectNone ?? 'Select None'}</button>
+                                                                <button data-name="item" on:click={invertSelectionAction}>{options.translations?.invertSelection ?? 'Invert Selection'}</button>
+                                                                <button data-name="item" on:click={addAction}>{options.translations?.add ?? 'Add'}</button>
+                                                                <button data-name="item" on:click={deleteAction}>{options.translations?.delete ?? 'Delete'}</button>
                                                             </div>
                                                         </div>
                                                     </th>
@@ -899,7 +924,7 @@ onMount(async () => {
                                             {:else}
                                                 <th data-key={instruct.key}>
                                                     {#if instruct?.filterable !== false}
-                                                        <input data-key={instruct.key} data-is_regex={filterObj[instruct.key].isRegex} data-is_custom={filterObj[instruct.key].isCustom} placeholder="Filter by {instruct.title}" bind:value={filterObj[instruct.key].value} on:input={renderTable} >
+                                                        <input data-key={instruct.key} data-is_regex={filterObj[instruct.key].isRegex} data-is_custom={filterObj[instruct.key].isCustom} placeholder="{options.translations?.filterBy ?? 'Filter by'} {instruct.title}" bind:value={filterObj[instruct.key].value} on:input={renderTable} >
                                                     {/if}
                                                 </th>
                                             {/if}
@@ -1007,16 +1032,16 @@ onMount(async () => {
                     </div>
                 {:else if segment_code.toLowerCase() === 'dropdown'}
                     <div data-name="dropdown-container" data-segment_index={segment_index}>
-                        Rows: 
+                        {options.translations?.rows ?? 'Rows: '}
                         <select bind:value={options.rowsPerPage} on:change={updatePageSize}>
                             {#each options.rowsPerPageOptions ?? [] as num}
-                                <option value={num}>{num}</option>
+                                <option value={num}>{options.translations.numeralFormatter.format(num)}</option>
                             {/each}
                         </select>
                     </div>
                 {:else if segment_code.toLowerCase() === 'settings'}
                     <div data-name="settings-container" data-segment_index={segment_index}>
-                        <button data-name="handle" on:click={toggleMenu}>🛠️</button>
+                        <button data-name="handle" on:click={toggleMenu}>{options.translations?.settings ?? '🛠️'}</button>
                         <div data-name="menu">
                             {#if $$slots.settings}
                                 <slot name="settings" />
@@ -1030,7 +1055,7 @@ onMount(async () => {
                         <button
                             disabled={options.currentPage === 1}
                             on:click={()=>options.currentPage !== 1 ? goToPage((options.currentPage ?? 1) - 1) : null}
-                        >Previous</button>
+                        >{options.translations?.previous ?? 'Previous'}</button>
 
                         {#if pagination.totalPages}
                             {#each pagination.pages ?? [] as pageNum}
@@ -1040,7 +1065,7 @@ onMount(async () => {
                                     <button
                                         data-active={options.currentPage === pageNum}
                                         on:click={()=>options.currentPage !== pageNum ? goToPage(pageNum) : null}
-                                    >{pageNum}</button>
+                                    >{options.translations.numeralFormatter.format(pageNum)}</button>
                                 {/if}
                             {/each}
                         {:else}
@@ -1050,7 +1075,7 @@ onMount(async () => {
                         <button
                             disabled={!pagination.totalPages || options.currentPage === pagination.totalPages}
                             on:click={()=>options.currentPage !== pagination.totalPages ? goToPage((options.currentPage ?? 1) + 1) : null}
-                        >Next</button>
+                        >{options.translations?.next ?? 'Next'}</button>
                     </div>
                 {/if}
             {/each}
