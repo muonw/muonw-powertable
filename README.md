@@ -134,9 +134,12 @@ let ptOptions = {
 | `searchPhrase` | string | "" | The default search phrase |
 | `searchIsRegex` | boolean | false | Whether the default search phrase is RegEx |
 | `checkboxColumn` | boolean | false | Whether to show checkbox selection column |
+| `translations` | object | | [See Below] |
 | `userFunctions` | object | | [See Below] |
 | `segments` | object | | [See Below] |
 | `sortOrder` | object | | [See Below] |
+
+The `translations` property in `ptOptions` prop is an object that can contain language-specific number format as well as the translations of various parts of the table. See an example of the available options here: [Example 3: Custom Options](https://github.com/muonw/muonw-powertable/blob/main/app/src/routes/examples/example3/+page.svelte)
 
 The `userFunctions` property in `ptOptions` prop is an object that can contain the following user defined functions.
 

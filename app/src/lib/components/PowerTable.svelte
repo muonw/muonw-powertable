@@ -37,9 +37,11 @@ export interface Options {
     totalRows?: number|null,
     filteredRows?: number|null,
     currentPage?: number,
+    searchPhrase?: string,
+    searchIsRegex?: boolean,
+    checkboxColumn?: boolean,
     translations?: {
-        locale?: string,
-        numeralFormatter?: Intl.NumberFormat,
+        numberFormat?: string,
         search?: string,
         previous?: string,
         next?: string,
@@ -52,13 +54,9 @@ export interface Options {
         invertSelection?: string, 
         add?: string, 
         delete?: string, 
-        settings?: string,
         checkboxHide?: string
         checkboxShow?: string
     },
-    searchPhrase?: string,
-    searchIsRegex?: boolean,
-    checkboxColumn?: boolean,
     userFunctions?: {
         dataFeed?(data: Record<string,any>): Promise<DataFeed>,
         customParse?(data: Data[]): Data[],
@@ -160,9 +158,11 @@ let options: Options = {
     totalRows: null,
     filteredRows: null,
     currentPage: 1,
+    searchPhrase: '',
+    searchIsRegex: false,
+    checkboxColumn: false,
     translations: {
-        locale: 'en',
-        numeralFormatter: new Intl.NumberFormat('en'),
+        numberFormat: 'en-US',
         search: 'Search',
         previous: 'Previous',
         next: 'Next',
@@ -175,16 +175,12 @@ let options: Options = {
         invertSelection: 'Invert Selection',
         add: 'Add',
         delete: 'Delete',
-        settings: '🛠️',
         checkboxHide: 'Hide Checkboxes',
         checkboxShow: 'Show Checkboxes'
     },
     userFunctions: {
         dataFeed: async () => ({}),
     },
-    searchPhrase: '',
-    searchIsRegex: false,
-    checkboxColumn: false,
     segments: {
         'topBar': ['search', 'pagination'],
         'pTable': ['table'],
@@ -470,7 +466,7 @@ function applyFilters() {
 
     if (searchObj.value) {
         // By default search continues after a custom search
-        let customSearchContinue = true;
+        let customSearchContinue: boolean = true;
 
         if (typeof (options.userFunctions?.customSearch ?? null) === 'function' && options.userFunctions?.customSearch !== undefined) {
             let customSearchResult = options.userFunctions.customSearch(matchedData, searchObj.value);
@@ -543,7 +539,7 @@ function applyFilters() {
 
         if (filter.value?.length) {
             // By default filter continues after a custom filter
-            let customFilterContinue = true;
+            let customFilterContinue: boolean = true;
 
             let correspondingInstruct = instructs.find(d => d.key === key);
 
@@ -883,9 +879,9 @@ onMount(async () => {
                     </div>
                 {:else if segment_code.toLowerCase() === 'stats'}
                     <div data-name="stats-container" data-segment_index={segment_index}>
-                        {options?.translations?.numeralFormatter?.format(pagination.firstShownRow ?? 1)}-{options?.translations?.numeralFormatter?.format(pagination.lastShownRow) ?? pagination.lastShownRow} {options.translations?.of} {options?.translations?.numeralFormatter?.format(options.filteredRows ?? sortedData.length) ?? sortedData.length} 
+                        {Intl.NumberFormat(options?.translations?.numberFormat)?.format(pagination.firstShownRow ?? 1)}-{Intl.NumberFormat(options?.translations?.numberFormat)?.format(pagination.lastShownRow ?? 1) ?? pagination.lastShownRow} {options.translations?.of} {Intl.NumberFormat(options?.translations?.numberFormat)?.format(options.filteredRows ?? sortedData.length) ?? sortedData.length} 
                         {#if ((options.filteredRows ?? sortedData.length) !== pagination.totalRows) }
-                            ({options.translations?.from} {options?.translations?.numeralFormatter?.format(pagination.totalRows) ?? pagination.totalRows})
+                            ({options.translations?.from} {Intl.NumberFormat(options?.translations?.numberFormat)?.format(pagination.totalRows ?? 1) ?? pagination.totalRows})
                         {/if}
                     </div>
                 {:else if segment_code.toLowerCase() === 'table'}
@@ -904,7 +900,7 @@ onMount(async () => {
                                                 {#if instruct?.key === checkboxKey && options.checkboxColumn}
                                                     <th data-key={instruct.key} data-sortable={instruct?.sortable}>
                                                         <div data-name="actions-container">
-                                                            <button data-name="handle" on:click={toggleMenu}>⚙️</button>
+                                                            <button data-name="handle" on:click={toggleMenu}></button>
                                                             <div data-name="menu">
                                                                 <button data-name="item" on:click={selectAllAction}>{options.translations?.selectAll}</button>
                                                                 <button data-name="item" on:click={selectNoneAction}>{options.translations?.selectNone}</button>
@@ -1047,13 +1043,13 @@ onMount(async () => {
                         {options.translations?.rows}
                         <select bind:value={options.rowsPerPage} on:change={updatePageSize}>
                             {#each options.rowsPerPageOptions ?? [] as num}
-                                <option value={num}>{options.translations?.numeralFormatter?.format(num) ?? num}</option>
+                                <option value={num}>{Intl.NumberFormat(options?.translations?.numberFormat)?.format(num) ?? num}</option>
                             {/each}
                         </select>
                     </div>
                 {:else if segment_code.toLowerCase() === 'settings'}
                     <div data-name="settings-container" data-segment_index={segment_index}>
-                        <button data-name="handle" on:click={toggleMenu}>{options.translations?.settings}</button>
+                        <button data-name="handle" on:click={toggleMenu}></button>
                         <div data-name="menu">
                             {#if $$slots.settings}
                                 <slot name="settings" />
@@ -1077,7 +1073,7 @@ onMount(async () => {
                                     <button
                                         data-active={options.currentPage === pageNum}
                                         on:click={()=>options.currentPage !== pageNum ? goToPage(pageNum) : null}
-                                    >{options.translations?.numeralFormatter?.format(pageNum) ?? pageNum}</button>
+                                    >{Intl.NumberFormat(options?.translations?.numberFormat)?.format(pageNum) ?? pageNum}</button>
                                 {/if}
                             {/each}
                         {:else}

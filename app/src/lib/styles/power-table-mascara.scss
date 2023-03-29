@@ -55,6 +55,7 @@ div[data-component=powertable]{
     div[data-name=dropdown-container]{
         select{
             @extend .lean;
+            width: 4rem;
         }
     }
     div[data-name=edit-block]{

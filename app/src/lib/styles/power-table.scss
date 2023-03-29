@@ -213,13 +213,14 @@ div[data-component=powertable]{
     div[data-name=settings-container], div[data-name=actions-container]{
         button[data-name=handle], button[data-name=item]{
             cursor: pointer;
-            display: block;
+            display: inline-block;
             color: inherit;
             background-color: transparent;
             border: none;
             width: 100%;
             text-align: left;
         }
+        
         div[data-name=menu]{
             visibility: hidden;
             background-color: var(--colors-menu-background);
@@ -234,6 +235,16 @@ div[data-component=powertable]{
                     background-color: var(--colors-menu-hover-background);
                 }
             }
+        }
+    }
+    div[data-name=settings-container]{
+        button[data-name=handle]::after{
+            content: '🛠️';
+        }
+    }
+    div[data-name=actions-container]{
+        button[data-name=handle]::after{
+            content: '⚙️';
         }
     }
     div[data-name=pagination-container]{
@@ -251,7 +262,7 @@ div[data-component=powertable]{
             cursor: pointer;
             border-radius: 3px;
             user-select: none;
-            &:hover:enabled{
+            &:not([data-active=true]):hover:enabled{
                 color: white;
                 border: 1px solid #111;
                 background: linear-gradient(to bottom, #585858 0%, #111 100%);

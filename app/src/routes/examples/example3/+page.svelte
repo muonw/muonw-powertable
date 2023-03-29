@@ -27,24 +27,23 @@ let ptInstructs2: Instructs[] = [
 
 let ptOptions2: Options = {
     uniquePrefix: 'pt2',
+    translations: {
+        numberFormat: 'ja-JP-u-nu-hanidec-ca-japanese',
+        search: '検索',
+        next: '次',
+        previous: '前',
+        rows: '行',
+        filterBy: 'フィルタ条件',
+        selectAll: 'すべて選択',
+        selectNone: 'なしを選択',
+        invertSelection: '選択範囲を反転',
+        add: '追加',
+        delete: '消去',
+        of: 'の',
+        from: 'から',
+    },
     userFunctions: {
         customParse: addEmoji
-    },
-    translations: {
-        locale: 'zh',
-        numeralFormatter: new Intl.NumberFormat("zh-Hans-CN-u-nu-hanidec"),
-        search: '搜索',
-        next: '下一个',
-        previous: '以前的',
-        rows: '行数',
-        filterBy: '过滤',
-        selectAll: '全选',
-        selectNone: '选择无',
-        invertSelection: '反转选择',
-        add: '添加',
-        delete: '删除',
-        of: '的',
-        from: '从'
     },
 }
 

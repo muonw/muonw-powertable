@@ -50,7 +50,7 @@ let pages = {
             The second table has the following customizations:<br>
             <b>1.</b> A <b>unique prefix</b> has been assigned to the table.<br>
             <b>2.</b> A custom parsing function has added <b>emojis and HTML tags</b> to some job titles.<br>
-            <b>3.</b> Add custom localization and numerals via ptOptions.translations
+            <b>3.</b> The page numbers as well as search and filter placeholders are <b>translated</b> to Japanese.
         {:else if $page.data.routeIdMatches[1] === '4'}
             Customizations with named slots:<br>
             <b>1.</b> A custom text is used for <b>noResults</b> slot.<br>
@@ -97,7 +97,7 @@ let pages = {
 
     <p class="ref">
         See the source code 
-        <a href="https://github.com/muonw/muonw-powertable/blob/main/src/routes/examples/example{$page.data.routeIdMatches[1]}/+page.svelte">
+        <a href="https://github.com/muonw/muonw-powertable/blob/main/app/src/routes/examples/example{$page.data.routeIdMatches[1]}/+page.svelte">
             here
         </a>
     </p>
