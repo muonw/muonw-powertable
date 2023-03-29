@@ -20,6 +20,7 @@
 		"buildProduction": "vite build --mode=production && rm -rf ../docs && mv docs ../",
 		"package": "svelte-kit sync && svelte-package",
 		"publishLocal": "../_/NPM_REGISTRY_LOCAL",
+		"resetLocal": "../_/NPM_REGISTRY_LOCAL_RESET",
 		"publishPublic": "../_/NPM_REGISTRY_PUBLIC",
 		"preview": "vite preview",
 		"prepublishOnly": "if [ -z $MU_NPM_PERMIT ]; then echo 'Please use `publishLocal` or `publishPublic`' && exit 1; fi",
