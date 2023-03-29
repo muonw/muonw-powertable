@@ -50,6 +50,7 @@ let pages = {
             The second table has the following customizations:<br>
             <b>1.</b> A <b>unique prefix</b> has been assigned to the table.<br>
             <b>2.</b> A custom parsing function has added <b>emojis and HTML tags</b> to some job titles.<br>
+            <b>3.</b> Add custom localization and numerals via ptOptions.translations
         {:else if $page.data.routeIdMatches[1] === '4'}
             Customizations with named slots:<br>
             <b>1.</b> A custom text is used for <b>noResults</b> slot.<br>
