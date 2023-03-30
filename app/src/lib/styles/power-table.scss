@@ -151,9 +151,9 @@ div[data-component=powertable]{
                     background-color: var(--colors-tr-odd-background);
                 }
                 td{
-                    padding: .2rem;
+                    padding: 0 .2rem .2rem .2rem;
                     white-space: break-spaces;
-                    height: 2rem;
+                    height: 2.5rem;
                 }
                 td[data-name=noResults-td], td[data-name=rendering-td]{
                     background-color: var(--colors-no-results-background);

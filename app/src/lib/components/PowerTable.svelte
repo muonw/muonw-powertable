@@ -397,6 +397,7 @@ function applySort() {
         const removeCase = (v: string) => typeof(v) === "string" ? v.toLowerCase() : v;
         const makeCompareFunction = (f:any, opt:any) => {
             opt = typeof(opt) === "object" ? opt : {direction: opt};
+            if(typeof(f)!="function"){var prop = f; f = function(v1:any){return !!v1[prop] ? v1[prop] : "";}}
             if(f.length === 1) {
                 var uf = f;
                 var preProcess = opt.caseSensitive ? preserveCase : removeCase;
