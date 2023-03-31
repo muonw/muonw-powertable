@@ -17,6 +17,9 @@ $dark_root: (
     --colors-menu-hover-background: #444444,
     --colors-pagination-button-color: #fff,
     --colors-no-results-background: #2d2d2d,
+    --colors-highlight-search-match-background: #736600,
+    --colors-highlight-filter-match-background: #0b679d,
+    --colors-highlight-overlap-match-background: #4e8809,
 );
 
 @media screen and (prefers-color-scheme: dark){

@@ -2,9 +2,22 @@
 import type { SvelteComponent } from "svelte"
 import data from '../../../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
-import type {Data, Options} from '$lib/components/PowerTable.svelte';
+import type {Data, Options, Instructs} from '$lib/components/PowerTable.svelte';
 
 let myPowerTable: SvelteComponent;
+
+let ptInstructs: Instructs[] = [];
+
+// Here we set the instructs automatically based on the first row of data and set parseAs to 'html' for all instruct (we could do this manually too. with parseAs set to 'html', we can edit the cells and see how it handles HTML tags)
+let tempInstructs: Instructs[] = [];
+Object.keys(data[0]).forEach(key => {
+    tempInstructs.push({
+        key: key,
+        title: key,
+        parseAs: 'html',
+    });
+});
+ptInstructs = tempInstructs;
 
 let ptData: Data[] = data;
 
@@ -42,7 +55,7 @@ function exportJsonData(e: Event) {
 </script>
 
 <div class="ex7_style1">
-    <PowerTable {ptData} {ptOptions} bind:this={myPowerTable}>
+    <PowerTable {ptInstructs} {ptData} {ptOptions} bind:this={myPowerTable}>
         <div slot="settings">
             <button data-name="item" on:click={importJsonData}>Import sample data</button>
             <button data-name="item" on:click={exportJsonData}>Export current data</button>

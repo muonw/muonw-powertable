@@ -86,19 +86,21 @@ let ptInstructs = [
 | `filterable` | boolean | true | Whether the column can be filtered |
 | `filterPhrase` | string | "" | The column's default filter phrase |
 | `filterIsRegex` | boolean | false | Whether the default filterPhrase is Regex (for remote data) |
-| `parseAs` | 'text'\| 'unsafe-html' | 'text' | If set to 'unsafe-html', HTML tags will be rendered (without sanitization) |
+| `parseAs` | 'text' \| 'html' \| 'unsafe-html' | 'text' | 'html' allows rendering of `<div>`, `<span>`, `<code>`, `<strong>`, `<b>`, `<p>`, `<ul>`, `<ol>`, `<li>`, `<u>`, `<i>`, `<em>`, `<sup>`, and `<sub>` tags with an optional `class` attribute. If a tag doesn't match this criteria, only its content will be displayed. If set to 'unsafe-html', all HTML tags will be rendered without any [sanitization](https://en.wikipedia.org/wiki/HTML_sanitization) |
 | `userFunctions` | object | | [See Below] |
 
-The `userFunctions` property in `ptInstructs` prop is an object that can contain the following user defined function(s).
+The `userFunctions` property in `ptInstructs` prop is an object that can contain the following user-defined function(s).
 
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
 | `customSort` | function | | Overrides the sorting process |
-| `customFilter` | function | | A user defined function to override the filtering process |
+| `customFilter` | function | | A user-defined function to override the filtering process |
 
 The value of `customSort` should be a function that receives two string values (v1 and v2) and returns a number indicating the order of those values: `-1` if v1 < v2, `1` if v1 > v2, `0` if v1 == v2
 
 The value of `customFilter` should be a function that returns a slice of `ptData` after applying a filter. The function will receive the `ptData`.
+
+<b id="special-instructs">❗ Special instructs:</b> There are two special instructs that will be added to the underlying instructs and data objects for internal use (e.g. keeping track of the id and checkbox value of each row). In many cases, when accessing or altering a row data in a user-defined function, you should exclude these instructs from the process. To do so, import the variables `dataIdKey` and `checkboxKey` and exclude any instruct whose `key` matches the value of those variables.  
 
 ❷ The prop `ptOptions` is an object that allows adjusting various features of the table. All properties are optional.
 
@@ -139,16 +141,17 @@ let ptOptions = {
 | `segments` | object | | [See Below] |
 | `sortOrder` | object | | [See Below] |
 
-The `translations` property in `ptOptions` prop is an object that can contain language-specific number format as well as the translations of various parts of the table. See an example of the available options here: [Example 3: Custom Options](https://github.com/muonw/muonw-powertable/blob/main/app/src/routes/examples/example3/+page.svelte)
+The `translations` property in `ptOptions` prop is an object that can contain language-specific number format as well as the translations of various parts of the table. See the available options in the [source code](https://github.com/muonw/muonw-powertable/blob/main/app/src/routes/examples/example3/+page.svelte) of [Example 3: Custom Options](https://muonw.github.io/muonw-powertable/examples/example3).
 
-The `userFunctions` property in `ptOptions` prop is an object that can contain the following user defined functions.
+The `userFunctions` property in `ptOptions` prop is an object that can contain the following user-defined functions.
 
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
 | `dataFeed` | function | async () => ({}) | When `isDataRemote` is `true`, the output of this function will be used as `ptData` prop |
-| `customParse` | function | | A user defined function to intercept and modify the content of the current page |
-| `customSearch` | function | | A user defined function to override the search process |
+| `customParse` | function | | A user-defined function to intercept and modify the content of the current page |
+| `customSearch` | function | | A user-defined function to override the search process |
 
+❗ When retrieving data in a user-defined function, pay attention to the [special instructs](#special-instructs)!
 
 The value of `dataFeed` should be a function that returns remote data (e.g. from and API). The function will receive an object (defined below) containing the information required to generate the props. 
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { page } from '$app/stores';
+	import { highlighter } from '$lib/components/PowerTable.svelte';
 
 let pages = {
     1: 'Basic',
@@ -9,7 +10,7 @@ let pages = {
     5: 'Styling',
     6: 'Remote Data',
     7: 'Editing & Controls',
-    8: 'Filtering & Custom Parsing',
+    8: 'Filtering & Highlighting',
     9: 'Custom Sorting',
     10: 'Custom Filtering',
 };
@@ -69,8 +70,9 @@ let pages = {
             <b>4.</b> Click on the <b>gear icon</b> (⚙️) located on the header of the first column to explore the default options for <b>adding</b>, <b>deleting</b>, and <b>selecting</b> data. To delete a row, you first need to select it.<br>
             <b>5.</b> Click on the toolbox icon (🛠️) next to the search box and select "<b>Export current data</b>". The generated file reflects any changes you have made.<br>
         {:else if $page.data.routeIdMatches[1] === '8'}
-            This table utilizes a user-defined function to highlight search/filter matches. Highlighting is an example of custom parsing — a feature that allows modifying the content of a page. Here, the <b>search matches</b> are depicted with a yellow highlight. <b>Filter matches</b> are blue, and the <b>overlaps</b> of search and filter matches are green.<br>
-            ℹ️ Unlike <b>custom parsing</b> that relies on <b>user-defined</b> functions, <b>filtering and searching</b> are <b>built-in</b> features.<br>
+            This table utilizes an included function named <code>highlighter</code> in order to highlight search/filter matches. Highlighting is an example of custom parsing — a feature that let you control how the content of the table is displayed. You can use your own user-defined function for custom parsing.<br>
+            ℹ️ Using <code>highlighter</code>, the <b>search matches</b> are highlighted yellow, the <b>filter matches</b> are blue, and the <b>overlaps</b> of search and filter matches are green.<br>
+            ℹ️ HTML tags will be visible to <code>highlighter</code> but all the matches from <code>&lt;</code> to <code>&gt;</code> will be ignored.<br>
             ℹ️ While both filter and search are designed to <b>filter</b> the data, their scopes are different. Filter applies to a single column, while search applies to the entire dataset.<br>
             ℹ️ By default, white-space characters and the order of the words in a search/filter phrase are ignored. For example the phrase <code>1 2</code> can match <code>12</code>, <code>21</code>, <code>102</code>, <code>1 2</code>, etc.<br>
             ℹ️ To look for an exact phrase match, or a complex pattern, use RegEx. For example <code>/1 2/</code> only matches <code>1 2</code>.<br>

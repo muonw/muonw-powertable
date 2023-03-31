@@ -15,6 +15,9 @@ $light_root: (
     --colors-menu-hover-background: #e2e2e2,
     --colors-pagination-button-color: #000,
     --colors-no-results-background: #eee,
+    --colors-highlight-search-match-background: #ffe300,
+    --colors-highlight-filter-match-background: #8ed3fc,
+    --colors-highlight-overlap-match-background: #adf05d,
 );
 
 :root, :root[data-color-scheme=light]{
@@ -213,14 +216,18 @@ div[data-component=powertable]{
     div[data-name=settings-container], div[data-name=actions-container]{
         button[data-name=handle], button[data-name=item]{
             cursor: pointer;
-            display: inline-block;
             color: inherit;
             background-color: transparent;
             border: none;
             width: 100%;
             text-align: left;
         }
-        
+        button[data-name=handle]{
+            display: inline-block;
+        }
+        button[data-name=item]{
+            display: block;
+        }
         div[data-name=menu]{
             visibility: hidden;
             background-color: var(--colors-menu-background);
@@ -281,6 +288,15 @@ div[data-component=powertable]{
     }
     div[data-type=segment]{
         position: relative;
+    }
+    span.search-match{
+        background-color: var(--colors-highlight-search-match-background);
+    }
+    span.filter-match{
+        background-color: var(--colors-highlight-filter-match-background);
+    }
+    span.overlap-match{
+        background-color: var(--colors-highlight-overlap-match-background);
     }
     &[data-status=rendering]{        
         tr[data-name=loading_bar-tr]{

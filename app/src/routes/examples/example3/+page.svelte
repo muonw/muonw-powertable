@@ -22,7 +22,7 @@ let ptInstructs2: Instructs[] = [
     {key: 'last_name'},
     {key: 'company'},
     {key: 'department'},
-    {key: 'job', parseAs: 'unsafe-html'}
+    {key: 'job', parseAs: 'html'}
 ];
 
 let ptOptions2: Options = {

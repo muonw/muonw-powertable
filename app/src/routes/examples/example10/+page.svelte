@@ -6,10 +6,34 @@ import type {Instructs, Options, Data} from '$lib/components/PowerTable.svelte';
 let ptData: Data[] = data;
 
 let ptInstructs: Instructs[] = [
-    {key: 'score', title: 'Score', sortable: false, filterPhrase: '6-85', userFunctions: {customFilter: myIntRangeFilter}},
-    {key: 'full_name', title: 'Full Name'},
-    {key: 'birthday', title: 'Birthday', sortable: false, filterPhrase: '06/09/2000-01/30/2030', userFunctions: {customFilter: myDateRangeFilter}},
-    {key: 'fav_color', title: 'Favorite Color', sortable: false, parseAs: 'unsafe-html', userFunctions: {}},
+    {
+        key: 'score',
+        title: 'Score',
+        sortable: false,
+        filterPhrase: '6-85',
+        userFunctions: {
+            customFilter: myIntRangeFilter
+        }
+    },
+    {
+        key: 'full_name',
+        title: 'Full Name'
+    },
+    {
+        key: 'birthday',
+        title: 'Birthday',
+        sortable: false,
+        filterPhrase: '06/09/2000-01/30/2030',
+        userFunctions: {
+            customFilter: myDateRangeFilter
+        }
+    },
+    {
+        key: 'fav_color',
+        title: 'Favorite Color',
+        sortable: false,
+        parseAs: 'html'
+    },
 ];
 
 let ptOptions: Options = {
@@ -23,7 +47,7 @@ let ptOptions: Options = {
 
 function addColors(pageContent: Data[]): Data[] {
     pageContent.forEach(row => {
-        row['fav_color'] = `<span class="colorBall" style="background-color: ${row['fav_color']}"></span> ${row['fav_color']}`;
+        row['fav_color'] = `<span class="colorBall bg-${row['fav_color']}"></span> ${row['fav_color']}`;
     });
     return pageContent;
 }
@@ -86,6 +110,28 @@ function myDateRangeFilter(data: Data[], filterPhrase: string): {data: Data[], c
     height: 20px;
     border-radius: 50%;
     vertical-align: middle;
+    
+}
+:global(.ex10_style1 .bg-Red){
+    background-color: Red;
+}
+:global(.ex10_style1 .bg-Orange){
+    background-color: Orange;
+}
+:global(.ex10_style1 .bg-Yellow){
+    background-color: Yellow;
+}
+:global(.ex10_style1 .bg-Green){
+    background-color: Green;
+}
+:global(.ex10_style1 .bg-Cyan){
+    background-color: Cyan;
+}
+:global(.ex10_style1 .bg-Blue){
+    background-color: Blue;
+}
+:global(.ex10_style1 .bg-Violet){
+    background-color: Violet;
 }
 :global(.ex10_style1 th[data-key=score]){
     width: 50px;
