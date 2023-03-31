@@ -1,6 +1,5 @@
 import {
     default as PowerTable,
-    highlighter,
     getRegexParts,
     dataIdKey,
     checkboxKey
@@ -8,7 +7,6 @@ import {
 
 export {
     PowerTable,
-    highlighter,
     getRegexParts,
     dataIdKey,
     checkboxKey

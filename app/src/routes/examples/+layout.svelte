@@ -1,6 +1,5 @@
 <script lang="ts">
 import { page } from '$app/stores';
-	import { highlighter } from '$lib/components/PowerTable.svelte';
 
 let pages = {
     1: 'Basic',

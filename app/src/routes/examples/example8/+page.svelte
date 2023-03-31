@@ -1,11 +1,10 @@
 <script lang="ts">
 import { onMount } from "svelte"
 import data from '../../../data/jobs.json';
-import type { SvelteComponent } from "svelte"
-import PowerTable, { highlighter } from '$lib/components/PowerTable.svelte';
+import PowerTable from '$lib/components/PowerTable.svelte';
 import type {Instructs, Options, Data} from '$lib/components/PowerTable.svelte';
 
-let myPowerTable: SvelteComponent;
+let myPowerTable: PowerTable;
 let ptData: Data[] = [];
 let ptInstructs: Instructs[] = [];
 let ptOptions: Options = {}
@@ -41,7 +40,7 @@ onMount(() => {
 });
 
 function myHighlight(pageContent: Data[]): Data[] {
-    pageContent = highlighter(pageContent, myPowerTable, ptInstructs);
+    pageContent = myPowerTable.highlighter(pageContent, myPowerTable, ptInstructs);
     return pageContent;
 }
 </script>

@@ -1,10 +1,9 @@
 <script lang="ts">
-import type { SvelteComponent } from "svelte"
 import data from '../../../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
-import type {Data, Options, Instructs} from '$lib/components/PowerTable.svelte';
+import type { Data, Options, Instructs } from '$lib/components/PowerTable.svelte';
 
-let myPowerTable: SvelteComponent;
+let myPowerTable: PowerTable;
 
 let ptInstructs: Instructs[] = [];
 
