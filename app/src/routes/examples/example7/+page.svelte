@@ -33,7 +33,7 @@ let ptOptions: Options = {
 function importJsonData(e: Event) {
     myPowerTable.closeMenu(e);
 
-    fetch('https://raw.githubusercontent.com/muonw/powertable/main/src/data/jobs.json')
+    fetch('https://raw.githubusercontent.com/muonw/muonw-powertable/main/app/src/data/jobs.json')
     .then(response => response.json())
     .then(data => ptData = data);
 }
