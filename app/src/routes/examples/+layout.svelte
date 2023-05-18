@@ -12,6 +12,7 @@ let pages = {
     8: 'Filtering & Highlighting',
     9: 'Custom Sorting',
     10: 'Custom Filtering',
+    11: 'DOM Modification',
 };
 </script>
 
@@ -91,6 +92,10 @@ let pages = {
             <b>1.</b> <b>Search</b> can only be done on rows that have an <b>even score number</b>. That is because a user-defined function removes all rows that have odd scores (e.g. <code>1</code>,<code>3</code>,<code>5</code>,<code>7</code>) and then returns the remaining data along with a flag that allows the default search function to perform the actual search.<br>
             <b>2.</b> The <b>Score</b> column can be filtered by a <b>number range</b> (two integers separated by a hyphen). When the user-defined function detects a valid range, it filters out all non-matching rows and then returns the filtered data along with a flag that marks the filtering as finalized. If the process is not finalized, the default filter function will look for score numbers that have the exact characters as our range (including the hyphen) and will always fail.<br>
             <b>3.</b> The <b>Birthday</b> column can be filtered by a <b>date range</b>. The methodology is similar to that used for the <b>Score</b> column.<br>
+        {:else if $page.data.routeIdMatches[1] === '11'}
+            This table demonstrates a way to implement DOM modifications.<br>
+            The buttons in `id` column allow you to navigate to a different row. If the target row is located in a different page, page navigation will be performed programmatically.<br>
+            ℹ️ When you need to add interactivity outside of the component (i.e. directly via DOM), avoid adding event attributes such as onClick inside a <code>customParse</code> function. Instead, user built-in functions such as <code>rowClicked</code> as demonstrated in the source code of this example.<br>
         {/if}
     </p>
 

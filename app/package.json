@@ -1,7 +1,7 @@
 {
 	"name": "@muonw/powertable",
 	"description": "▦ PowerTable is a Svelte component that turns JSON data into an interactive HTML table. Inspired by DataTables. Powered by Svelte.",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"publishConfig": {
 		"registry": "https://node.pkgreg.com"
 	},
@@ -19,9 +19,6 @@
 		"buildLocal": "vite build --mode=development && rm -rf ../_docs && mv docs _docs && mv _docs ../",
 		"buildProduction": "vite build --mode=production && rm -rf ../docs && mv docs ../",
 		"package": "svelte-kit sync && svelte-package",
-		"publishLocal": "../_/NPM_REGISTRY_LOCAL",
-		"resetLocal": "../_/NPM_REGISTRY_LOCAL_RESET",
-		"publishPublic": "../_/NPM_REGISTRY_PUBLIC",
 		"preview": "vite preview",
 		"prepublishOnly": "if [ -z $MU_NPM_PERMIT ]; then echo 'Please use `publishLocal` or `publishPublic`' && exit 1; fi",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",

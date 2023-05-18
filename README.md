@@ -294,13 +294,17 @@ Example:
 
 ### Functions
 
-`getData`: once the component is mounted, `getData` can be called to retrieve the props as well as search and filter data. This function returns the following object:
+`getData`: once the component is mounted, `getData` can be called to retrieve the props as well as search and filter data. This function accepts two parameters. The first parameter is a boolean value that determines whether Special Instructs should be removed before returning data (default is `true`). The second parameter is an array that determines what properties should be returned (default is `['options','instructs','data','search','filters']`). This function returns the following object:
 
 ```
 {
     options: ➤ current options (same structure as `ptOptions`),
     instructs: ➤ the instructs (same structure as `ptInstructs`),
     data: ➤ current contents (same structure as `ptData`),
+    matchedData: ➤ data after applying search and filters,
+    sortedData: ➤ data after applying sorting,
+    pageData: ➤ data of the current page before applying custom parsing,
+    formattedPageData: ➤ data of the current page after applying custom parsing,
     search: {
         isRegex: ➤ true or false (boolean),
         value: ➤ the search phrase (string)

@@ -1,0 +1,1 @@
+div[data-component=powertable] table tbody tr[data-name=titles-tr] th[data-key=id], div[data-component=powertable] tr[data-name=filters-tr] th[data-key=id]{width:auto}td[data-key=id] button{margin-left:.5rem}.flash{animation:svelte-vtumiy-blinker .5s 4 linear}@keyframes svelte-vtumiy-blinker{50%{background-color:rgba(62, 145, 62, .4)}}

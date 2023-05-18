@@ -839,28 +839,41 @@ export function deleteAction(e: Event) {
     initialize(instructs, options, data);
 }
 
-export function getData(removeMetadata = true) {
-    let exportData: Data[] = JSON.parse(JSON.stringify(data));
-    let exportInstructs: Instructs[] = JSON.parse(JSON.stringify(instructs));
+export function getData(removeMetadata = true, include = ['options','instructs','data','search','filters']) {
+    let exportedInstructs: Instructs[] = JSON.parse(JSON.stringify(instructs));
 
     if (removeMetadata) {
-        exportData.map(row => {
-            Object.keys(row).forEach(key => {
-                specialInstructs.hasOwnProperty(key) ? delete(row[key]) : null;
-            });
-            return row;
-        });
-
-        exportInstructs = exportInstructs.filter(instruct => !specialInstructs.hasOwnProperty(instruct.key));
+        exportedInstructs = exportedInstructs.filter(instruct => !specialInstructs.hasOwnProperty(instruct.key));
     }
 
     return {
-        options: options,
-        instructs: exportInstructs,
-        data: exportData,
-        search: searchObj,
-        filters: filterObj
+        options: include.includes('options') ? options : <Options>{},
+        instructs: include.includes('instructs') ? exportedInstructs : <Instructs[]>[],
+        data: include.includes('data') ? exportData(removeMetadata, data) : <Data[]>[],
+        matchedData: include.includes('matchedData') ? exportData(removeMetadata, matchedData) : <Data[]>[],
+        sortedData: include.includes('sortedData') ? exportData(removeMetadata, sortedData) : <Data[]>[],
+        pageData: include.includes('pageData') ? exportData(removeMetadata, pageData): <Data[]>[],
+        formattedPageData: include.includes('formattedPageData') ? exportData(removeMetadata, formattedPageData) : <Data[]>[],
+        search: include.includes('search') ? searchObj : <Lookup>{},
+        filters: include.includes('filters') ? filterObj : <Record<string, Lookup>>{}
     }
+}
+
+function exportData(removeMetadata: boolean, _data: Data[]) {
+    if (!removeMetadata) {
+        return _data;
+    }
+
+    let exportedData: Data[] = JSON.parse(JSON.stringify(_data));
+
+    exportedData.map(row => {
+        Object.keys(row).forEach(key => {
+            specialInstructs.hasOwnProperty(key) ? delete(row[key]) : null;
+        });
+        return row;
+    });
+
+    return exportedData;
 }
 
 // Highlighting
@@ -1211,7 +1224,7 @@ onMount(async () => {
                             <tbody>
                                 {#if formattedPageData.length}
                                     {#each formattedPageData as record, index}
-                                        <tr data-index={index} on:click={(e)=>rowClicked(e, index)} on:dblclick={(e)=>rowDblClicked(e, index)}>
+                                        <tr data-index={index} data-id={record[dataIdKey]} on:click={(e)=>rowClicked(e, index)} on:dblclick={(e)=>rowDblClicked(e, index)}>
                                             {#each instructs as instruct}
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
                                                     {#if instruct?.key === checkboxKey && options.checkboxColumn}
