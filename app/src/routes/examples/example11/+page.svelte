@@ -127,7 +127,7 @@ onMount(() => {
 </script>
 
 
-<div id="myPowerTable">
+<div id="myPowerTable" class="ex11_style1">
     <PowerTable {ptData} {ptOptions} {ptInstructs} on:rowClicked={rowClicked} bind:this={powerTableRef} />
 </div>
 
@@ -135,16 +135,16 @@ onMount(() => {
 <div style="height:90vh;"><br><small>The empty space after this line is intentional.</small></div>
 
 <style>
-:global(div[data-component=powertable] table tbody tr[data-name=titles-tr] th[data-key=id], div[data-component=powertable] tr[data-name=filters-tr] th[data-key=id]) {
-    width: auto;
+:global(.ex11_style1 th[data-key=id]) {
+    width: auto !important;
 }
-:global(td[data-key=id] button) {
+:global(.ex11_style1 td[data-key=id] button) {
     margin-left: .5rem;
 }
-:global(.flash) {
-    animation: blinker .5s 4 linear;
+:global(.ex11_style1 .flash) {
+    animation: ex11_style1_blinker .5s 4 linear;
 }
-@keyframes blinker {
+@keyframes ex11_style1_blinker {
     50% {
         background-color: rgba(62, 145, 62, .4);
     }
