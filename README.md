@@ -39,7 +39,7 @@ Now, you can import the component in your svelte files (e.g. `src/routes/+page.s
 ```svelte
 <script>
 import { PowerTable } from '@muonw/powertable';
-let ptData= [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
+let ptData = [{"id": 1, "name": "Fay"}, {"id": 2, "name": "Luca"}];
 
 // Uncomment to add basic styling. Requires installing saas (i.e. npm install -D sass)
 // import '@muonw/powertable/styles/power-table.scss';
@@ -370,4 +370,6 @@ Areas of high priority:
 
 License:
 
-https://dev.muonw.com/license/muonw-0/
+This software is protected by the [Unenforceable](https://dev.muonw.com/license/unenforceable/) license:
+
+https://dev.muonw.com/license/unenforceable

@@ -42,7 +42,7 @@ function addLink(pageData: Data[]): Data[] {
         // The value of the `data-id` attribute of the target <tr> element
         let targetRowId = (index + ((options.currentPage! - 1) * options.rowsPerPage!)) + jumpLength;
         
-        // If our arbitrary distance makes the target fall out or range, pick another target
+        // If our arbitrary distance makes the target fall out of range, pick another target
         if (targetRowId >= sortedData.length) {
             if (targetRowId - jumpLength > 0) {
                 targetRowId = (index + ((options.currentPage! - 1) * options.rowsPerPage!)) - jumpLength;
