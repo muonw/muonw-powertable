@@ -86,8 +86,9 @@ let ptInstructs = [
 | `filterable` | boolean | true | Whether the column can be filtered |
 | `filterPhrase` | string | "" | The column's default filter phrase |
 | `filterIsRegex` | boolean | false | Whether the default filterPhrase is Regex (for remote data) |
-| `parseAs` | 'text' \| 'html' \| 'unsafe-html' | 'text' | 'html' allows rendering of `<div>`, `<span>`, `<code>`, `<strong>`, `<b>`, `<p>`, `<ul>`, `<ol>`, `<li>`, `<u>`, `<i>`, `<em>`, `<sup>`, and `<sub>` tags with an optional `class` attribute. If a tag doesn't match this criteria, only its content will be displayed. If set to 'unsafe-html', all HTML tags will be rendered without any [sanitization](https://en.wikipedia.org/wiki/HTML_sanitization) |
+| `parseAs` | 'text' \| 'html' \| 'unsafe-html' \| 'component' | 'text' | 'html' allows rendering of `<div>`, `<span>`, `<code>`, `<strong>`, `<b>`, `<p>`, `<ul>`, `<ol>`, `<li>`, `<u>`, `<i>`, `<em>`, `<sup>`, and `<sub>` tags with an optional `class` attribute. If a tag doesn't match this criteria, only its content will be displayed. If set to 'unsafe-html', all HTML tags will be rendered without any [sanitization](https://en.wikipedia.org/wiki/HTML_sanitization). When set to 'component', a Svelte component should be provided via the `dataComponent` property |
 | `userFunctions` | object | | [See Below] |
+| `dataComponent` | SvelteComponent | | [See Below] |
 
 The `userFunctions` property in `ptInstructs` prop is an object that can contain the following user-defined function(s).
 
@@ -99,6 +100,14 @@ The `userFunctions` property in `ptInstructs` prop is an object that can contain
 The value of `customSort` should be a function that receives two string values (v1 and v2) and returns a number indicating the order of those values: `-1` if v1 < v2, `1` if v1 > v2, `0` if v1 == v2
 
 The value of `customFilter` should be a function that returns a slice of `ptData` after applying a filter. The function will receive the `ptData`.
+
+The `dataComponent` property in `ptInstructs` prop is a Svelte component that can receive, modify, and output the content of a cell. The following variables will be accessible in the component:
+
+| Variable | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `value` | string | '' | The content of the cell |
+| `rowIndex` | number |  | The position of the row relative to the page |
+| `rowId` | number |  | The position of the row relative to the dataset |
 
 <b id="special-instructs">❗ Special instructs:</b> There are two special instructs that will be added to the underlying instructs and data objects for internal use (e.g. keeping track of the id and checkbox value of each row). In many cases, when accessing or altering a row data in a user-defined function, you should exclude these instructs from the process. To do so, import the variables `dataIdKey` and `checkboxKey` and exclude any instruct whose `key` matches the value of those variables.  
 

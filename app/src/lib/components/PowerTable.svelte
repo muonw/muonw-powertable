@@ -1,4 +1,6 @@
 <script context="module" lang="ts">
+import type { ComponentType, SvelteComponentTyped } from 'svelte';
+
 export interface Instructs {
     key: string,
     title?: string,
@@ -7,11 +9,12 @@ export interface Instructs {
     filterable?: boolean,
     filterPhrase?: string,
     filterIsRegex?: boolean,
-    parseAs?: 'text' | 'html' | 'unsafe-html',
+    parseAs?: 'text' | 'html' | 'unsafe-html' | 'component',
     userFunctions?: {
         customSort?(v1: string, v2: string): number,
         customFilter?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
-    }
+    },
+    dataComponent?: ComponentType<SvelteComponentTyped>
 }
 
 export interface Data {
@@ -1243,6 +1246,8 @@ onMount(async () => {
                                                                 </label>
                                                                 <button data-name="edit-submit">✔️</button>
                                                             </div>
+                                                        {:else if instruct?.parseAs === 'component' && instruct?.dataComponent}
+                                                            <svelte:component this={instruct?.dataComponent} value={record[instruct.key]} rowIndex={index} rowId={record[dataIdKey]} />
                                                         {:else if instruct?.parseAs === 'unsafe-html'}
                                                             {@html (record[instruct.key] ?? '')}
                                                         {:else if instruct?.parseAs === 'html'}

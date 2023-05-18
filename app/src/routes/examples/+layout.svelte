@@ -1,5 +1,6 @@
 <script lang="ts">
 import { page } from '$app/stores';
+	import { component_subscribe } from 'svelte/internal';
 
 let pages = {
     1: 'Basic',
@@ -33,11 +34,15 @@ let pages = {
             This is a basic setup with no customizations.<br>
             ℹ️ Notice that when you sort the <b>Id</b> column, the order of the numbers is unusual (<code>1,10,100,...,2,20,200</code> instead of <code>1,2,3,4,5,6,...</code>). This is because by default columns are sorted alphabetically. To sort numbers, dates, and other data types, a <b>custom sorting</b> function can be used, as demonstrated in another example.
         {:else if $page.data.routeIdMatches[1] === '2'}
-            Customizations of ptInstructs:<br>
+            There are two tables on this page separated by a horizontal line. The first table has the following customizations of ptInstructs:<br>
             <b>1.</b> <b>Column titles</b> have been customized.<br>
             <b>2.</b> First name is <b>not sortable</b>.<br>
             <b>3.</b> Company has a <b>default filter phrase</b>.<br>
             <b>4.</b> Department is <b>not filterable</b>.<br>
+            <br>
+            The second table has the following customizations:<br>
+            <b>1.</b> The content of the last column (job) is rendered via a <b>custom Svelte component</b> provided by the user. Clicking on the job will reveal the row's index (position relative to the page) and id (position relative to the dataset). Notice how navigating to different pages affects the rendered output.<br>
+            ℹ️ For complex interactions, you can use a Svelte store to orchestrate your components and <code>getData</code> function to access the current state of the table.<br>
         {:else if $page.data.routeIdMatches[1] === '3'}
             There are two tables on this page separated by a horizontal line. The first table has the following customizations of ptOptions:<br>
             <b>1.</b> A <b>unique prefix</b> has been assigned to the table.<br>
@@ -55,6 +60,7 @@ let pages = {
         {:else if $page.data.routeIdMatches[1] === '4'}
             Customizations with named slots:<br>
             <b>1.</b> A custom text is used for <b>noResults</b> slot.<br>
+            ℹ️ If you are looking for a way to render each cell in a custom Svelte component, see the examples of custom instructs.
         {:else if $page.data.routeIdMatches[1] === '5'}
             Customizations of styles:<br>
             <b>1.</b> A <b>maximum height</b> is set for the table, creating a vertical scroll bar.<br>
