@@ -21,7 +21,9 @@ export interface Data {
     [_: string]: any,
 }
 
+
 type SortString = ''|'asc'|'desc';
+export type Sorting = Record<string, SortString>;
 
 export interface Options {
     uniquePrefix?: string,
@@ -80,7 +82,8 @@ interface Pagination {
 export interface DataFeed {
     instructs?: Instructs[],
     options?: Options,
-    data?: Data[]
+    data?: Data[],
+    sorting?: Sorting,
 }
 
 export type RegexParts = {
@@ -349,15 +352,17 @@ async function renderTable() {
             options?: object,
             search?: object,
             filters?: object,
+            sorting?: object,
         } = {};
 
         remoteParams['options'] = options;
         remoteParams['search'] = searchObj;
         remoteParams['filters'] = filterObj;
+        remoteParams['sorting'] = sorting;
 
         let newData = await options.userFunctions?.dataFeed!(remoteParams);
         if (newData?.data) {
-            initialize(newData.instructs ?? [], newData.options ?? {}, newData.data, {render: false});
+            initialize(newData.instructs ?? [], newData.options ?? {}, newData.data, {render: false, preserveFilters: true});
             // Already filtered on the server
             matchedData = data;
             // Already sorted on the server

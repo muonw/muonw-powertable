@@ -179,6 +179,10 @@ The function received the following object:
             value: ➤ the filter phrase
         },
         ...
+    },
+    sorting: {
+        [➤ `ptInstruct` key]: ➤ the sorting direction (a value of `sortOrder`),
+        ...
     }
 }
 ```

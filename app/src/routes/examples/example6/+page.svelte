@@ -23,9 +23,13 @@ let ptOptions: Options = {
     }
 }
 
-async function dummyApiCall({filters, options, search}: Record<string,any>): Promise<DataFeed> {
-    // Simulating the server side operations
-    console.log(filters, options, search);
+// This function simulates the minimal server side operations (without filtering, searching, or sorting features)
+async function dummyApiCall({filters, options, search, sorting}: Record<string,any>): Promise<DataFeed> {
+    console.log('filters', filters);
+    console.log('options', options);
+    console.log('search', search);
+    console.log('sorting', sorting);
+    console.log('----------------');
 
     let dataCopy = JSON.parse(JSON.stringify(data));
 
