@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-import type { ComponentType, SvelteComponentTyped } from 'svelte';
+import type { ComponentType } from 'svelte';
 
 export interface Instructs {
     key: string,
@@ -14,7 +14,7 @@ export interface Instructs {
         customSort?(v1: string, v2: string): number,
         customFilter?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
     },
-    dataComponent?: ComponentType<SvelteComponentTyped>
+    dataComponent?: ComponentType,
 }
 
 export interface Data {
