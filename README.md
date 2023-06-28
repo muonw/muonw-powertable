@@ -357,6 +357,10 @@ This repository exists to develop and maintain a tool that fulfills the followin
 - Does not include a web server.
 - Does not include third party runtime dependencies.
 
+## 🌟 Spotlight
+
+[svelte-jsoneditor](https://github.com/josdejong/svelte-jsoneditor) - A web-based tool to view, edit, format, repair, query, transform, and validate JSON
+
 ## 📝 To-do 
 
 - [x] Fetch remote data
