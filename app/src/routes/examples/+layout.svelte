@@ -1,6 +1,6 @@
 <script lang="ts">
 import { page } from '$app/stores';
-	import { component_subscribe } from 'svelte/internal';
+import { base } from '$app/paths';
 
 let pages = {
     1: 'Basic',
@@ -20,7 +20,7 @@ let pages = {
 <nav>
     {#each Object.entries(pages) as [key, name]}
         <a
-            href="/muonw-powertable/examples/example{key}"
+            href="{base}/examples/example{key}"
             class:selected={$page.route.id === `/examples/example${key}`}
         >
             {key}. {name}

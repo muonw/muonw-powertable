@@ -1145,7 +1145,7 @@ function highlightMatches(pageContent: Data[], matches: HighlightMatches, Instru
     return pageContent;
 }
 
-onMount(async () => {
+onMount(() => {
     window.addEventListener('click', closePopUps);
 
     return () => {

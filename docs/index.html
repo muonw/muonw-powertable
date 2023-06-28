@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="/muonw-powertable/favicon.ico" />
+		<link rel="icon" href="./favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<style>
 		@media screen and (prefers-color-scheme: dark) {
@@ -11,27 +11,31 @@
 			}
 		}
 		</style>
-		<meta http-equiv="content-security-policy" content="">
-		<link rel="modulepreload" href="/muonw-powertable/_app/immutable/entry/start.b9d8e450.js">
-		<link rel="modulepreload" href="/muonw-powertable/_app/immutable/chunks/index.5349f71a.js">
-		<link rel="modulepreload" href="/muonw-powertable/_app/immutable/chunks/singletons.512a7325.js">
-		<link rel="modulepreload" href="/muonw-powertable/_app/immutable/entry/app.8cd0d9ff.js">
+		
+		<link rel="modulepreload" href="./_app/immutable/entry/start.27f268f9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.76be16dd.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.075eb501.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/paths.e4d244df.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.0f09271b.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.bd204057.js">
 	</head>
 	<body>
 		<div>
 			<script>
 				{
-					__sveltekit_1b3g8vu = {
-						env: {},
+					__sveltekit_2syanz = {
 						assets: "/muonw-powertable",
-						element: document.currentScript.parentElement
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
 					};
 
+					const element = document.currentScript.parentElement;
+
 					Promise.all([
-						import("/muonw-powertable/_app/immutable/entry/start.b9d8e450.js"),
-						import("/muonw-powertable/_app/immutable/entry/app.8cd0d9ff.js")
+						import("./_app/immutable/entry/start.27f268f9.js"),
+						import("./_app/immutable/entry/app.0f09271b.js")
 					]).then(([kit, app]) => {
-						kit.start(app, __sveltekit_1b3g8vu.element);
+						kit.start(app, element);
 					});
 				}
 			</script>

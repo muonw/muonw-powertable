@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount} from "svelte";
+import { base } from "$app/paths";
 
 function switchColorScheme(scheme: 'light'|'dark') {
     let html = document.querySelector('html');
@@ -25,13 +26,11 @@ import '$lib/styles/power-table-mascara.scss';
 
 <nav>
     <div>
-        <a href="/muonw-powertable/">Home</a> | 
+        <a href="{base}/">Home</a> | 
         <a href="https://github.com/muonw/muonw-powertable">GitHub</a>
     </div>
-    <div>
-        <span id='switch-to-light-mode' title="Light Mode" on:click={()=>switchColorScheme('light')} on:keypress={()=>switchColorScheme('light')}>☀️</span>
-        <span id='switch-to-dark-mode' title="Dark Mode" on:click={()=>switchColorScheme('dark')} on:keypress={()=>switchColorScheme('dark')}>🌙</span>
-    </div>
+    <button class="a compact" id='switch-to-light-mode' title="Light Mode" on:click={()=>switchColorScheme('light')}>☀️</button>
+    <button class="a compact" id='switch-to-dark-mode' title="Dark Mode" on:click={()=>switchColorScheme('dark')}>🌙</button>
 </nav>
 
 <hr>

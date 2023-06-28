@@ -2,10 +2,10 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import type { UserConfig } from 'vite';
 
 const config: UserConfig = {
-	plugins: [sveltekit()],
-	server: {
+    plugins: [sveltekit()],
+    server: {
         port: 3112,
-		strictPort: true,
+        strictPort: true,
         https: false,
         proxy: {}
     }

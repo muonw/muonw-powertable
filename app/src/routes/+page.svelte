@@ -1,6 +1,7 @@
 <script>
 import ptData from '../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
+import { base } from "$app/paths";
 
 import '$lib/styles/power-table.scss';
 import '$lib/styles/power-table-mascara.scss';
@@ -16,7 +17,7 @@ import '$lib/styles/power-table-mascara.scss';
 
 <br>
 
-<h2><a href="muonw-powertable/examples/example1">👀 Click here to see all examples</a></h2>
+<h2><a href="{base}/examples/example1">👀 Click here to see all examples</a></h2>
 
 <br>
 
