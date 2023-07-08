@@ -3,6 +3,7 @@ import data from '../../../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
 import MyComponent from './MyComponent.svelte';
 import type { Instructs, Data } from '$lib/components/PowerTable.svelte';
+import type { ComponentType, SvelteComponent } from 'svelte';
 
 let ptData: Data[] = data;
 
@@ -21,7 +22,7 @@ let ptInstructs2: Instructs[] = [
     {key: 'last_name'},
     {key: 'company'},
     {key: 'department'},
-    {key: 'job', parseAs: 'component', dataComponent: MyComponent}
+    {key: 'job', parseAs: 'component', dataComponent: <ComponentType<SvelteComponent>>MyComponent}
 ];
 </script>
 
