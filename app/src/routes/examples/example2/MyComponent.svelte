@@ -2,6 +2,7 @@
 export let value: string = '';
 export let rowIndex: number;
 export let rowId: number;
+export let instructKey: string;
 
 let alternator: boolean = true;
 </script>

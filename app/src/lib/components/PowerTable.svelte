@@ -14,7 +14,7 @@ export interface Instructs {
         customSort?(v1: string, v2: string): number,
         customFilter?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
     },
-    dataComponent?: ComponentType,
+    dataComponent?: ComponentType<SvelteComponent>,
 }
 
 export interface Data {
@@ -1252,7 +1252,7 @@ onMount(() => {
                                                                 <button data-name="edit-submit">✔️</button>
                                                             </div>
                                                         {:else if instruct?.parseAs === 'component' && instruct?.dataComponent}
-                                                            <svelte:component this={instruct?.dataComponent} value={record[instruct.key]} rowIndex={index} rowId={record[dataIdKey]} />
+                                                            <svelte:component this={instruct?.dataComponent} value={record[instruct.key]} rowIndex={index} rowId={record[dataIdKey]} instructKey={instruct.key} />
                                                         {:else if instruct?.parseAs === 'unsafe-html'}
                                                             {@html (record[instruct.key] ?? '')}
                                                         {:else if instruct?.parseAs === 'html'}

@@ -108,6 +108,7 @@ The `dataComponent` property in `ptInstructs` prop is a Svelte component that ca
 | `value` | string | '' | The content of the cell |
 | `rowIndex` | number |  | The position of the row relative to the page |
 | `rowId` | number |  | The position of the row relative to the dataset |
+| `instructKey` | string |  | The instruct key of the column |
 
 <b id="special-instructs">❗ Special instructs:</b> There are two special instructs that will be added to the underlying instructs and data objects for internal use (e.g. keeping track of the id and checkbox value of each row). In many cases, when accessing or altering a row data in a user-defined function, you should exclude these instructs from the process. To do so, import the variables `dataIdKey` and `checkboxKey` and exclude any instruct whose `key` matches the value of those variables.  
 
