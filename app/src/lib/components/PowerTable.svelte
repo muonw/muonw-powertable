@@ -66,6 +66,7 @@ export interface Options {
         dataFeed?(data: Record<string,any>): Promise<DataFeed>,
         customParse?(data: Data[]): Data[],
         customSearch?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
+        deleteActionCallback?(rows: Data[]): void,
     },
     segments?: Record<string,Array<'settings'|'search'|'pagination'|'table'|'dropdown'|'stats'>>,
     sortOrder?: {[k in SortString]?: SortString},
@@ -839,12 +840,24 @@ export function addAction(e: Event) {
 
 export function deleteAction(e: Event) {
     closeMenu(e);
+    
+    let deletedRows = [];
+    let remainingRows = [];
+    for (const row of data) {
+        if (row[checkboxKey]) {
+            deletedRows.push(row);
+        } else { 
+            remainingRows.push(row);
+        }
+    }
 
-    data = data.filter(row => {
-        return !row[checkboxKey];
-    });
-
+    data = remainingRows;
     initialize(instructs, options, data);
+
+    const userCallback = options?.userFunctions?.deleteActionCallback;
+    if (userCallback) {
+        userCallback(deletedRows);
+    }
 }
 
 export function getData(removeMetadata = true, include = ['options','instructs','data','search','filters']) {

@@ -160,6 +160,7 @@ The `userFunctions` property in `ptOptions` prop is an object that can contain t
 | `dataFeed` | function | async () => ({}) | When `isDataRemote` is `true`, the output of this function will be used as `ptData` prop |
 | `customParse` | function | | A user-defined function to intercept and modify the content of the current page |
 | `customSearch` | function | | A user-defined function to override the search process |
+| `deleteActionCallback` | function | | A user-defined function that is passed the rows were just deleted |
 
 ❗ When retrieving data in a user-defined function, pay attention to the [special instructs](#special-instructs)!
 

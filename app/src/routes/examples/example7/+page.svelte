@@ -26,7 +26,10 @@ let ptOptions: Options = {
         'topBar': ['settings', 'search', 'pagination'],
         'pTable': ['table'],
         'bottomBar': ['dropdown', 'stats', 'pagination'],
-    }
+    },
+    userFunctions: {
+        deleteActionCallback: (rows) => console.log('deleted rows:', rows),
+    },
 }
 
 function importJsonData(e: Event) {
