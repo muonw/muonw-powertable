@@ -67,6 +67,7 @@ export interface Options {
         customParse?(data: Data[]): Data[],
         customSearch?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
         deleteActionCallback?(rows: Data[]): void,
+        editSubmissionCallback?(row: Data): void,
     },
     segments?: Record<string,Array<'settings'|'search'|'pagination'|'table'|'dropdown'|'stats'>>,
     sortOrder?: {[k in SortString]?: SortString},
@@ -721,14 +722,19 @@ function rowClicked(e: Event, index: number) {
     dispatch('rowClicked', {event: e, data: pageData[index]});
 
     if ((<HTMLInputElement>e.target).dataset?.name === 'edit-submit') {
+        let row = data[pageData[index][dataIdKey]];
         let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll('textarea[data-name=edit-textarea]');
         textareaEls!.forEach(textareaEl => {
-            data[pageData[index][dataIdKey]][(<HTMLInputElement>textareaEl)?.dataset?.key ?? ''] = (<HTMLInputElement>textareaEl)?.value ?? '';
+            row[(<HTMLInputElement>textareaEl)?.dataset?.key ?? ''] = (<HTMLInputElement>textareaEl)?.value ?? '';
         });
 
-        data[pageData[index][dataIdKey]][checkboxKey] = false;
-
+        row[checkboxKey] = false;
         initialize(instructs, options, data);
+
+        const userCallback = options?.userFunctions?.editSubmissionCallback;
+        if (userCallback) {
+            userCallback(row);
+        }
     }
 }
 

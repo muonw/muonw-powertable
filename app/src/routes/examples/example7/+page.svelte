@@ -29,6 +29,7 @@ let ptOptions: Options = {
     },
     userFunctions: {
         deleteActionCallback: (rows) => console.log('deleted rows:', rows),
+        editSubmissionCallback: (row) => console.log('updated row:', row),
     },
 }
 
