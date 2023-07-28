@@ -847,17 +847,14 @@ export function addAction(e: Event) {
 export function deleteAction(e: Event) {
     closeMenu(e);
     
-    let deletedRows = [];
-    let remainingRows = [];
-    for (const row of data) {
+    let deletedRows: Data[] = [];
+    data = data.filter(row => {
         if (row[checkboxKey]) {
             deletedRows.push(row);
-        } else { 
-            remainingRows.push(row);
         }
-    }
+        return !row[checkboxKey];
+    });
 
-    data = remainingRows;
     initialize(instructs, options, data);
 
     const userCallback = options?.userFunctions?.deleteActionCallback;
