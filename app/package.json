@@ -1,7 +1,7 @@
 {
 	"name": "@muonw/powertable",
 	"description": "▦ PowerTable is a Svelte component that turns JSON data into an interactive HTML table. Inspired by DataTables. Powered by Svelte.",
-	"version": "2.3.4",
+	"version": "2.3.5",
 	"publishConfig": {
 		"registry": "https://node.pkgreg.com"
 	},
