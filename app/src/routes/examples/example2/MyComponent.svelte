@@ -11,6 +11,6 @@ let alternator: boolean = true;
     {#if alternator}
         {value} 
     {:else}
-        <span style="color:green">index:</span> {rowIndex}, <span style="color:hotpink">id:</span> {rowId}, <span style="color:#ea9802">Key:</span> {instructKey}
+        <span style="color:green">index:</span> {rowIndex}, <span style="color:hotpink">id:</span> {rowId}, <span style="color:#ea9802">key:</span> {instructKey}
     {/if}
 </button>
