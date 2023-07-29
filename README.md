@@ -161,7 +161,7 @@ The `userFunctions` property in `ptOptions` prop is an object that can contain t
 | `customParse` | function | | A user-defined function to intercept and modify the content of the current page |
 | `customSearch` | function | | A user-defined function to override the search process |
 | `deleteActionCallback` | function | | A user-defined function that receives an array of deleted rows |
-| `editSubmissionCallback` | function | | A user-defined function that receives an array of updated rows |
+| `editSubmissionCallback` | function | | A user-defined function that receives the updated row data |
 
 ❗ When retrieving data in a user-defined function, pay attention to the [special instructs](#special-instructs)!
 
