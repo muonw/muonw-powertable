@@ -10,6 +10,10 @@ export interface Instructs {
     filterPhrase?: string,
     filterIsRegex?: boolean,
     parseAs?: 'text' | 'html' | 'unsafe-html' | 'component',
+    edit?: {
+        as: ComponentType<SvelteComponent>,
+        props: object,
+    }
     userFunctions?: {
         customSort?(v1: string, v2: string): number,
         customFilter?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
@@ -126,6 +130,7 @@ export function getRegexParts(phrase: string) {
 <script lang="ts">
 import { onMount, createEventDispatcher } from 'svelte';
 import type { SvelteComponent } from "svelte"
+import EditBlock from './EditBlock.svelte';
 
 // Props
 export var ptInstructs: Instructs[] = [];
@@ -280,7 +285,8 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
                 tempInstructs.push({
                     key: key,
                     title: key,
-                    parseAs: 'text'
+                    parseAs: 'text',
+                    edit: {as: <ComponentType<SvelteComponent>>EditBlock, props: {}}
                 });
 
                 filterObj[key] = {
@@ -295,8 +301,12 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
         ptInstructs?.forEach(instruct => {
             // If not a special instruct (they will be added later)
             if (!specialInstructs.hasOwnProperty(instruct.key)) {
+                // add default values for an instruct
                 if (!instruct.hasOwnProperty('title')) {
                     instruct['title'] = instruct['key'];
+                }
+                if (!instruct.hasOwnProperty('edit')) {
+                    instruct['edit'] = {as: <ComponentType<SvelteComponent>>EditBlock, props: {}}
                 }
 
                 tempInstructs.push(instruct);
@@ -1251,7 +1261,7 @@ onMount(() => {
                                         <tr data-index={index} data-id={record[dataIdKey]} on:click={(e)=>rowClicked(e, index)} on:dblclick={(e)=>rowDblClicked(e, index)}>
                                             {#each instructs as instruct}
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
-                                                    {#if instruct?.key === checkboxKey && options.checkboxColumn}
+                                                    {#if instruct.key === checkboxKey && options.checkboxColumn}
                                                         <td data-key={instruct.key}>
                                                             <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} on:change={(e)=>manualRowEdit(e, record[dataIdKey])} />
                                                         </td>
@@ -1260,12 +1270,7 @@ onMount(() => {
                                                     <td data-key={instruct.key}>
                                                         {#if data[record[dataIdKey]]?.[checkboxKey]}
                                                             <div data-name="edit-block">
-                                                                <label>
-                                                                    <span>
-                                                                        <span>{instruct.title}</span>
-                                                                    </span><textarea data-name="edit-textarea" data-key={instruct.key}>{data[record[dataIdKey]][instruct.key]}</textarea>
-                                                                </label>
-                                                                <button data-name="edit-submit">✔️</button>
+                                                                <svelte:component this={instruct.edit?.as} value={data[record[dataIdKey]][instruct.key]} ptInstructs={instruct} rowIndex={index} rowId={record[dataIdKey]} {...instruct.edit?.props}/>
                                                             </div>
                                                         {:else if instruct?.parseAs === 'component' && instruct?.dataComponent}
                                                             <svelte:component this={instruct?.dataComponent} value={record[instruct.key]} rowIndex={index} rowId={record[dataIdKey]} instructKey={instruct.key} />
