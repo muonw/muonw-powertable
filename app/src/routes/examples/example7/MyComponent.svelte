@@ -1,24 +1,32 @@
 <script lang="ts">
-	import type { Instructs } from '$lib/components/PowerTable.svelte';
+	import { createEventDispatcher } from 'svelte';
+	import type { Cell } from '$lib/components/PowerTable.svelte';
+	import { EDIT_CONSTS } from '$lib/components/PowerTable.svelte'
 
-	export var ptInstructs: Instructs;
-	export var value: string;
-	export var rowIndex: number;
-	export var rowId: number;
+	export var cell: Cell;
 	export var selectValues: Array<string>;
+
+	const dispatch = createEventDispatcher();
+
+	function submitEdits(e: Event) {
+		dispatch(EDIT_CONSTS.SUBMISSION_EVENT, {
+			cell: cell,
+			domEvent: e
+		});
+	}
 </script>
 
 <label>
 	<span>
-		<span>{ptInstructs?.title}</span>
+		<span>{cell.instructs?.title}</span>
 	</span>
 
-	<select bind:value>
-		{#each selectValues as question}
-			<option value={question}>
-				{question}
+	<select bind:value={cell.value} data-key={cell.instructs.key} data-name={EDIT_CONSTS.DATA_ATTR_NAME} >
+		{#each selectValues as anOption}
+			<option value={anOption}>
+				{anOption}
 			</option>
 		{/each}
 	</select>
 </label>
-<button data-name="edit-submit">✔️</button>
+<button on:click={submitEdits}>✔️</button>

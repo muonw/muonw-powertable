@@ -1,15 +1,29 @@
 <script lang="ts">
-	import type { Instructs } from './PowerTable.svelte';
+	import { createEventDispatcher } from 'svelte';
+	import type { Cell } from './PowerTable.svelte';
+	import { EDIT_CONSTS } from './PowerTable.svelte'
+	
+	export var cell: Cell;
 
-	export var ptInstructs: Instructs;
-	export var value: string;
-	export var rowIndex: number;
-	export var rowId: number;
+	const dispatch = createEventDispatcher();
+
+	function submitEdits(e: Event) {
+		dispatch(EDIT_CONSTS.SUBMISSION_EVENT, {
+			cell: cell,
+			domEvent: e
+		});
+	}
+
+	function adjustHeight(node: HTMLElement) {
+		node.style.height = node.scrollHeight + 'px';
+	}
 </script>
 
-<label>
-	<span>
-		<span>{ptInstructs?.title}</span>
-	</span><textarea data-name="edit-textarea" data-key={ptInstructs.key}>{value}</textarea>
-</label>
-<button data-name="edit-submit">✔️</button>
+<div data-name="edit-block">
+	<label>
+		<span>
+			<span>{cell.instructs?.title}</span>
+		</span><textarea data-name={EDIT_CONSTS.DATA_ATTR_NAME} data-key={cell.instructs.key} use:adjustHeight>{cell.value}</textarea>
+	</label>
+	<button data-name="edit-submit" on:click={submitEdits}>✔️</button>
+</div>

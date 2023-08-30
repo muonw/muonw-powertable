@@ -117,8 +117,13 @@ The `edit` property in `ptInstructs` prop allows a custom component to be used w
 
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
-| `as` | SvelteComponent | EditBlock | The Svelte component to edit the cell as. Recieves `value: string`, `rowIndex: number`, `rowId: number`, `ptInstructs: Instructs` |
+| `as` | SvelteComponent | EditBlock | The Svelte component to edit the cell as |
 | `props` | object | | Additional properties to send to the component | 
+
+The `edit.as` component should:
+- Receive the `Cell` to edit (`export var cell: Cell;`).
+- Have the attributes `data-key` and `data-name` values set correctly, *on an html tag that supports the [`value` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes)*.
+- Dispatch an event named `'edits-submitted'`, which enables PowerTable to commit the changes.
 
 See an example in the [source code](https://github.com/muonw/muonw-powertable/blob/main/app/src/routes/examples/example7/+page.svelte) of [Example 7: Editing & Controls](https://muonw.github.io/muonw-powertable/examples/example7).
 

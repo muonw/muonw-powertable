@@ -21,6 +21,18 @@ export interface Instructs {
     dataComponent?: ComponentType<SvelteComponent>,
 }
 
+export interface Cell {
+    value: string,
+    rowIndex: number,
+    rowId: number,
+    instructs: Instructs,
+}
+
+export const EDIT_CONSTS = {
+    DATA_ATTR_NAME: 'edit-cell-value',
+    SUBMISSION_EVENT: 'edits-submitted'
+}
+
 export interface Data {
     [_: string]: any,
 }
@@ -721,31 +733,26 @@ function updatePageSize() {
     renderTable();
 }
 
-function manualRowEdit(e: Event, index: number) {
-    let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll<HTMLInputElement>('textarea[data-name=edit-textarea]');
-    textareaEls?.forEach(textarea => {
-        textarea.style.height = textarea.scrollHeight + 'px';
+function handleSubmittedEdits(event: CustomEvent){
+    let submittedCell: Cell = event.detail.cell
+    let row = data[pageData[submittedCell.rowIndex][dataIdKey]];
+    // find all cells in the row and assign their values back to the pageData
+    let cells = (<HTMLInputElement>event.detail.domEvent.target).closest('tr')?.querySelectorAll(`[data-name=${EDIT_CONSTS.DATA_ATTR_NAME}]`);
+    cells!.forEach(cell => {
+        row[(<HTMLInputElement>cell)?.dataset?.key ?? ''] = (<HTMLInputElement>cell)?.value ?? '';
     });
+
+    row[checkboxKey] = false;
+    initialize(instructs, options, data);
+
+    const userCallback = options?.userFunctions?.editSubmissionCallback;
+    if (userCallback) {
+        userCallback(row);
+    }
 }
 
 function rowClicked(e: Event, index: number) {
     dispatch('rowClicked', {event: e, data: pageData[index]});
-
-    if ((<HTMLInputElement>e.target).dataset?.name === 'edit-submit') {
-        let row = data[pageData[index][dataIdKey]];
-        let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll('textarea[data-name=edit-textarea]');
-        textareaEls!.forEach(textareaEl => {
-            row[(<HTMLInputElement>textareaEl)?.dataset?.key ?? ''] = (<HTMLInputElement>textareaEl)?.value ?? '';
-        });
-
-        row[checkboxKey] = false;
-        initialize(instructs, options, data);
-
-        const userCallback = options?.userFunctions?.editSubmissionCallback;
-        if (userCallback) {
-            userCallback(row);
-        }
-    }
 }
 
 function rowDblClicked(e: Event, index: number) {
@@ -1171,6 +1178,16 @@ function highlightMatches(pageContent: Data[], matches: HighlightMatches, Instru
     return pageContent;
 }
 
+function composeCell(record: Data, index: number, instructs: Instructs): Cell {
+    // helper function to create a cell while in the html table loop
+    return {
+        instructs: instructs,
+        value: data[record[dataIdKey]][instructs.key],
+        rowIndex: index,
+        rowId: record[dataIdKey]
+    }
+}
+
 onMount(() => {
     window.addEventListener('click', closePopUps);
 
@@ -1260,20 +1277,19 @@ onMount(() => {
                                     {#each formattedPageData as record, index}
                                         <tr data-index={index} data-id={record[dataIdKey]} on:click={(e)=>rowClicked(e, index)} on:dblclick={(e)=>rowDblClicked(e, index)}>
                                             {#each instructs as instruct}
+                                                {@const cell = composeCell(record, index, instruct)}
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
                                                     {#if instruct.key === checkboxKey && options.checkboxColumn}
                                                         <td data-key={instruct.key}>
-                                                            <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} on:change={(e)=>manualRowEdit(e, record[dataIdKey])} />
+                                                            <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} />
                                                         </td>
                                                     {/if}
                                                 {:else}
                                                     <td data-key={instruct.key}>
                                                         {#if data[record[dataIdKey]]?.[checkboxKey]}
-                                                            <div data-name="edit-block">
-                                                                <svelte:component this={instruct.edit?.as} value={data[record[dataIdKey]][instruct.key]} ptInstructs={instruct} rowIndex={index} rowId={record[dataIdKey]} {...instruct.edit?.props}/>
-                                                            </div>
+                                                            <svelte:component this={instruct.edit?.as} {cell} {...instruct.edit?.props} on:edits-submitted={handleSubmittedEdits}/>
                                                         {:else if instruct?.parseAs === 'component' && instruct?.dataComponent}
-                                                            <svelte:component this={instruct?.dataComponent} value={record[instruct.key]} rowIndex={index} rowId={record[dataIdKey]} instructKey={instruct.key} />
+                                                            <svelte:component this={instruct?.dataComponent} {...cell} instructKey={instruct.key} />
                                                         {:else if instruct?.parseAs === 'unsafe-html'}
                                                             {@html (record[instruct.key] ?? '')}
                                                         {:else if instruct?.parseAs === 'html'}
