@@ -9,27 +9,24 @@ let myPowerTable: PowerTable;
 
 let ptInstructs: Instructs[] = [];
 
-let data = JSON.parse(JSON.stringify(originalData))
-// Here we set the instructs to make `company` field parsed as HTML, and `department` to be edited as a dropdown instead of a textarea
+let data: Data[] = JSON.parse(JSON.stringify(originalData))
+// Here we set the instructs to make `department` to be edited as a dropdown instead of a textarea
 let uniqueDepartments = new Set();
 data.forEach(row => uniqueDepartments.add(row['department']))
 ptInstructs = [
     {key: 'id'},
     {key: 'first_name'},
     {key: 'last_name'}, 
-    {key: 'company', parseAs: 'html'}, // with parseAs set to 'html', we can edit the cells and see how it handles HTML tags
+    {key: 'company'},
     {
         key: 'department', 
         edit: {
-            as: <ComponentType<SvelteComponent>>MyComponent,
+            component: <ComponentType<SvelteComponent>>MyComponent,
             props: {selectValues: uniqueDepartments}
         },
     },
     {key: 'job'}
 ];
-
-// default a company field to HTML to make capabilities more clear
-data[0]['company'] = `<li>${data[0]['company']}</li><li>html supported</li>`
 
 let ptData: Data[] = data;
 

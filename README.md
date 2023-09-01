@@ -113,17 +113,16 @@ The `dataComponent` property in `ptInstructs` prop is a Svelte component that ca
 | `instructKey` | string |  | The instruct key of the column |
 
 
-The `edit` property in `ptInstructs` prop allows a custom component to be used when editing a cell, instead of the default `<textarea>`. It is intended to provide similar functionality to `dataComponent`, but for editing a cell. The object should contain the following:
+The `edit` property in `ptInstructs` prop allows custom representation of the editable data (e.g. in the form of a drop-down menu). If not set, the default component will place the cell data in a `<textarea>` element for editing. The value of the `edit` property is an object containing the followings:
 
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
-| `as` | SvelteComponent | EditBlock | The Svelte component to edit the cell as |
+| `component` | SvelteComponent | DefaultEditComponent | The Svelte component that renders the editable representation of the cells |
 | `props` | object | | Additional properties to send to the component | 
 
-The `edit.as` component should:
-- Receive the `Cell` to edit (`export var cell: Cell;`).
-- Have the attributes `data-key` and `data-name` values set correctly, *on an html tag that supports the [`value` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes)*.
-- Dispatch an event named `'edits-submitted'`, which enables PowerTable to commit the changes.
+As demonstrated in the example linked below, the component should:
+- Have a form control element (e.g. `input`, `textarea`, `select`) with the attribute `data-name` set to `edit-input` and the attribute `data-key` set to the value of the `instructKey`.
+- Dispatch an event named `edit-submit-event` containing the `rowIndex` upon submission of the changes.
 
 See an example in the [source code](https://github.com/muonw/muonw-powertable/blob/main/app/src/routes/examples/example7/+page.svelte) of [Example 7: Editing & Controls](https://muonw.github.io/muonw-powertable/examples/example7).
 

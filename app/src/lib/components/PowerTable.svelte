@@ -11,7 +11,7 @@ export interface Instructs {
     filterIsRegex?: boolean,
     parseAs?: 'text' | 'html' | 'unsafe-html' | 'component',
     edit?: {
-        as: ComponentType<SvelteComponent>,
+        component: ComponentType<SvelteComponent>,
         props: object,
     }
     userFunctions?: {
@@ -19,18 +19,6 @@ export interface Instructs {
         customFilter?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
     },
     dataComponent?: ComponentType<SvelteComponent>,
-}
-
-export interface Cell {
-    value: string,
-    rowIndex: number,
-    rowId: number,
-    instructs: Instructs,
-}
-
-export const EDIT_CONSTS = {
-    DATA_ATTR_NAME: 'edit-cell-value',
-    SUBMISSION_EVENT: 'edits-submitted'
 }
 
 export interface Data {
@@ -142,10 +130,10 @@ export function getRegexParts(phrase: string) {
 <script lang="ts">
 import { onMount, createEventDispatcher } from 'svelte';
 import type { SvelteComponent } from "svelte"
-import EditBlock from './EditBlock.svelte';
+import DefaultEditComponent from './DefaultEditComponent.svelte';
 
 // Props
-export var ptInstructs: Instructs[] = [];
+export let ptInstructs: Instructs[] = [];
 export let ptOptions: Options = {};
 export let ptData: Data[] = [];
 
@@ -298,7 +286,7 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
                     key: key,
                     title: key,
                     parseAs: 'text',
-                    edit: {as: <ComponentType<SvelteComponent>>EditBlock, props: {}}
+                    edit: {component: <ComponentType<SvelteComponent>>DefaultEditComponent, props: {}}
                 });
 
                 filterObj[key] = {
@@ -318,7 +306,7 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
                     instruct['title'] = instruct['key'];
                 }
                 if (!instruct.hasOwnProperty('edit')) {
-                    instruct['edit'] = {as: <ComponentType<SvelteComponent>>EditBlock, props: {}}
+                    instruct['edit'] = {component: <ComponentType<SvelteComponent>>DefaultEditComponent, props: {}}
                 }
 
                 tempInstructs.push(instruct);
@@ -734,12 +722,18 @@ function updatePageSize() {
 }
 
 function handleSubmittedEdits(event: CustomEvent){
-    let submittedCell: Cell = event.detail.cell
-    let row = data[pageData[submittedCell.rowIndex][dataIdKey]];
-    // find all cells in the row and assign their values back to the pageData
-    let cells = (<HTMLInputElement>event.detail.domEvent.target).closest('tr')?.querySelectorAll(`[data-name=${EDIT_CONSTS.DATA_ATTR_NAME}]`);
-    cells!.forEach(cell => {
-        row[(<HTMLInputElement>cell)?.dataset?.key ?? ''] = (<HTMLInputElement>cell)?.value ?? '';
+    let rowIndex: number = event.detail.rowIndex;
+    let row = data[pageData[rowIndex][dataIdKey]];
+    let rowInputs = (<HTMLInputElement>event.detail.domEvent.target).closest('tr')?.querySelectorAll(`[data-name=edit-input]`);
+    
+    if (!rowInputs) {
+        // ToDo: error should be easily visible to the end user
+        console.log('error');
+        return;
+    }
+
+    rowInputs.forEach(rowInput => {
+        row[(<HTMLInputElement>rowInput)?.dataset?.key ?? ''] = (<HTMLInputElement>rowInput)?.value ?? '';
     });
 
     row[checkboxKey] = false;
@@ -1178,16 +1172,6 @@ function highlightMatches(pageContent: Data[], matches: HighlightMatches, Instru
     return pageContent;
 }
 
-function composeCell(record: Data, index: number, instructs: Instructs): Cell {
-    // helper function to create a cell while in the html table loop
-    return {
-        instructs: instructs,
-        value: data[record[dataIdKey]][instructs.key],
-        rowIndex: index,
-        rowId: record[dataIdKey]
-    }
-}
-
 onMount(() => {
     window.addEventListener('click', closePopUps);
 
@@ -1277,7 +1261,6 @@ onMount(() => {
                                     {#each formattedPageData as record, index}
                                         <tr data-index={index} data-id={record[dataIdKey]} on:click={(e)=>rowClicked(e, index)} on:dblclick={(e)=>rowDblClicked(e, index)}>
                                             {#each instructs as instruct}
-                                                {@const cell = composeCell(record, index, instruct)}
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
                                                     {#if instruct.key === checkboxKey && options.checkboxColumn}
                                                         <td data-key={instruct.key}>
@@ -1287,9 +1270,24 @@ onMount(() => {
                                                 {:else}
                                                     <td data-key={instruct.key}>
                                                         {#if data[record[dataIdKey]]?.[checkboxKey]}
-                                                            <svelte:component this={instruct.edit?.as} {cell} {...instruct.edit?.props} on:edits-submitted={handleSubmittedEdits}/>
+                                                            <svelte:component
+                                                                this={instruct.edit?.component}
+                                                                rowIndex={index}
+                                                                rowId={record[dataIdKey]}
+                                                                instructKey={instruct.key}
+                                                                instructTitle={instruct.title}
+                                                                value={data[record[dataIdKey]][instruct.key]}
+                                                                {...instruct.edit?.props}
+                                                                on:edit-submit-event={handleSubmittedEdits}
+                                                            />
                                                         {:else if instruct?.parseAs === 'component' && instruct?.dataComponent}
-                                                            <svelte:component this={instruct?.dataComponent} {...cell} instructKey={instruct.key} />
+                                                            <svelte:component
+                                                                this={instruct?.dataComponent}
+                                                                rowIndex={index}
+                                                                rowId={record[dataIdKey]}
+                                                                instructKey={instruct.key}
+                                                                value={record[instruct.key]}
+                                                            />
                                                         {:else if instruct?.parseAs === 'unsafe-html'}
                                                             {@html (record[instruct.key] ?? '')}
                                                         {:else if instruct?.parseAs === 'html'}

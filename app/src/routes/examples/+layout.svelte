@@ -76,7 +76,6 @@ let pages = {
             <b>4.</b> Click on the <b>gear icon</b> (⚙️) located on the header of the first column to explore the default options for <b>adding</b>, <b>deleting</b>, and <b>selecting</b> data. To delete a row, you first need to select it.<br>
             <b>5.</b> Click on the toolbox icon (🛠️) next to the search box and select "<b>Export current data</b>". The generated file reflects any changes you have made.<br>
             ℹ️ In this example callback functions are used to log the deleted and edited rows to the console.<br>
-			ℹ️ The string from the <b>company</b> fields will be parsed as html. Try adding lists (<code>&lt;li&gt;</code>) or other supported html tags.<br>
         {:else if $page.data.routeIdMatches[1] === '8'}
             This table utilizes an included function named <code>highlighter</code> in order to highlight search/filter matches. Highlighting is an example of custom parsing — a feature that let you control how the content of the table is displayed. You can use your own user-defined function for custom parsing.<br>
             ℹ️ Using <code>highlighter</code>, the <b>search matches</b> are highlighted yellow, the <b>filter matches</b> are blue, and the <b>overlaps</b> of search and filter matches are green.<br>
