@@ -725,10 +725,11 @@ function handleSubmittedEdits(event: CustomEvent){
     let rowIndex: number = event.detail.rowIndex;
     let row = data[pageData[rowIndex][dataIdKey]];
     let rowInputs = (<HTMLInputElement>event.detail.domEvent.target).closest('tr')?.querySelectorAll(`[data-name=edit-input]`);
-    
-    if (!rowInputs) {
-        // ToDo: error should be easily visible to the end user
-        console.log('error');
+
+    const numRenderedColumns = instructs.length - 1 // minus one for checkbox column
+    if (rowInputs.length !== numRenderedColumns) {
+        alert(`Only found ${rowInputs.length} of ${numRenderedColumns} expected inputs. Make sure 'data-name=edit-input' attribute is on your component's input field`);
+        console.error('Misconfigured edit component inputs');
         return;
     }
 
