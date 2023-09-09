@@ -89,6 +89,8 @@ let ptInstructs = [
 | `parseAs` | 'text' \| 'html' \| 'unsafe-html' \| 'component' | 'text' | 'html' allows rendering of `<div>`, `<span>`, `<code>`, `<strong>`, `<b>`, `<p>`, `<ul>`, `<ol>`, `<li>`, `<u>`, `<i>`, `<em>`, `<sup>`, and `<sub>` tags with an optional `class` attribute. If a tag doesn't match this criteria, only its content will be displayed. If set to 'unsafe-html', all HTML tags will be rendered without any [sanitization](https://en.wikipedia.org/wiki/HTML_sanitization). When set to 'component', a Svelte component should be provided via the `dataComponent` property |
 | `userFunctions` | object | | [See Below] |
 | `dataComponent` | SvelteComponent | | [See Below] |
+| `edit` | object | | Configuration for editing a cell [See Below] |
+
 
 The `userFunctions` property in `ptInstructs` prop is an object that can contain the following user-defined function(s).
 
@@ -109,6 +111,21 @@ The `dataComponent` property in `ptInstructs` prop is a Svelte component that ca
 | `rowIndex` | number |  | The position of the row relative to the page |
 | `rowId` | number |  | The position of the row relative to the dataset |
 | `instructKey` | string |  | The instruct key of the column |
+
+
+The `edit` property in `ptInstructs` prop allows custom representation of the editable data (e.g. in the form of a drop-down menu). If not set, the default component will place the cell data in a `<textarea>` element for editing. The value of the `edit` property is an object containing the followings:
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `component` | SvelteComponent | DefaultEditComponent | The Svelte component that renders the editable representation of the cells |
+| `props` | object | | Additional properties to send to the component | 
+
+As demonstrated in the example linked below, the component should:
+- Have a form control element (e.g. `input`, `textarea`, `select`) with the attribute `data-name` set to `edit-input` and the attribute `data-key` set to the value of the `instructKey`.
+- Dispatch an event named `edit-submit-event` containing the `rowIndex` upon submission of the changes.
+
+See an example in the [source code](https://github.com/muonw/muonw-powertable/blob/main/app/src/routes/examples/example7/+page.svelte) of [Example 7: Editing & Controls](https://muonw.github.io/muonw-powertable/examples/example7).
+
 
 <b id="special-instructs">❗ Special instructs:</b> There are two special instructs that will be added to the underlying instructs and data objects for internal use (e.g. keeping track of the id and checkbox value of each row). In many cases, when accessing or altering a row data in a user-defined function, you should exclude these instructs from the process. To do so, import the variables `dataIdKey` and `checkboxKey` and exclude any instruct whose `key` matches the value of those variables.  
 

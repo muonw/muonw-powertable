@@ -71,7 +71,7 @@ let pages = {
         {:else if $page.data.routeIdMatches[1] === '7'}
             Controls can be used to access and manipulate the data with custom functions. To explore this feature, follow these steps:<br>
             <b>1.</b> Click on the <b>checkbox</b> at the beginning of a row to make the content of that row editable.<br>
-            <b>2.</b> Edit some of the fields. Once a textarea is in focus, a button with a check mark (✔️) will appear next to it. Clicking on that button will submit the changes to <b>all the fields in that row</b>.<br>
+            <b>2.</b> Edit some of the fields. Once a field is in focus, a button with a check mark (✔️) will appear next to it. Clicking on that button will submit the changes to <b>all the fields in that row</b>.<br>
             <b>3.</b> Once you finish editing the content of the row, click on one of the check mark buttons to save the changes. It doesn't matter which check mark button.<br>
             <b>4.</b> Click on the <b>gear icon</b> (⚙️) located on the header of the first column to explore the default options for <b>adding</b>, <b>deleting</b>, and <b>selecting</b> data. To delete a row, you first need to select it.<br>
             <b>5.</b> Click on the toolbox icon (🛠️) next to the search box and select "<b>Export current data</b>". The generated file reflects any changes you have made.<br>

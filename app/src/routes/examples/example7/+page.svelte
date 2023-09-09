@@ -1,22 +1,39 @@
 <script lang="ts">
-import data from '../../../data/jobs.json';
+import originalData from '../../../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
 import type { Data, Options, Instructs } from '$lib/components/PowerTable.svelte';
+import MyComponent from './MyComponent.svelte';
+import NonEditableCell from './NonEditableCell.svelte';
+import type { ComponentType, SvelteComponent } from 'svelte';
 
 let myPowerTable: PowerTable;
 
 let ptInstructs: Instructs[] = [];
 
-// Here we set the instructs automatically based on the first row of data and set parseAs to 'html' for all instruct (we could do this manually too. with parseAs set to 'html', we can edit the cells and see how it handles HTML tags)
-let tempInstructs: Instructs[] = [];
-Object.keys(data[0]).forEach(key => {
-    tempInstructs.push({
-        key: key,
-        title: key,
-        parseAs: 'html',
-    });
-});
-ptInstructs = tempInstructs;
+let data: Data[] = JSON.parse(JSON.stringify(originalData))
+// Here we set the instructs to make `department` to be edited as a dropdown instead of a textarea
+let uniqueDepartments = new Set();
+data.forEach(row => uniqueDepartments.add(row['department']))
+ptInstructs = [
+    {key: 'id'},
+    {key: 'first_name'},
+    {key: 'last_name'}, 
+    {key: 'company'},
+    {
+        key: 'department', 
+        edit: {
+            component: <ComponentType<SvelteComponent>>MyComponent,
+            props: {selectValues: uniqueDepartments}
+        },
+    },
+    {
+        key: 'job',
+        edit: {
+            component: <ComponentType<SvelteComponent>>NonEditableCell,
+            props: {}
+        },
+    }
+];
 
 let ptData: Data[] = data;
 

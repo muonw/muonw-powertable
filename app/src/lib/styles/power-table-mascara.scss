@@ -64,7 +64,20 @@ div[data-component=powertable]{
     div[data-name=edit-block]{
         label{
             width: 100%;
-            [data-name=edit-textarea]{
+            input:not([type]),
+            input[type=date],
+            input[type=datetime-local],
+            input[type=email],
+            input[type=month],
+            input[type=number],
+            input[type=password],
+            input[type=tel],
+            input[type=text],
+            input[type=time],
+            input[type=url],
+            input[type=week],
+            textarea,
+            select{
                 width: 100%;
                 min-height: 2rem;
                 box-sizing: border-box;

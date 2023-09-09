@@ -10,6 +10,10 @@ export interface Instructs {
     filterPhrase?: string,
     filterIsRegex?: boolean,
     parseAs?: 'text' | 'html' | 'unsafe-html' | 'component',
+    edit?: {
+        component: ComponentType<SvelteComponent>,
+        props: object,
+    }
     userFunctions?: {
         customSort?(v1: string, v2: string): number,
         customFilter?(data: Data[], searchPhrase: string): {data: Data[], continue: boolean},
@@ -126,9 +130,10 @@ export function getRegexParts(phrase: string) {
 <script lang="ts">
 import { onMount, createEventDispatcher } from 'svelte';
 import type { SvelteComponent } from "svelte"
+import DefaultEditComponent from './DefaultEditComponent.svelte';
 
 // Props
-export var ptInstructs: Instructs[] = [];
+export let ptInstructs: Instructs[] = [];
 export let ptOptions: Options = {};
 export let ptData: Data[] = [];
 
@@ -280,7 +285,8 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
                 tempInstructs.push({
                     key: key,
                     title: key,
-                    parseAs: 'text'
+                    parseAs: 'text',
+                    edit: {component: <ComponentType<SvelteComponent>>DefaultEditComponent, props: {}}
                 });
 
                 filterObj[key] = {
@@ -295,8 +301,12 @@ function initialize(ptInstructs: Instructs[], ptOptions: Options, ptData: Record
         ptInstructs?.forEach(instruct => {
             // If not a special instruct (they will be added later)
             if (!specialInstructs.hasOwnProperty(instruct.key)) {
+                // add default values for an instruct
                 if (!instruct.hasOwnProperty('title')) {
                     instruct['title'] = instruct['key'];
+                }
+                if (!instruct.hasOwnProperty('edit')) {
+                    instruct['edit'] = {component: <ComponentType<SvelteComponent>>DefaultEditComponent, props: {}}
                 }
 
                 tempInstructs.push(instruct);
@@ -711,31 +721,38 @@ function updatePageSize() {
     renderTable();
 }
 
-function manualRowEdit(e: Event, index: number) {
-    let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll<HTMLInputElement>('textarea[data-name=edit-textarea]');
-    textareaEls?.forEach(textarea => {
-        textarea.style.height = textarea.scrollHeight + 'px';
-    });
+function handleSubmittedEdits(event: CustomEvent){
+    let rowIndex: number = event.detail.rowIndex;
+    let row = data[pageData[rowIndex][dataIdKey]];
+    let rowInputs = (<HTMLInputElement>event.detail.domEvent.target).closest('tr')!.querySelectorAll(`[data-name=edit-input]`);
+
+    for (const cellInput of rowInputs) {
+        let key = (<HTMLInputElement>cellInput)?.dataset?.key;
+        let value = (<HTMLInputElement>cellInput)?.value;
+        if (!key) {
+            alert('Misconfigured edit-component. See console for details.')
+            console.error('Misconfigured edit-component. Add "data-key={instructKey}" to:', cellInput);
+            return;
+        }
+        else if (value == null) {
+            alert('Misconfigured edit-component. See console for details.')
+            console.error(`Misconfigured edit-component. No value found for the "${key}" cell. Make sure the value is bound to:`, cellInput)
+            return;
+        }
+        row[key] = value;
+    }
+
+    row[checkboxKey] = false;
+    initialize(instructs, options, data);
+
+    const userCallback = options?.userFunctions?.editSubmissionCallback;
+    if (userCallback) {
+        userCallback(row);
+    }
 }
 
 function rowClicked(e: Event, index: number) {
     dispatch('rowClicked', {event: e, data: pageData[index]});
-
-    if ((<HTMLInputElement>e.target).dataset?.name === 'edit-submit') {
-        let row = data[pageData[index][dataIdKey]];
-        let textareaEls = (<HTMLInputElement>e.target).closest('tr')?.querySelectorAll('textarea[data-name=edit-textarea]');
-        textareaEls!.forEach(textareaEl => {
-            row[(<HTMLInputElement>textareaEl)?.dataset?.key ?? ''] = (<HTMLInputElement>textareaEl)?.value ?? '';
-        });
-
-        row[checkboxKey] = false;
-        initialize(instructs, options, data);
-
-        const userCallback = options?.userFunctions?.editSubmissionCallback;
-        if (userCallback) {
-            userCallback(row);
-        }
-    }
 }
 
 function rowDblClicked(e: Event, index: number) {
@@ -1251,24 +1268,32 @@ onMount(() => {
                                         <tr data-index={index} data-id={record[dataIdKey]} on:click={(e)=>rowClicked(e, index)} on:dblclick={(e)=>rowDblClicked(e, index)}>
                                             {#each instructs as instruct}
                                                 {#if specialInstructs.hasOwnProperty(instruct?.key)}
-                                                    {#if instruct?.key === checkboxKey && options.checkboxColumn}
+                                                    {#if instruct.key === checkboxKey && options.checkboxColumn}
                                                         <td data-key={instruct.key}>
-                                                            <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} on:change={(e)=>manualRowEdit(e, record[dataIdKey])} />
+                                                            <input type="checkbox" bind:checked={data[record[dataIdKey]][checkboxKey]} />
                                                         </td>
                                                     {/if}
                                                 {:else}
                                                     <td data-key={instruct.key}>
                                                         {#if data[record[dataIdKey]]?.[checkboxKey]}
-                                                            <div data-name="edit-block">
-                                                                <label>
-                                                                    <span>
-                                                                        <span>{instruct.title}</span>
-                                                                    </span><textarea data-name="edit-textarea" data-key={instruct.key}>{data[record[dataIdKey]][instruct.key]}</textarea>
-                                                                </label>
-                                                                <button data-name="edit-submit">✔️</button>
-                                                            </div>
+                                                            <svelte:component
+                                                                this={instruct.edit?.component}
+                                                                rowIndex={index}
+                                                                rowId={record[dataIdKey]}
+                                                                instructKey={instruct.key}
+                                                                instructTitle={instruct.title}
+                                                                value={data[record[dataIdKey]][instruct.key]}
+                                                                {...instruct.edit?.props}
+                                                                on:edit-submit-event={handleSubmittedEdits}
+                                                            />
                                                         {:else if instruct?.parseAs === 'component' && instruct?.dataComponent}
-                                                            <svelte:component this={instruct?.dataComponent} value={record[instruct.key]} rowIndex={index} rowId={record[dataIdKey]} instructKey={instruct.key} />
+                                                            <svelte:component
+                                                                this={instruct?.dataComponent}
+                                                                rowIndex={index}
+                                                                rowId={record[dataIdKey]}
+                                                                instructKey={instruct.key}
+                                                                value={record[instruct.key]}
+                                                            />
                                                         {:else if instruct?.parseAs === 'unsafe-html'}
                                                             {@html (record[instruct.key] ?? '')}
                                                         {:else if instruct?.parseAs === 'html'}
