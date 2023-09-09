@@ -724,18 +724,23 @@ function updatePageSize() {
 function handleSubmittedEdits(event: CustomEvent){
     let rowIndex: number = event.detail.rowIndex;
     let row = data[pageData[rowIndex][dataIdKey]];
-    let rowInputs = (<HTMLInputElement>event.detail.domEvent.target).closest('tr')?.querySelectorAll(`[data-name=edit-input]`);
+    let rowInputs = (<HTMLInputElement>event.detail.domEvent.target).closest('tr')!.querySelectorAll(`[data-name=edit-input]`);
 
-    const numRenderedColumns = instructs.length - 1 // minus one for checkbox column
-    if (rowInputs.length !== numRenderedColumns) {
-        alert(`Only found ${rowInputs.length} of ${numRenderedColumns} expected inputs. Make sure 'data-name=edit-input' attribute is on your component's input field`);
-        console.error('Misconfigured edit component inputs');
-        return;
+    for (const cellInput of rowInputs) {
+        let key = (<HTMLInputElement>cellInput)?.dataset?.key;
+        let value = (<HTMLInputElement>cellInput)?.value;
+        if (!key) {
+            alert('Misconfigured edit-component. See console for details.')
+            console.error('Misconfigured edit-component. Add "data-key={instructKey}" to:', cellInput);
+            return;
+        }
+        else if (value == null) {
+            alert('Misconfigured edit-component. See console for details.')
+            console.error(`Misconfigured edit-component. No value found for the "${key}" cell. Make sure the value is bound to:`, cellInput)
+            return;
+        }
+        row[key] = value;
     }
-
-    rowInputs.forEach(rowInput => {
-        row[(<HTMLInputElement>rowInput)?.dataset?.key ?? ''] = (<HTMLInputElement>rowInput)?.value ?? '';
-    });
 
     row[checkboxKey] = false;
     initialize(instructs, options, data);
