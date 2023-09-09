@@ -3,6 +3,7 @@ import originalData from '../../../data/jobs.json';
 import PowerTable from '$lib/components/PowerTable.svelte';
 import type { Data, Options, Instructs } from '$lib/components/PowerTable.svelte';
 import MyComponent from './MyComponent.svelte';
+import NonEditableCell from './NonEditableCell.svelte';
 import type { ComponentType, SvelteComponent } from 'svelte';
 
 let myPowerTable: PowerTable;
@@ -25,7 +26,13 @@ ptInstructs = [
             props: {selectValues: uniqueDepartments}
         },
     },
-    {key: 'job'}
+    {
+        key: 'job',
+        edit: {
+            component: <ComponentType<SvelteComponent>>NonEditableCell,
+            props: {}
+        },
+    }
 ];
 
 let ptData: Data[] = data;
